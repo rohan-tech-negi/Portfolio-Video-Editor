@@ -1,10 +1,12 @@
 import React from 'react';
+import LeafLogo from '../items/Logo';
+import Logo from '../items/Logo';
 
 const Navbar = () => {
   return (
     <nav className="flex items-center justify-between p-10 bg-white border-b">
       {/* Left side (empty or add logo later) */}
-      <div></div>
+      <div><Logo></Logo></div>
 
       {/* Center: Main navigation */}
       <ul className="flex space-x-8 text-xl">
