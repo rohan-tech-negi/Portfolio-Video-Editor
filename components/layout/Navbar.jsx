@@ -1,6 +1,6 @@
 import React from 'react';
-import LeafLogo from '../items/Logo';
-import Logo from '../items/Logo';
+// import LeafLogo from '../items/page';
+// import Logo from '../items/page';
 
 const Navbar = () => {
   return (
