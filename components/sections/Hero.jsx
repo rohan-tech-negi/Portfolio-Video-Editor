@@ -34,7 +34,7 @@ export default function Hero(){
       </div>
 
       {/* ✅ NEW: "a video editor" in an oval badge BELOW */}
-      <div className="flex gap-4 items-center pr-20">
+      <div className="flex gap-4 items-center pr-24">
         <h1 className="text-8xl">a</h1>
       <div className="rounded-full bg-white h-20 w-70 px-6 drop-shadow-lg flex items-center justify-center">
         
