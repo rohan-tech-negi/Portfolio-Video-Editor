@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <nav className="flex items-center justify-between p-10 bg-white border-b">
       {/* Left side (empty or add logo later) */}
-      <div><Logo></Logo></div>
+      <div></div>
 
       {/* Center: Main navigation */}
       <ul className="flex space-x-8 text-xl">
