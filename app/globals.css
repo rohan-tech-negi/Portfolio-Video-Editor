@@ -4,10 +4,11 @@
 @custom-variant dark (&:is(.dark *));
 
 body {
-  @apply bg-white text-gray-900; /* light theme */
+  @apply bg-gray-70 text-gray-900;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
+
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);

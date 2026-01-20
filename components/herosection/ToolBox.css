@@ -1,6 +1,6 @@
 :root{
     --cards: 4;
-    --cardHeight: 35vh;
+    --cardHeight: 30vh;
     /* --cardTopPadding: 0em; */
     --cardMargin: 4vw;
 }
@@ -42,6 +42,68 @@
 }
 
 
+/* Skill card layout */
+.skill-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* Logo */
+.skill-card img {
+    width: 76px;
+    height: 76px;
+    object-fit: contain;
+}
+
+/* Text content */
+.skill-content h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.skill-content p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    opacity: 0.7;
+    margin-bottom: 14px;
+    max-width: 90%;
+}
+
+/* Progress bar */
+.progress {
+    width: 100%;
+    height: 8px;
+    background: #e5e5e5;
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #7CFF4E;
+    border-radius: 999px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.progress-bar span {
+    position: absolute;
+    right: -10px;
+    top: -28px;
+    background: #7CFF4E;
+    color: black;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+
 #cards{
     list-style: none;
     padding-left: 0;
@@ -76,26 +138,27 @@
 }
 
 #card1 .card-body{
-    background-color: blue;
+    background-color: white;
 }
 
 #card2 .card-body{
-    background-color: gray;
+    background-color: white;
 }
 
 #card3 .card-body{
-    background-color: green;
+    background-color: white;
 }
 
 #card4 .card-body{
-    background-color: yellow;
+    background-color: white;
 }
 
 .card-body{
     box-sizing: border-box;
     padding: 30px;
     border-radius: 20px;
-    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.3);
+    filter: drop-shadow();
+    /* box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1); */
     height: var(--cardHeight);
     display: flex;
     justify-content: center;
