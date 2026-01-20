@@ -4,7 +4,7 @@ import { FaArrowRight } from "react-icons/fa";
 import Antigravity from "../Antigravity";
 export default function Hero() {
   return (
-     <section className="relative w-full  overflow-hidden">
+     <section className="relative w-full min-h-screen  overflow-hidden">
 
       {/* 🔵 Antigravity Background */}
       <div className="absolute inset-0 z-0">
