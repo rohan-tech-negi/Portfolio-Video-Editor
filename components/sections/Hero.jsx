@@ -1,13 +1,34 @@
 import { FaInstagram } from "react-icons/fa";
 import { FaBehance } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
-
+import Antigravity from "../Antigravity";
 export default function Hero() {
   return (
-    <div>
-      {/* Upper section */}
-      <div className="flex justify-center w-full pt-28">
-        {/* Main container */}
+     <section className="relative w-full  overflow-hidden">
+
+      {/* 🔵 Antigravity Background */}
+      <div className="absolute inset-0 z-0">
+        <Antigravity
+          count={600}
+          magnetRadius={10}
+          ringRadius={10}
+          waveSpeed={0.6}
+          waveAmplitude={2}
+          particleSize={1.8}
+          lerpSpeed={0.10}
+          color="#29ffad"
+          autoAnimate
+          particleVariance={2}
+          rotationSpeed={0}
+          depthFactor={1}
+          pulseSpeed={3}
+          particleShape="sphere"
+          fieldStrength={10}
+        />
+      </div>
+
+      {/* 🔴 Hero Content */}
+      <div className="relative z-10 flex justify-center w-full pt-28 pointer-events-none">
         <div className="flex items-start gap-40">
 
           {/* LEFT GROUP */}
@@ -41,33 +62,31 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* ✅ TEXT + BUTTON NOW PROPERLY PLACED */}
+            {/* Text + Button */}
             <div className="max-w-md pt-4">
               <h3 className="text-lg leading-relaxed opacity-80">
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse!
               </h3>
-              <button className="relative mt-6 flex items-center justify-between gap-18 px-6 py-3 rounded-full text-white text-sm font-medium overflow-hidden group bg-black">
 
-  {/* Green hover fill (left → right) */}
-  <span className="absolute inset-0 bg-emerald-500 transform scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+              <button className="relative mt-6 flex items-center gap-4 justify-between px-6 py-3 rounded-full text-white text-sm font-medium overflow-hidden group bg-black">
 
-  {/* Content */}
-  <span className="relative z-10 text-xl">
-    See My Work
-  </span>
+                {/* Green hover fill */}
+                <span className="absolute inset-0 bg-emerald-500 scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
 
-  {/* Arrow circle */}
-  <div className="relative z-10 bg-white rounded-full w-12 h-12 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2">
-    <FaArrowRight className="text-black text-sm" />
-  </div>
+                <span className="relative z-10 text-xl">
+                  See My Work
+                </span>
 
-</button>
-             
+                <div className="relative z-10 bg-white rounded-full w-12 h-12 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2">
+                  <FaArrowRight className="text-black text-sm" />
+                </div>
+
+              </button>
             </div>
 
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
