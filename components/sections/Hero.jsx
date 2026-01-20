@@ -7,7 +7,7 @@ export default function Hero(){
 
             <div>
                 {/* upper side  */}
-                    <div className="flex justify-center w-full pt-32">
+                    <div className="flex justify-center w-full pt-28">
   {/* Main container for LEFT + RIGHT */}
   <div className="flex items-center gap-40">
 
