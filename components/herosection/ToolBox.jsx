@@ -2,7 +2,10 @@ import "./ToolBox.css"
 
 export default function ToolBox(){
     return (
-        <div className="container">
+        <div>
+            <div className="container">
+
+
             <ul id="cards">
                 <li className="card" id="card1">
                     <div className="card-body">
@@ -35,5 +38,7 @@ export default function ToolBox(){
                 </li>
             </ul>
         </div>
+        </div>
+        
     )
 }
