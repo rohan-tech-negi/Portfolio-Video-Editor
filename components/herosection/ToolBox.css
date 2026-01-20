@@ -11,6 +11,36 @@
     margin-right: 6vw;
 }
 
+/* Wrapper layout */
+.toolbox-wrapper{
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    padding: 10vh 6vw;
+    gap: 6vw;
+}
+
+/* LEFT TEXT */
+.toolbox-text{
+    position: sticky;
+    top: 20vh;
+    max-width: 35%;
+}
+
+.toolbox-label{
+    display: block;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    opacity: 0.6;
+    margin-bottom: 12px;
+}
+
+.toolbox-title{
+    font-size: 5.5rem;
+    font-weight: 400;
+    line-height: 1.1;
+}
+
 
 #cards{
     list-style: none;
