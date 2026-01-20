@@ -1,5 +1,6 @@
 import { FaInstagram } from "react-icons/fa";
 import { FaBehance } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
 export default function Hero() {
   return (
@@ -45,9 +46,23 @@ export default function Hero() {
               <h3 className="text-lg leading-relaxed opacity-80">
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse!
               </h3>
-              <button className="mt-6 px-6 py-2 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition">
-                View Work
-              </button>
+              <button className="relative mt-6 flex items-center justify-between gap-18 px-6 py-3 rounded-full text-white text-sm font-medium overflow-hidden group bg-black">
+
+  {/* Green hover fill (left → right) */}
+  <span className="absolute inset-0 bg-emerald-500 transform scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+
+  {/* Content */}
+  <span className="relative z-10 text-xl">
+    See My Work
+  </span>
+
+  {/* Arrow circle */}
+  <div className="relative z-10 bg-white rounded-full w-12 h-12 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2">
+    <FaArrowRight className="text-black text-sm" />
+  </div>
+
+</button>
+             
             </div>
 
           </div>
