@@ -68,20 +68,21 @@ export default function Hero() {
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse!
               </h3>
 
-              <button className="relative mt-6 flex items-center gap-4 justify-between px-6 py-3 rounded-full text-white text-sm font-medium overflow-hidden group bg-black">
+              <button
+  className="pointer-events-auto relative mt-6 flex items-center justify-between gap-4 px-6 py-3 rounded-full text-white text-sm font-medium overflow-hidden group bg-black"
+>
+  {/* Green hover fill */}
+  <span className="absolute inset-0 bg-emerald-500 scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
 
-                {/* Green hover fill */}
-                <span className="absolute inset-0 bg-emerald-500 scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+  <span className="relative z-10 text-xl">
+    See My Work
+  </span>
 
-                <span className="relative z-10 text-xl">
-                  See My Work
-                </span>
+  <div className="relative z-10 bg-white rounded-full w-12 h-12 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2">
+    <FaArrowRight className="text-black text-sm" />
+  </div>
+</button>
 
-                <div className="relative z-10 bg-white rounded-full w-12 h-12 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2">
-                  <FaArrowRight className="text-black text-sm" />
-                </div>
-
-              </button>
             </div>
 
           </div>
