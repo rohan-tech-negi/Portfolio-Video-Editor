@@ -3,16 +3,16 @@ import "./ToolBox.css";
 
 export default function ToolBox() {
   return (
-    <section className="toolbox-wrapper">
+    <section className="toolbox-wrapper bg-black">
 
       {/* LEFT TEXT */}
       <div className="toolbox-text">
-        <span className="toolbox-label">{`{02} – Tools & Skills`}</span>
-        <h1 className="toolbox-title">My Creative Toolbox</h1>
+        <span className="toolbox-label text-white">{`{02} – Tools & Skills`}</span>
+        <h1 className="toolbox-title text-white">My Creative Toolbox</h1>
       </div>
 
       {/* RIGHT CARDS */}
-      <div className="container">
+      <div className="container ">
         <ul id="cards">
 
           <li className="card" id="card1">
