@@ -1,38 +1,39 @@
-import Link from 'next/link';
-import React from 'react';
-// import LeafLogo from '../items/page';
-// import Logo from '../items/page';
+'use client';
 
-const Navbar = () => {
+import { Home, Folder, Briefcase, Wrench, PenSquare } from 'lucide-react';
 
- 
+export default function Navbar() {
+  const navItems = [
+    { icon: Home, label: 'Home', href: '#home' },
+    { icon: Folder, label: 'Projects', href: '#projects' },
+    { icon: Briefcase, label: 'Work', href: '#work' },
+    { icon: Wrench, label: 'Tools', href: '#tools' },
+    { icon: PenSquare, label: 'Contact', href: '#contact' },
+  ];
+
   return (
-    <nav className="flex items-center justify-between p-8 bg-white border-b">
-      {/* Left side (empty or add logo later) */}
-      <div></div>
-
-      {/* Center: Main navigation */}
-      <ul className="flex space-x-8 text-xl">
-        <Link href="">
-        
-        </Link>
-        <li className="cursor-pointer hover:text-gray-700">Projects</li>
-
-        <Link href="/contact">
-        <li className="cursor-pointer hover:text-gray-700">About & Contact</li>
-        </Link>
-        
-      </ul>
-
-      {/* Right side: Email + Contact */}
-      <div className="flex items-center space-x-4">
-        <span className="text-sm text-gray-500">Email: Lorem ipsum dolor sit amet.</span>
-        <button className="px-4 py-2 bg-gray-800 text-white rounded-full text-sm font-medium hover:bg-gray-900">
-          Contact Me
-        </button>
+    <nav 
+      className="fixed top-8 left-1/2 -translate-x-1/2 z-50"
+      aria-label="Main navigation"
+    >
+      <div className="bg-white border-2 border-black rounded-full px-6 py-3 shadow-sm">
+        <ul className="flex items-center gap-8">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  className="flex items-center justify-center text-black hover:text-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-lime-400 rounded-full p-2"
+                  aria-label={item.label}
+                >
+                  <Icon className="w-6 h-6" strokeWidth={1.5} />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}
