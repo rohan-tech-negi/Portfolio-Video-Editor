@@ -3,6 +3,7 @@ import React from 'react'
 import Hero from '../sections/Hero'
 import ToolBox from '../herosection/ToolBox'
 import ContactSection from '../herosection/Connect'
+import AboutSection from '../sections/Contact'
 // import Contact from '../sections/Contact'
 // import Projects from '../sections/Projects'
 // import LandingSection from '../landingsection/page'
@@ -15,6 +16,7 @@ const HomePage = () => {
         <Hero></Hero>
         <ToolBox></ToolBox>
         <ContactSection></ContactSection>
+        <AboutSection></AboutSection>
         
     </>
   )
