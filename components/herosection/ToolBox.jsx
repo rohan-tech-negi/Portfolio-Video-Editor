@@ -55,7 +55,7 @@ export default function ToolBox() {
               <div className="skill-content">
                 <h3>Adobe Illustrator</h3>
                 <p>
-                 Illustrator powers my vector creativity—perfect for designing logos, icons, and graphics with crisp precision. Its clean, scalable output ensures every visual element shines across any medium.
+                 Illustrator powers my vector creativity—perfect for designing logos, icons, and graphics with crisp precision.Its clean, scalable output ensures every visual element shines across any medium.
                 </p>
                 {/* <div className="progress">
                   <div className="progress-bar" style={{ width: "70%" }}>
