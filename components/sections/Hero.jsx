@@ -28,7 +28,7 @@ export default function Hero() {
       </div>
 
       {/* 🔴 Hero Content */}
-      <div className="relative z-10 flex justify-center w-full pt-28 pointer-events-none">
+      <div className="relative z-10 flex justify-center w-full pt-48 pointer-events-none">
         <div className="flex items-start gap-40">
 
           {/* LEFT GROUP */}
