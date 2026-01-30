@@ -17,7 +17,7 @@ export default function ToolBox() {
 
           <li className="card" id="card1">
             <div className="card-body skill-card">
-              <img src="/pr.png" alt="Premiere Pro" height={100} width={100}/>
+              <img src="/pr.svg" alt="Premiere Pro" height={100} width={100}/>
               <div className="skill-content">
                 <h3>Adobe Premiere Pro</h3>
                 <p>
@@ -34,7 +34,7 @@ export default function ToolBox() {
 
           <li className="card" id="card2">
             <div className="card-body skill-card">
-              <img src="/ae1.png" alt="Premiere Pro" />
+              <img src="/ae.svg" alt="Premiere Pro" />
               <div className="skill-content">
                 <h3>Adobe After Effects</h3>
                 <p>
@@ -51,7 +51,7 @@ export default function ToolBox() {
 
           <li className="card" id="card3">
             <div className="card-body skill-card">
-              <img src="/ai.png" alt="Premiere Pro" />
+              <img src="/ai.svg" alt="Premiere Pro" />
               <div className="skill-content">
                 <h3>Adobe Illustrator</h3>
                 <p>
@@ -68,7 +68,7 @@ export default function ToolBox() {
 
           <li className="card" id="card4">
             <div className="card-body skill-card">
-             <img src="/dr.png" alt="Premiere Pro" />
+             <img src="/dr.svg" alt="Premiere Pro" />
               <div className="skill-content">
                 <h3>DaVinci Resolve</h3>
                 <p>
