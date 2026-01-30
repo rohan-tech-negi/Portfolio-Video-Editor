@@ -1,45 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import Lenis from "@studio-freight/lenis";
 import HomePage from "../components/homepage/page";
-// import Loader from "../components/Loader";
-import Loader from "@/components/common/Loader";
 
 export default function Home() {
-  const [loading, setLoading] = useState(true);
+  const lenisRef = useRef(null);
+  const rafRef = useRef(null);
 
   useEffect(() => {
-    // Only initialize Lenis after loading is complete
-    if (!loading) {
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smooth: true,
-        direction: "vertical",
-        smoothTouch: false,
-      });
+    // Init Lenis
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      smoothTouch: false,
+    });
 
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
+    lenisRef.current = lenis;
 
-      requestAnimationFrame(raf);
+    const raf = (time) => {
+      lenis.raf(time);
+      rafRef.current = requestAnimationFrame(raf);
+    };
 
-      return () => {
-        lenis.destroy();
-      };
-    }
-  }, [loading]);
+    rafRef.current = requestAnimationFrame(raf);
 
-  // if (loading) {
-  //   return <Loader onLoadComplete={() => setLoading(false)} />;
-  // }
+    // Cleanup
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      lenis.destroy();
+    };
+  }, []);
 
-  return (
-    <>
-      <HomePage />
-    </>
-  );
+  return <HomePage />;
 }
