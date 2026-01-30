@@ -120,6 +120,16 @@ body {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
