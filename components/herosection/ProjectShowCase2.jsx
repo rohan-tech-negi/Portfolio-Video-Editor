@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { Play, Pause, Volume2, VolumeX, ArrowUpRight } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Play, Pause, ArrowUpRight } from 'lucide-react';
 
-export default function ProjectsSection1() {
+export default function ProjectsSection() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
   const [hoveredProject, setHoveredProject] = useState(null);
   
   // Video refs
@@ -34,13 +33,36 @@ export default function ProjectsSection1() {
     }
   };
 
-  const toggleMute = () => {
-    const videos = [video1Ref, video2Ref, video3Ref, video4Ref];
-    videos.forEach(ref => {
-      if (ref.current) ref.current.muted = !isMuted;
-    });
-    setIsMuted(!isMuted);
+  const handleMouseEnter = (projectId, videoRef) => {
+    setHoveredProject(projectId);
+    // Unmute only the hovered video
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+    }
   };
+
+  const handleMouseLeave = (videoRef) => {
+    setHoveredProject(null);
+    // Mute the video when mouse leaves
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+    }
+  };
+
+  // Auto-play videos when component mounts
+  useEffect(() => {
+    const allVideos = [video1Ref, video2Ref, video3Ref, video4Ref];
+    
+    // Start playing all videos on mount
+    allVideos.forEach(ref => {
+      if (ref.current) {
+        ref.current.play().catch(error => {
+          console.log('Autoplay prevented:', error);
+        });
+      }
+    });
+    setIsPlaying(true);
+  }, []);
 
   return (
     <section className="w-full min-h-screen bg-black py-20 px-4 sm:px-6 lg:px-12">
@@ -62,9 +84,9 @@ export default function ProjectsSection1() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Project 1 - Motion Graphics */}
           <div 
-            className="group relative bg-zinc-900 rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02]"
-            onMouseEnter={() => setHoveredProject(1)}
-            onMouseLeave={() => setHoveredProject(null)}
+            className="group relative bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02]"
+            onMouseEnter={() => handleMouseEnter(1, video1Ref)}
+            onMouseLeave={() => handleMouseLeave(video1Ref)}
           >
             {/* Description Section */}
             <div className="p-8 pb-0">
@@ -79,12 +101,12 @@ export default function ProjectsSection1() {
               </div>
             </div>
 
-            <div className="relative aspect-[16/10] bg-zinc-800 rounded-b-2xl overflow-hidden">
+            <div className="relative aspect-[16/10] bg-zinc-800">
               <video
                 ref={video1Ref}
                 className="w-full h-full object-cover"
                 loop
-                muted={isMuted}
+                muted
                 playsInline
                 onClick={handleVideoToggle}
               >
@@ -110,9 +132,9 @@ export default function ProjectsSection1() {
 
           {/* Project 2 - 3D Animation */}
           <div 
-            className="group relative bg-zinc-900 rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02]"
-            onMouseEnter={() => setHoveredProject(2)}
-            onMouseLeave={() => setHoveredProject(null)}
+            className="group relative bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02]"
+            onMouseEnter={() => handleMouseEnter(2, video2Ref)}
+            onMouseLeave={() => handleMouseLeave(video2Ref)}
           >
             {/* Description Section */}
             <div className="p-8 pb-0">
@@ -135,7 +157,7 @@ export default function ProjectsSection1() {
                 ref={video2Ref}
                 className="w-full h-full object-cover"
                 loop
-                muted={isMuted}
+                muted
                 playsInline
                 onClick={handleVideoToggle}
               >
@@ -164,9 +186,9 @@ export default function ProjectsSection1() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Project 3 - Motion Graphics (Mograph) */}
           <div 
-            className="group relative bg-zinc-900 rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02]"
-            onMouseEnter={() => setHoveredProject(3)}
-            onMouseLeave={() => setHoveredProject(null)}
+            className="group relative bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02]"
+            onMouseEnter={() => handleMouseEnter(3, video3Ref)}
+            onMouseLeave={() => handleMouseLeave(video3Ref)}
           >
             {/* Description Section */}
             <div className="p-8 pb-0">
@@ -186,7 +208,7 @@ export default function ProjectsSection1() {
                 ref={video3Ref}
                 className="w-full h-full object-cover"
                 loop
-                muted={isMuted}
+                muted
                 playsInline
                 onClick={handleVideoToggle}
               >
@@ -212,9 +234,9 @@ export default function ProjectsSection1() {
 
           {/* Project 4 - Cinematic Videos */}
           <div 
-            className="group relative bg-zinc-900 rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02]"
-            onMouseEnter={() => setHoveredProject(4)}
-            onMouseLeave={() => setHoveredProject(null)}
+            className="group relative bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02]"
+            onMouseEnter={() => handleMouseEnter(4, video4Ref)}
+            onMouseLeave={() => handleMouseLeave(video4Ref)}
           >
             {/* Description Section */}
             <div className="p-8 pb-0">
@@ -237,7 +259,7 @@ export default function ProjectsSection1() {
                 ref={video4Ref}
                 className="w-full h-full object-cover"
                 loop
-                muted={isMuted}
+                muted
                 playsInline
                 onClick={handleVideoToggle}
               >
@@ -262,61 +284,45 @@ export default function ProjectsSection1() {
           </div>
 
           {/* View All Projects CTA */}
-          {/* View All Projects CTA */}
-{/* View All Projects CTA */}
-<div
-  className="relative group cursor-pointer rounded-2xl overflow-hidden
-             bg-gradient-to-br from-lime-400 via-lime-500 to-lime-600
-             flex items-center justify-center min-h-[320px]
-             hover:scale-[1.02] transition-all duration-500"
-  onClick={() => {
-    window.location.href = "/projects";
-  }}
->
-  <div className="relative z-10 text-center px-8">
-    <div className="mb-5">
-      <div className="w-14 h-14 mx-auto rounded-full bg-black/20
-                      flex items-center justify-center
-                      group-hover:rotate-45 transition-all duration-500">
-        <ArrowUpRight className="w-7 h-7 text-white" strokeWidth={2} />
-      </div>
-    </div>
+          <div 
+            className="relative bg-gradient-to-br from-lime-400 via-lime-500 to-lime-600 rounded-3xl overflow-hidden cursor-pointer group transition-all duration-500 hover:scale-[1.02] flex items-center justify-center min-h-[400px]"
+            onClick={() => window.location.href = '/projects'}
+          >
+            <div className="absolute inset-0 opacity-20">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.8),transparent_50%)]" 
+                   style={{ animation: 'pulse 3s ease-in-out infinite' }} />
+            </div>
 
-    <h3 className="text-2xl font-semibold text-white mb-2">
-      View All Projects
-    </h3>
+            <div className="relative z-10 text-center p-12">
+              <div className="mb-6">
+                <div className="w-16 h-16 mx-auto rounded-full bg-black/10 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 group-hover:rotate-45 transition-all duration-500">
+                  <ArrowUpRight className="w-8 h-8 text-white" strokeWidth={2} />
+                </div>
+              </div>
+              
+              <h3 className="text-3xl font-bold text-white mb-3 tracking-tight">
+                View all projects
+              </h3>
+              
+              <p className="text-lime-50 text-base font-medium">
+                Explore the complete portfolio
+              </p>
+            </div>
 
-    <p className="text-white/90 text-sm">
-      Explore the complete portfolio
-    </p>
-  </div>
-</div>
-
-
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          </div>
         </div>
-
-        {/* Audio Control Button */}
-        <button
-          onClick={toggleMute}
-          className="fixed bottom-8 right-8 bg-lime-400 hover:bg-lime-500 rounded-full p-4 shadow-2xl transition-all duration-300 z-50 border-2 border-lime-300"
-          aria-label={isMuted ? "Unmute videos" : "Mute videos"}
-        >
-          {isMuted ? (
-            <VolumeX className="w-6 h-6 text-black" strokeWidth={2.5} />
-          ) : (
-            <Volume2 className="w-6 h-6 text-black" strokeWidth={2.5} />
-          )}
-        </button>
 
         {/* Description Section */}
-        <div className="mt-20 text-center max-w-4xl mx-auto">
-          
-          
-          
-        </div>
+        
       </div>
 
-      
+      <style jsx>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 0.2; }
+          50% { opacity: 0.4; }
+        }
+      `}</style>
     </section>
   );
 }
