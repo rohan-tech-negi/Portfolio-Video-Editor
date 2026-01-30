@@ -186,24 +186,24 @@ export default function ProjectsSection() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Project 3 - Motion Graphics (Mograph) */}
           <div 
-            className="group relative bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02]"
+            className="group relative bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02] flex flex-col"
             onMouseEnter={() => handleMouseEnter(3, video3Ref)}
             onMouseLeave={() => handleMouseLeave(video3Ref)}
           >
             {/* Description Section */}
-            <div className="p-8 pb-0">
-              <h3 className="text-2xl font-semibold text-white mb-3">Mograph Design</h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                Abstract motion graphics that merge design principles with dynamic movement. Creating visually striking compositions using geometric shapes, bold colors, and rhythmic animations that transform simple elements into captivating visual experiences.
+            <div className="p-6 pb-4">
+              <h3 className="text-xl font-semibold text-white mb-2">Mograph Design</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                Abstract motion graphics where design meets movement.
               </p>
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-lime-400/10 text-lime-400 text-xs font-medium rounded-full border border-lime-400/20">
                   After Effects
                 </span>
               </div>
             </div>
 
-            <div className="relative aspect-[16/10] bg-zinc-800">
+            <div className="relative flex-1 bg-zinc-800">
               <video
                 ref={video3Ref}
                 className="w-full h-full object-cover"
@@ -234,17 +234,17 @@ export default function ProjectsSection() {
 
           {/* Project 4 - Cinematic Videos */}
           <div 
-            className="group relative bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02]"
+            className="group relative bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02] flex flex-col"
             onMouseEnter={() => handleMouseEnter(4, video4Ref)}
             onMouseLeave={() => handleMouseLeave(video4Ref)}
           >
             {/* Description Section */}
-            <div className="p-8 pb-0">
-              <h3 className="text-2xl font-semibold text-white mb-3">Cinematic Videos</h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                Narrative-driven video production that combines cinematic techniques with compelling storytelling. From color grading to seamless editing, crafting polished videos that evoke emotion and leave a lasting impression on viewers.
+            <div className="p-6 pb-4">
+              <h3 className="text-xl font-semibold text-white mb-2">Cinematic Videos</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                Cinematic storytelling crafted through color, editing, and emotion-driven visual narratives.
               </p>
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-lime-400/10 text-lime-400 text-xs font-medium rounded-full border border-lime-400/20">
                   Premiere Pro
                 </span>
@@ -254,7 +254,7 @@ export default function ProjectsSection() {
               </div>
             </div>
 
-            <div className="relative aspect-[16/10] bg-zinc-800">
+            <div className="relative flex-1 bg-zinc-800">
               <video
                 ref={video4Ref}
                 className="w-full h-full object-cover"
@@ -285,7 +285,7 @@ export default function ProjectsSection() {
 
           {/* View All Projects CTA */}
           <div 
-            className="relative bg-gradient-to-br from-lime-400 via-lime-500 to-lime-600 rounded-3xl overflow-hidden cursor-pointer group transition-all duration-500 hover:scale-[1.02] flex items-center justify-center min-h-[400px]"
+            className="relative bg-gradient-to-br from-lime-400 via-lime-500 to-lime-600 rounded-3xl overflow-hidden cursor-pointer group transition-all duration-500 hover:scale-[1.02] flex items-center justify-center"
             onClick={() => window.location.href = '/projects'}
           >
             <div className="absolute inset-0 opacity-20">
@@ -293,18 +293,18 @@ export default function ProjectsSection() {
                    style={{ animation: 'pulse 3s ease-in-out infinite' }} />
             </div>
 
-            <div className="relative z-10 text-center p-12">
-              <div className="mb-6">
-                <div className="w-16 h-16 mx-auto rounded-full bg-black/10 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 group-hover:rotate-45 transition-all duration-500">
-                  <ArrowUpRight className="w-8 h-8 text-white" strokeWidth={2} />
+            <div className="relative z-10 text-center p-8">
+              <div className="mb-5">
+                <div className="w-14 h-14 mx-auto rounded-full bg-black/10 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 group-hover:rotate-45 transition-all duration-500">
+                  <ArrowUpRight className="w-7 h-7 text-white" strokeWidth={2} />
                 </div>
               </div>
               
-              <h3 className="text-3xl font-bold text-white mb-3 tracking-tight">
+              <h3 className="text-2xl font-bold text-white mb-2 tracking-tight">
                 View all projects
               </h3>
               
-              <p className="text-lime-50 text-base font-medium">
+              <p className="text-lime-50 text-sm font-medium">
                 Explore the complete portfolio
               </p>
             </div>
