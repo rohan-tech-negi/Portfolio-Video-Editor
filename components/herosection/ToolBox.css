@@ -1,175 +1,189 @@
-:root{
-    --cards: 4;
-    --cardHeight: 30vh;
-    /* --cardTopPadding: 0em; */
-    --cardMargin: 4vw;
+:root {
+  --cards: 4;
+  --cardHeight: 30vh;
+  /* --cardTopPadding: 0em; */
+  --cardMargin: 4vw;
 }
 
-.container{
-    width: 42%;
-    margin-left: auto;
-    margin-right: 6vw;
+.container {
+  width: 42%;
+  margin-left: auto;
+  margin-right: 6vw;
 }
 
 /* Wrapper layout */
-.toolbox-wrapper{
-    display: flex;
-    align-items: flex-start;
-    width: 100%;
-    padding: 10vh 6vw;
-    gap: 6vw;
+.toolbox-wrapper {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  padding: 10vh 6vw;
+  gap: 6vw;
 }
 
 /* LEFT TEXT */
-.toolbox-text{
-    position: sticky;
-    top: 20vh;
-    max-width: 35%;
+.toolbox-text {
+  position: sticky;
+  top: 20vh;
+  max-width: 35%;
 }
 
-.toolbox-label{
-    display: block;
-    font-size: 0.9rem;
-    letter-spacing: 0.15em;
-    opacity: 0.6;
-    margin-bottom: 12px;
+.toolbox-label {
+  display: block;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  opacity: 0.6;
+  margin-bottom: 12px;
 }
 
-.toolbox-title{
-    font-size: 5.5rem;
-    font-weight: 400;
-    line-height: 1.1;
+.toolbox-title {
+  font-size: 5.5rem;
+  font-weight: 400;
+  line-height: 1.1;
 }
-
 
 /* Skill card layout */
 .skill-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
 }
 
-/* Logo */
-.skill-card img {
-    width: 76px;
-    height: 76px;
-    object-fit: contain;
+/* ===== SVG LOGO CONTAINER ===== */
+.logo-wrapper {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ===== SVG IMAGE STYLING ===== */
+.logo-wrapper img {
+  width: 100%;
+  height: 100%;
+  max-width: 60px;
+  max-height: 60px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+/* Optional: If you want to control SVG colors */
+.logo-wrapper svg {
+  fill: currentColor;
+  stroke: currentColor;
 }
 
 /* Text content */
 .skill-content h3 {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 6px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
 .skill-content p {
-    font-size: 0.9rem;
-    line-height: 1.4;
-    opacity: 0.7;
-    margin-bottom: 14px;
-    max-width: 90%;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  opacity: 0.7;
+  margin-bottom: 14px;
+  max-width: 90%;
 }
 
 /* Progress bar */
 .progress {
-    width: 100%;
-    height: 8px;
-    background: #e5e5e5;
-    border-radius: 999px;
-    overflow: hidden;
-    position: relative;
+  width: 100%;
+  height: 8px;
+  background: #e5e5e5;
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
 }
 
 .progress-bar {
-    height: 100%;
-    background: #7CFF4E;
-    border-radius: 999px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  height: 100%;
+  background: #7CFF4E;
+  border-radius: 999px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .progress-bar span {
-    position: absolute;
-    right: -10px;
-    top: -28px;
-    background: #7CFF4E;
-    color: black;
-    font-size: 0.75rem;
-    padding: 4px 8px;
-    border-radius: 999px;
-    font-weight: 600;
+  position: absolute;
+  right: -10px;
+  top: -28px;
+  background: #7CFF4E;
+  color: black;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-weight: 600;
 }
 
-
-#cards{
-    list-style: none;
-    padding-left: 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(var(--cards), var(--cardHeight));
-    gap: var(--cardMargin);
-    padding-bottom: calc(var(--cards) * var(--cardTopPadding));
-    margin-bottom: var(--cardMargin);
+#cards {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(var(--cards), var(--cardHeight));
+  gap: var(--cardMargin);
+  padding-bottom: calc(var(--cards) * var(--cardTopPadding));
+  margin-bottom: var(--cardMargin);
 }
 
-#card1{
-    --index: 1;
+#card1 {
+  --index: 1;
 }
 
-#card2{
-    --index: 2;
+#card2 {
+  --index: 2;
 }
 
-#card3{
-    --index: 3;
+#card3 {
+  --index: 3;
 }
 
-#card4{
-    --index: 4;
+#card4 {
+  --index: 4;
 }
 
-.card{
-    position: sticky;
-    top: 0;
-    padding-top: calc(var(--index) * var(--cardTopPadding));
+.card {
+  position: sticky;
+  top: 0;
+  padding-top: calc(var(--index) * var(--cardTopPadding));
 }
 
-#card1 .card-body{
-    background-color: white;
+#card1 .card-body {
+  background-color: white;
 }
 
-#card2 .card-body{
-    background-color: white;
+#card2 .card-body {
+  background-color: white;
 }
 
-#card3 .card-body{
-    background-color: white;
+#card3 .card-body {
+  background-color: white;
 }
 
-#card4 .card-body{
-    background-color: white;
+#card4 .card-body {
+  background-color: white;
 }
 
-.card-body{
-    box-sizing: border-box;
-    padding: 30px;
-    border-radius: 12px;
-    filter: drop-shadow();
-    /* box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1); */
-    height: var(--cardHeight);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.card-body {
+  box-sizing: border-box;
+  padding: 30px;
+  border-radius: 12px;
+  filter: drop-shadow();
+  /* box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1); */
+  height: var(--cardHeight);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-h2{
-    font-size: 2.5em;
+h2 {
+  font-size: 2.5em;
 }
-
-
-
-
-
