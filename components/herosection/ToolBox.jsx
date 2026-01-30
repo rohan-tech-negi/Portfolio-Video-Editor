@@ -2,12 +2,12 @@ import "./ToolBox.css";
 
 export default function ToolBox() {
   return (
-    <section className="toolbox-wrapper bg-black">
+    <section className="toolbox-wrapper bg-white">
 
       {/* LEFT TEXT */}
       <div className="toolbox-text">
-        <span className="toolbox-label text-white">{`{02} – Tools & Skills`}</span>
-        <h1 className="toolbox-title text-white">My Creative Toolbox</h1>
+        <span className="toolbox-label text-black">{`{02} – Tools & Skills`}</span>
+        <h1 className="toolbox-title text-black">My Creative Toolbox</h1>
       </div>
 
       {/* RIGHT CARDS */}

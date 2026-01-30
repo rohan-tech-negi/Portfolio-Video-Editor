@@ -63,15 +63,15 @@ export default function ProjectsSection() {
   }, []);
 
   return (
-    <section className="w-full bg-white py-20 px-4 sm:px-6 lg:px-8">
+    <section className="w-full bg-black py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-16">
           <div className="flex items-center gap-2 mb-6">
             <div className="w-2 h-2 rounded-full bg-lime-400" />
-            <span className="text-sm font-medium text-gray-600">[02] — My Work</span>
+            <span className="text-sm font-medium text-gray-600 text-white">[02] — My Work</span>
           </div>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-medium text-gray-900 leading-tight">
+          <h1 className="text-5xl text-white sm:text-6xl lg:text-7xl font-medium text-gray-900 leading-tight">
             Projects
           </h1>
         </div>

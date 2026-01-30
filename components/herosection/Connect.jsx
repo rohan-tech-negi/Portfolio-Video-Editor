@@ -35,14 +35,14 @@ export default function ContactSection() {
   ];
 
   return (
-    <section className="w-full min-h-screen bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
+    <section className="w-full min-h-screen bg-black py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
           <div className="flex items-center gap-2 mb-6">
             <div className="w-2 h-2 rounded-full bg-lime-400" />
-            <span className="text-sm font-medium text-gray-600">[06] — Contact me</span>
+            <span className="text-sm font-medium text-white">[06] — Contact me</span>
           </div>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-medium text-gray-900 leading-tight">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-medium text-white leading-tight">
             I'm all over the internet
           </h1>
         </div>
