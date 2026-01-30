@@ -15,10 +15,11 @@ const HomePage = () => {
         {/* <LandingSection></LandingSection> */}
         {/* <LandingSection></LandingSection> */}
         <Hero></Hero>
+        <ProjectsSection></ProjectsSection>
         <ToolBox></ToolBox>
         <ContactSection></ContactSection>
         <AboutSection></AboutSection>
-        <ProjectsSection></ProjectsSection>
+        
         
     </>
   )

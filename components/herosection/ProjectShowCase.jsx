@@ -69,7 +69,7 @@ export default function ProjectsSection() {
         <div className="mb-16">
           <div className="flex items-center gap-2 mb-6">
             <div className="w-2 h-2 rounded-full bg-lime-400" />
-            <span className="text-sm font-medium text-gray-600">[03] — My Work</span>
+            <span className="text-sm font-medium text-gray-600">[02] — My Work</span>
           </div>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-medium text-gray-900 leading-tight">
             Projects
