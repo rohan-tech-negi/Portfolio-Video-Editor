@@ -8,19 +8,18 @@ export default function ProjectsSection() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   
+  // Video refs for all videos
   const mainVideoRef = useRef(null);
-  const timelineVideoRef = useRef(null);
+  const video2Ref = useRef(null);
+  const video3Ref = useRef(null);
+  const video4Ref = useRef(null);
 
-  const handleVideoToggle = () => {
-    if (mainVideoRef.current && timelineVideoRef.current) {
+  const handleVideoToggle = (videoRef) => {
+    if (videoRef.current) {
       if (isPlaying) {
-        mainVideoRef.current.pause();
-        timelineVideoRef.current.pause();
+        videoRef.current.pause();
       } else {
-        mainVideoRef.current.play().catch(error => {
-          console.log('Autoplay prevented:', error);
-        });
-        timelineVideoRef.current.play().catch(error => {
+        videoRef.current.play().catch(error => {
           console.log('Autoplay prevented:', error);
         });
       }
@@ -44,34 +43,45 @@ export default function ProjectsSection() {
     }
   };
 
-  // Sync timeline video with main video
+  // Sync videos (optional - if you want them to play together)
   useEffect(() => {
-    const mainVideo = mainVideoRef.current;
-    const timelineVideo = timelineVideoRef.current;
+    const videos = [
+      mainVideoRef.current,
+      video2Ref.current,
+      video3Ref.current,
+      video4Ref.current
+    ].filter(v => v);
 
-    if (mainVideo && timelineVideo) {
-      const syncTimeline = () => {
-        timelineVideo.currentTime = mainVideo.currentTime;
-      };
+    const syncVideos = () => {
+      const mainTime = mainVideoRef.current?.currentTime || 0;
+      videos.forEach(video => {
+        if (video && video !== mainVideoRef.current) {
+          video.currentTime = mainTime;
+        }
+      });
+    };
 
-      mainVideo.addEventListener('timeupdate', syncTimeline);
-
-      return () => {
-        mainVideo.removeEventListener('timeupdate', syncTimeline);
-      };
+    if (mainVideoRef.current) {
+      mainVideoRef.current.addEventListener('timeupdate', syncVideos);
     }
+
+    return () => {
+      if (mainVideoRef.current) {
+        mainVideoRef.current.removeEventListener('timeupdate', syncVideos);
+      }
+    };
   }, []);
 
   return (
-    <section className="w-full bg-black py-20 px-4 sm:px-6 lg:px-8">
+    <section className="w-full bg-white py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-16">
           <div className="flex items-center gap-2 mb-6">
             <div className="w-2 h-2 rounded-full bg-lime-400" />
-            <span className="text-sm font-medium text-gray-600 text-white">[02] — My Work</span>
+            <span className="text-sm font-medium text-gray-600">[02] — My Work</span>
           </div>
-          <h1 className="text-5xl text-white sm:text-6xl lg:text-7xl font-medium text-gray-900 leading-tight">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-medium text-gray-900 leading-tight">
             Projects
           </h1>
         </div>
@@ -82,7 +92,6 @@ export default function ProjectsSection() {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onMouseMove={handleMouseMove}
-          onClick={handleVideoToggle}
         >
           {/* Custom Play Cursor */}
           {isHovering && (
@@ -100,10 +109,10 @@ export default function ProjectsSection() {
             </div>
           )}
 
-          {/* MAIN OUTER CONTAINER - Gray background with padding */}
+          {/* MAIN OUTER CONTAINER - The big container */}
           <div className="bg-gray-100 border-2 border-gray-300 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-shadow duration-300">
             
-            {/* FIRST INNER BOX - Main Video with its own border */}
+            {/* FIRST INNER BOX - Main Video (Large top box) */}
             <div className="bg-white border-2 border-gray-300 rounded-xl overflow-hidden mb-6">
               <div className="relative aspect-video bg-black">
                 <video
@@ -112,6 +121,7 @@ export default function ProjectsSection() {
                   loop
                   muted
                   playsInline
+                  onClick={() => handleVideoToggle(mainVideoRef)}
                 >
                   <source src="/v1.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
@@ -128,19 +138,84 @@ export default function ProjectsSection() {
               </div>
             </div>
 
-            {/* SECOND INNER BOX - Timeline Video with its own border */}
+            {/* SECOND INNER BOX - Two small videos side by side */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Left small video */}
+              <div className="bg-white border-2 border-gray-300 rounded-xl overflow-hidden">
+                <div className="relative aspect-video bg-black">
+                  <video
+                    ref={video2Ref}
+                    className="w-full h-full object-cover"
+                    loop
+                    muted
+                    playsInline
+                    onClick={() => handleVideoToggle(video2Ref)}
+                  >
+                    <source src="/v2.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                  
+                  {/* Play Overlay */}
+                  {!isPlaying && (
+                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                      <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white flex items-center justify-center">
+                        <Play className="w-8 h-8 text-white ml-1" fill="white" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Right small video */}
+              <div className="bg-white border-2 border-gray-300 rounded-xl overflow-hidden">
+                <div className="relative aspect-video bg-black">
+                  <video
+                    ref={video3Ref}
+                    className="w-full h-full object-cover"
+                    loop
+                    muted
+                    playsInline
+                    onClick={() => handleVideoToggle(video3Ref)}
+                  >
+                    <source src="/v3.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                  
+                  {/* Play Overlay */}
+                  {!isPlaying && (
+                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                      <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white flex items-center justify-center">
+                        <Play className="w-8 h-8 text-white ml-1" fill="white" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* THIRD INNER BOX - Large bottom box */}
             <div className="bg-white border-2 border-gray-300 rounded-xl overflow-hidden">
-              <div className="relative h-32 bg-black">
+              <div className="relative aspect-video bg-black">
                 <video
-                  ref={timelineVideoRef}
+                  ref={video4Ref}
                   className="w-full h-full object-cover"
                   loop
                   muted
                   playsInline
+                  onClick={() => handleVideoToggle(video4Ref)}
                 >
-                  <source src="/v2.mp4" type="video/mp4" />
+                  <source src="/v4.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
+                
+                {/* Play Overlay */}
+                {!isPlaying && (
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white flex items-center justify-center">
+                      <Play className="w-8 h-8 text-white ml-1" fill="white" />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
