@@ -5,6 +5,7 @@ import ToolBox from '../herosection/ToolBox'
 import ContactSection from '../herosection/Connect'
 import AboutSection from '../contact/page'
 import ProjectsSection from '../herosection/ProjectShowCase'
+import ProjectsSection1 from '../herosection/ProjectShowCase2'
 // import Contact from '../sections/Contact'
 // import Projects from '../sections/Projects'
 // import LandingSection from '../landingsection/page'
@@ -15,7 +16,8 @@ const HomePage = () => {
         {/* <LandingSection></LandingSection> */}
         {/* <LandingSection></LandingSection> */}
         <Hero></Hero>
-        <ProjectsSection></ProjectsSection>
+        {/* <ProjectsSection></ProjectsSection> */}
+        <ProjectsSection1></ProjectsSection1>
         <ToolBox></ToolBox>
         <ContactSection></ContactSection>
         <AboutSection></AboutSection>
