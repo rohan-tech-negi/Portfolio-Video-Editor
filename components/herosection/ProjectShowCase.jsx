@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Play, Pause } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 export default function ProjectsSection() {
   const [isHovering, setIsHovering] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [isMuted, setIsMuted] = useState(true); // Audio control state
   
   // Video refs for all videos
   const mainVideoRef = useRef(null);
@@ -27,6 +28,23 @@ export default function ProjectsSection() {
     }
   };
 
+  // Toggle mute/unmute for all videos
+  const toggleMute = () => {
+    const videos = [
+      mainVideoRef.current,
+      video2Ref.current,
+      video3Ref.current,
+      video4Ref.current
+    ].filter(v => v);
+
+    videos.forEach(video => {
+      if (video) {
+        video.muted = !isMuted;
+      }
+    });
+    setIsMuted(!isMuted);
+  };
+
   const handleMouseEnter = () => {
     setIsHovering(true);
     document.body.style.cursor = 'none';
@@ -43,7 +61,7 @@ export default function ProjectsSection() {
     }
   };
 
-  // Sync videos (optional - if you want them to play together)
+  // Sync videos (optional)
   useEffect(() => {
     const videos = [
       mainVideoRef.current,
@@ -109,17 +127,17 @@ export default function ProjectsSection() {
             </div>
           )}
 
-          {/* MAIN OUTER CONTAINER - The big container */}
+          {/* MAIN OUTER CONTAINER - Enhanced spacing and sizing */}
           <div className="bg-gray-100 border-2 border-gray-300 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-shadow duration-300">
             
-            {/* FIRST INNER BOX - Main Video (Large top box) */}
-            <div className="bg-white border-2 border-gray-300 rounded-xl overflow-hidden mb-6">
+            {/* FIRST INNER BOX - Main Video (Larger on desktop) */}
+            <div className="bg-white border-2 border-gray-300 rounded-xl overflow-hidden mb-8 border-b border-gray-200">
               <div className="relative aspect-video bg-black">
                 <video
                   ref={mainVideoRef}
                   className="w-full h-full object-cover"
                   loop
-                  muted
+                  muted={isMuted} // Controls audio
                   playsInline
                   onClick={() => handleVideoToggle(mainVideoRef)}
                 >
@@ -129,7 +147,7 @@ export default function ProjectsSection() {
                 
                 {/* Play Overlay */}
                 {!isPlaying && (
-                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                  <div className="absolute inset-2 bg-black/30 flex items-center justify-center rounded-xl">
                     <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white flex items-center justify-center">
                       <Play className="w-8 h-8 text-white ml-1" fill="white" />
                     </div>
@@ -138,8 +156,8 @@ export default function ProjectsSection() {
               </div>
             </div>
 
-            {/* SECOND INNER BOX - Two small videos side by side */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            {/* SECOND INNER BOX - Two small videos side by side (wider on desktop) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 border-b border-gray-200">
               {/* Left small video */}
               <div className="bg-white border-2 border-gray-300 rounded-xl overflow-hidden">
                 <div className="relative aspect-video bg-black">
@@ -147,7 +165,7 @@ export default function ProjectsSection() {
                     ref={video2Ref}
                     className="w-full h-full object-cover"
                     loop
-                    muted
+                    muted={isMuted} // Controls audio
                     playsInline
                     onClick={() => handleVideoToggle(video2Ref)}
                   >
@@ -157,7 +175,7 @@ export default function ProjectsSection() {
                   
                   {/* Play Overlay */}
                   {!isPlaying && (
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div className="absolute inset-2 bg-black/30 flex items-center justify-center rounded-xl">
                       <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white flex items-center justify-center">
                         <Play className="w-8 h-8 text-white ml-1" fill="white" />
                       </div>
@@ -173,17 +191,17 @@ export default function ProjectsSection() {
                     ref={video3Ref}
                     className="w-full h-full object-cover"
                     loop
-                    muted
+                    muted={isMuted} // Controls audio
                     playsInline
                     onClick={() => handleVideoToggle(video3Ref)}
                   >
-                    <source src="/v3.mp4" type="video/mp4" />
+                    <source src="/StarWars.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                   
                   {/* Play Overlay */}
                   {!isPlaying && (
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div className="absolute inset-2 bg-black/30 flex items-center justify-center rounded-xl">
                       <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white flex items-center justify-center">
                         <Play className="w-8 h-8 text-white ml-1" fill="white" />
                       </div>
@@ -193,24 +211,24 @@ export default function ProjectsSection() {
               </div>
             </div>
 
-            {/* THIRD INNER BOX - Large bottom box */}
+            {/* THIRD INNER BOX - Large bottom video (wider on desktop) */}
             <div className="bg-white border-2 border-gray-300 rounded-xl overflow-hidden">
               <div className="relative aspect-video bg-black">
                 <video
                   ref={video4Ref}
                   className="w-full h-full object-cover"
                   loop
-                  muted
+                  muted={isMuted} // Controls audio
                   playsInline
                   onClick={() => handleVideoToggle(video4Ref)}
                 >
-                  <source src="/v4.mp4" type="video/mp4" />
+                  <source src="/StarWars.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
                 
                 {/* Play Overlay */}
                 {!isPlaying && (
-                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                  <div className="absolute inset-2 bg-black/30 flex items-center justify-center rounded-xl">
                     <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white flex items-center justify-center">
                       <Play className="w-8 h-8 text-white ml-1" fill="white" />
                     </div>
@@ -218,49 +236,27 @@ export default function ProjectsSection() {
                 )}
               </div>
             </div>
+
+            {/* Audio Control Button - Bottom right corner */}
+            <button
+              onClick={toggleMute}
+              className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm border-2 border-gray-300 rounded-full p-3 shadow-lg hover:bg-white transition-all duration-300 group"
+              aria-label={isMuted ? "Unmute videos" : "Mute videos"}
+            >
+              {isMuted ? (
+                <VolumeX className="w-6 h-6 text-gray-700 group-hover:text-lime-500 transition-colors" />
+              ) : (
+                <Volume2 className="w-6 h-6 text-gray-700 group-hover:text-lime-500 transition-colors" />
+              )}
+            </button>
           </div>
 
           {/* Project Description */}
-          <div className="mt-8 text-center">
-            <h3 className="text-2xl font-medium text-gray-900 mb-2">
-              Motion Design Project
-            </h3>
-            <p className="text-gray-600">
-              A showcase of visual effects and motion graphics created in After Effects
-            </p>
-            <div className="mt-4 flex items-center justify-center gap-2 text-sm text-gray-500">
-              <span className="px-3 py-1 bg-gray-100 rounded-full">After Effects</span>
-              <span className="px-3 py-1 bg-gray-100 rounded-full">Motion Graphics</span>
-              <span className="px-3 py-1 bg-gray-100 rounded-full">Video Editing</span>
-            </div>
-          </div>
+          
         </div>
 
         {/* Additional Projects Grid */}
-        <div className="mt-24 grid grid-cols-1 md:grid-cols-2 gap-8">
-          {[1, 2].map((project) => (
-            <div 
-              key={project} 
-              className="bg-gray-50 border-2 border-gray-200 rounded-2xl p-6 hover:border-lime-400/50 hover:shadow-lg transition-all duration-300 cursor-pointer"
-            >
-              <div className="aspect-video bg-gradient-to-br from-gray-700 to-gray-900 rounded-xl mb-6 flex items-center justify-center">
-                <span className="text-white/50 text-4xl font-bold">0{project}</span>
-              </div>
-              <h3 className="text-xl font-medium text-gray-900 mb-2">
-                Project {project}
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Brief description of the project and the tools used to bring this creative vision to life.
-              </p>
-              <button className="inline-flex items-center gap-2 px-4 py-2 bg-lime-400/20 hover:bg-lime-400/30 text-lime-700 rounded-full text-sm font-medium transition-colors">
-                View Case Study
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
-          ))}
-        </div>
+        
       </div>
     </section>
   );
