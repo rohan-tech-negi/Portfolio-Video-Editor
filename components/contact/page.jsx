@@ -57,8 +57,8 @@ export default function AboutSection() {
         {/* Header */}
         <div className="flex items-center gap-2 mb-8">
           <div className="w-2 h-2 rounded-full bg-lime-400" /> {/* Self-closing */}
-          <span className="text-sm font-medium text-gray-600">
-            Available for freelance work
+          <span className="text-xl font-medium text-gray-600">
+            [04] - Contact 
           </span>
         </div>
 

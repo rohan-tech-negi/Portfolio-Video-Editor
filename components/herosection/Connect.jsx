@@ -40,7 +40,7 @@ export default function ContactSection() {
         <div className="mb-16">
           <div className="flex items-center gap-2 mb-6">
             <div className="w-2 h-2 rounded-full bg-lime-400" />
-            <span className="text-sm font-medium text-white">[06] — Contact me</span>
+            <span className="text-xl font-medium text-white">[03] — Connect me</span>
           </div>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-medium text-white leading-tight">
             I'm all over the internet

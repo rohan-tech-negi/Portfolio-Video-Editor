@@ -45,7 +45,12 @@ export default function ToolBox() {
     <section ref={sectionRef} className="toolbox-wrapper bg-white">
       {/* LEFT TEXT */}
       <div ref={textRef} className="toolbox-text">
-        <span className="toolbox-label text-black">{`{02} – Tools & Skills`}</span>
+        <div className="flex items-center gap-2 mb-8">
+          <div className="w-2 h-2 rounded-full bg-lime-400" /> {/* Self-closing */}
+          <span className="text-xl font-medium text-gray-600">
+            [02] - Tools & Skills 
+          </span>
+        </div>
         <h1 className="toolbox-title text-black">My Creative Toolbox</h1>
       </div>
 
