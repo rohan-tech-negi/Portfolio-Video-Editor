@@ -11,37 +11,35 @@ export default function ToolBox() {
   const cardsRef = useRef([]);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Text animation - fade in from left
-      gsap.from(textRef.current, {
-        x: -100,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-      });
+  const ctx = gsap.context(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 70%",
+        end: "bottom 60%",
+        toggleActions: "play none none reverse",
+        markers: false, // set true for debugging
+      },
+    });
 
-      // Cards animation - stagger from right
-      gsap.from(cardsRef.current, {
-        x: 100,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-      });
-    }, sectionRef);
+    tl.from(textRef.current, {
+      x: -80,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out",
+    })
+    .from(cardsRef.current, {
+      x: 80,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "power3.out",
+    }, "-=0.5");
+  }, sectionRef);
 
-    return () => ctx.revert();
-  }, []);
+  return () => ctx.revert();
+}, []);
+
 
   return (
     <section ref={sectionRef} className="toolbox-wrapper bg-white">
