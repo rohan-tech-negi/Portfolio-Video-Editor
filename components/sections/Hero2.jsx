@@ -15,17 +15,48 @@ export default function Home() {
     setTimeout(() => setEmailCopied(false), 2000)
   }
 
-  // Track mouse position
+  // Track mouse position with smooth interpolation
   useEffect(() => {
+    let animationFrameId
+    let targetPosition = { x: 0, y: 0 }
+    let currentPosition = { x: 0, y: 0 }
+    let isInitialized = false
+
     const move = (e) => {
-      setPosition({ x: e.clientX, y: e.clientY })
+      targetPosition = { x: e.clientX, y: e.clientY }
+      
+      // Initialize cursor at exact mouse position on first hover
+      if (!isInitialized) {
+        currentPosition = { x: e.clientX, y: e.clientY }
+        setPosition({ x: e.clientX, y: e.clientY })
+        isInitialized = true
+      }
+    }
+
+    const animate = () => {
+      // Smooth interpolation (lerp) for cursor following
+      currentPosition.x += (targetPosition.x - currentPosition.x) * 0.15
+      currentPosition.y += (targetPosition.y - currentPosition.y) * 0.15
+
+      setPosition({
+        x: currentPosition.x,
+        y: currentPosition.y
+      })
+
+      animationFrameId = requestAnimationFrame(animate)
     }
 
     if (showCursor) {
       window.addEventListener('mousemove', move)
+      animationFrameId = requestAnimationFrame(animate)
     }
 
-    return () => window.removeEventListener('mousemove', move)
+    return () => {
+      window.removeEventListener('mousemove', move)
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId)
+      }
+    }
   }, [showCursor])
 
   return (
@@ -35,8 +66,7 @@ export default function Home() {
       {showCursor && (
         <div
           className="hidden md:flex fixed pointer-events-none z-50 items-center justify-center 
-                     px-6 py-2 rounded-full bg-[#7CFF4E] text-black text-sm font-semibold 
-                     transition-transform duration-150 ease-out"
+                     px-6 py-2 rounded-full bg-[#7CFF4E] text-black text-sm font-semibold"
           style={{
             left: position.x,
             top: position.y,
