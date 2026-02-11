@@ -97,17 +97,16 @@ export default function AboutSection() {
 
             {/* Email */}
             <a 
-              href="mailto:hello@andrew.design" 
+              href="rohanwork953@gmail.com" 
               className="text-xl font-semibold text-gray-900 mb-6 block hover:text-lime-500 transition-colors"
               aria-label="Send email to hello@andrew.design"
             >
-              hello@andrew.design
+              rohanwork953@gmail.com
             </a>
 
             {/* Short Intro */}
             <p className="text-gray-600 text-base leading-relaxed mb-8">
-              I'm Andrew, a passionate web designer with a love for creating
-              visually stunning and user-friendly digital experiences.
+             I'm Rohan, a video editor and cinematographer passionate about crafting cinematic stories and immersive visual experiences.
             </p>
 
             {/* CTA Button - Fixed missing opening tag */}
@@ -139,21 +138,15 @@ export default function AboutSection() {
             {/* Main Bio Section */}
             <div>
               <p className="text-xl sm:text-2xl text-gray-900 leading-relaxed mb-6">
-                Hi, I'm Andrew, a passionate web designer with a love for creating
-                visually stunning experiences. With a strong background in design
-                and front-end development, I specialize in crafting responsive
-                websites that not only look great but also provide seamless
-                interactions across all devices.
+                Hi, I’m Rohan, a passionate Video Editor and Cinematographer with a strong eye for storytelling and visual composition. I specialize in crafting cinematic edits, dynamic transitions, and immersive color grading that elevate every frame.
               </p>
 
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-8">
-                Over the years, I've had the opportunity to work with a diverse
-                range of clients, from startups to established brands, helping
-                them bring their visions to life online.
+              <p className="text-md sm:text-xl text-gray-900 leading-relaxed mb-6">
+                Beyond editing, I continuously explore the world of 3D and real-time environments in Unreal Engine, pushing my creative boundaries into virtual production and immersive visuals.
               </p>
 
-              <p className="text-lg font-medium text-gray-900">
-                Let's create something amazing together!
+              <p className="text-md sm:text-xl text-gray-900 leading-relaxed mb-6">
+                Over time, I’ve worked on diverse creative projects — blending motion, sound, and storytelling to deliver compelling visual experiences.
               </p>
             </div>
 
