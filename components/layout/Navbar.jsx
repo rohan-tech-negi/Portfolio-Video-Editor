@@ -46,13 +46,44 @@ import { motion } from "framer-motion"
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
+  // Animation variants
+  const logoVariants = {
+    hidden: { opacity: 0, y: -50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.6, 0.05, 0.01, 0.9]
+      }
+    }
+  }
+
+  const boxContainerVariants = {
+    hidden: { scale: 0, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        delay: 0.3,
+        ease: [0.6, 0.05, 0.01, 0.9]
+      }
+    }
+  }
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-6 bg-white">
+    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-6 bg-[#f5f5f5] border-b">
 
       {/* Logo */}
-      <h1 className="text-lg md:text-xl font-bold tracking-wider">
+      <motion.h1
+        initial="hidden"
+        animate="visible"
+        variants={logoVariants}
+        className="text-lg md:text-xl font-bold tracking-wider"
+      >
         ROHAN
-      </h1>
+      </motion.h1>
 
       {/* Right Side Container */}
       <div className="relative flex items-center justify-end gap-8">
@@ -82,7 +113,10 @@ export default function Navbar() {
         </motion.div>
 
         {/* Click Area with 4 boxes */}
-        <button
+        <motion.button
+          initial="hidden"
+          animate="visible"
+          variants={boxContainerVariants}
           onClick={() => setMenuOpen(!menuOpen)}
           className="relative w-10 h-10 flex items-center justify-center z-50"
         >
@@ -98,7 +132,7 @@ export default function Navbar() {
               />
             ))}
           </div>
-        </button>
+        </motion.button>
 
       </div>
     </nav>
