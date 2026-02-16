@@ -662,9 +662,11 @@ export default function ProjectsSection() {
   };
 
   const handleViewMoreMouseMove = (e) => {
-    setCursorPosition({
-      x: e.clientX,
-      y: e.clientY
+    requestAnimationFrame(() => {
+      setCursorPosition({
+        x: e.clientX,
+        y: e.clientY
+      });
     });
   };
 
@@ -909,12 +911,10 @@ export default function ProjectsSection() {
       {/* Custom Oval Cursor */}
       {(isViewMoreHovered || isCtaHovered) && (
         <div 
-          className="fixed pointer-events-none z-50"
+          className="custom-cursor fixed pointer-events-none z-50"
           style={{
             left: `${cursorPosition.x}px`,
             top: `${cursorPosition.y}px`,
-            transform: 'translate(-50%, -50%)',
-            transition: 'left 0.1s ease-out, top 0.1s ease-out',
           }}
         >
           <div className="px-6 py-3 bg-lime-400 rounded-full shadow-lg shadow-lime-400/50">
@@ -929,6 +929,11 @@ export default function ProjectsSection() {
         @keyframes pulse {
           0%, 100% { opacity: 0.2; }
           50% { opacity: 0.4; }
+        }
+        
+        .custom-cursor {
+          transform: translate(-50%, -50%);
+          will-change: left, top;
         }
       `}</style>
     </section>
