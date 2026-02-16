@@ -85,9 +85,9 @@ export default function Home() {
           <div className="flex flex-col justify-center">
 
             <div className="leading-[0.8] tracking-[-0.04em]">
-              <h1 className="font-black text-[18vw] lg:text-[14vw]">ROHAN</h1>
-              <h1 className="font-black text-[18vw] lg:text-[14vw]">SINGH</h1>
-              <h1 className="font-black text-[18vw] lg:text-[14vw]">NEGI</h1>
+              <h1 className="font-black text-[18vw] lg:text-[9vw]">ROHAN</h1>
+              <h1 className="font-black text-[18vw] lg:text-[9vw]">SINGH</h1>
+              <h1 className="font-black text-[18vw] lg:text-[9vw]">NEGI</h1>
             </div>
 
             {/* Email */}
