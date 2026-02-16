@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Copy } from 'lucide-react'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 
 export default function Home() {
   const [emailCopied, setEmailCopied] = useState(false)
@@ -25,7 +26,6 @@ export default function Home() {
     const move = (e) => {
       targetPosition = { x: e.clientX, y: e.clientY }
       
-      // Initialize cursor at exact mouse position on first hover
       if (!isInitialized) {
         currentPosition = { x: e.clientX, y: e.clientY }
         setPosition({ x: e.clientX, y: e.clientY })
@@ -34,7 +34,6 @@ export default function Home() {
     }
 
     const animate = () => {
-      // Smooth interpolation (lerp) for cursor following
       currentPosition.x += (targetPosition.x - currentPosition.x) * 0.15
       currentPosition.y += (targetPosition.y - currentPosition.y) * 0.15
 
@@ -59,6 +58,46 @@ export default function Home() {
     }
   }, [showCursor])
 
+  // Animation variants
+  const nameVariants = {
+    hidden: { opacity: 0, y: 100 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        delay: i * 0.15,
+        ease: [0.6, 0.05, 0.01, 0.9]
+      }
+    })
+  }
+
+  const textVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        delay: 0.6,
+        ease: [0.6, 0.05, 0.01, 0.9]
+      }
+    }
+  }
+
+  const imageVariants = {
+    hidden: { scale: 0, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        duration: 1,
+        delay: 0.4,
+        ease: [0.6, 0.05, 0.01, 0.9]
+      }
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[#f5f5f5] text-black relative">
 
@@ -82,16 +121,30 @@ export default function Home() {
         <div className="w-full max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
 
           {/* LEFT SIDE */}
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center overflow-hidden">
 
             <div className="leading-[0.8] tracking-[-0.04em]">
-              <h1 className="font-bold text-[18vw] lg:text-[10vw]">ROHAN</h1>
-              <h1 className="font-bold text-[18vw] lg:text-[10vw]">SINGH</h1>
-              <h1 className="font-bold text-[18vw] lg:text-[10vw]">NEGI</h1>
+              {['ROHAN', 'SINGH', 'NEGI'].map((name, i) => (
+                <motion.h1
+                  key={name}
+                  custom={i}
+                  initial="hidden"
+                  animate="visible"
+                  variants={nameVariants}
+                  className="font-bold text-[18vw] lg:text-[10vw]"
+                >
+                  {name}
+                </motion.h1>
+              ))}
             </div>
 
             {/* Email */}
-            <div className="mt-10">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={textVariants}
+              className="mt-10"
+            >
               <button
                 onClick={copyEmail}
                 onMouseEnter={() => setShowCursor(true)}
@@ -108,12 +161,18 @@ export default function Home() {
                   Copied to clipboard!
                 </p>
               )}
-            </div>
+            </motion.div>
           </div>
 
-          {/* RIGHT SIDE (unchanged) */}
+          {/* RIGHT SIDE */}
           <div className="flex flex-col items-center lg:items-end space-y-10">
-            <div className="relative w-52 h-52 md:w-60 md:h-60 lg:w-60 lg:h-60">
+            {/* Profile Image with Scale Animation */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={imageVariants}
+              className="relative w-52 h-52 md:w-60 md:h-60 lg:w-60 lg:h-60"
+            >
               <div className="absolute inset-0 bg-gray-300 rounded-full blur-2xl opacity-20"></div>
               <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg border border-gray-200">
                 <Image
@@ -124,16 +183,22 @@ export default function Home() {
                   priority
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <div className="max-w-md lg:max-w-lg">
+            {/* Description Text */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={textVariants}
+              className="max-w-md lg:max-w-lg"
+            >
               <p className="text-[1.3rem] md:text-[1.5rem] lg:text-[1.7rem] leading-[1.5] 
                             text-gray-900 font-medium text-center lg:text-right">
                 Cinematic storytelling through motion and light.
                 Precision editing. Refined color. Impactful visuals.
                 Exploring the future of 3D with Unreal Engine.
               </p>
-            </div>
+            </motion.div>
           </div>
 
         </div>
