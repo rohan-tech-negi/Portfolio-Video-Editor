@@ -57,38 +57,18 @@ export default function Navbar() {
       {/* Right Side Container */}
       <div className="relative w-14 h-14 flex items-center justify-end">
 
-        {/* Expanding Oval Background */}
+        {/* Expanding Oval Background - Behind everything */}
         <motion.div
           animate={{
-            width: menuOpen ? 280 : 56,
-            borderRadius: menuOpen ? 999 : 16
+            width: menuOpen ? 280 : 0,
           }}
           transition={{
             duration: 0.6,
             ease: [0.76, 0, 0.24, 1]
           }}
-          className="absolute right-0 top-0 h-14 bg-black"
+          className="absolute right-14 top-0 h-14 bg-black rounded-full"
           style={{ originX: 1 }}
         />
-
-        {/* Click Area */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="absolute right-0 w-14 h-14 flex items-center justify-center z-50"
-        >
-          <div className="grid grid-cols-2 gap-1.5">
-            {[0, 1, 2, 3].map((i) => (
-              <motion.span
-                key={i}
-                animate={{
-                  backgroundColor: menuOpen ? "#ffffff" : "#000000"
-                }}
-                transition={{ duration: 0.3 }}
-                className="w-2.5 h-2.5 rounded-sm"
-              />
-            ))}
-          </div>
-        </button>
 
         {/* Menu Items */}
         {menuOpen && (
@@ -96,7 +76,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.25 }}
-            className="absolute right-16 top-1/2 -translate-y-1/2 flex gap-8 z-50"
+            className="absolute right-16 top-1/2 -translate-y-1/2 flex gap-8 z-40"
           >
             {["Home", "Projects", "Contact"].map((item, i) => (
               <motion.span
@@ -111,6 +91,25 @@ export default function Navbar() {
             ))}
           </motion.div>
         )}
+
+        {/* Click Area with 4 boxes - Always on top */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="relative w-14 h-14 flex items-center justify-center z-50 bg-white rounded-2xl"
+        >
+          <div className="grid grid-cols-2 gap-1.5">
+            {[0, 1, 2, 3].map((i) => (
+              <motion.span
+                key={i}
+                animate={{
+                  backgroundColor: menuOpen ? "#ffffff" : "#000000"
+                }}
+                transition={{ duration: 0.3 }}
+                className="w-2.5 h-2.5 rounded-sm bg-black"
+              />
+            ))}
+          </div>
+        </button>
 
       </div>
     </nav>
