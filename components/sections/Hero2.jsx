@@ -85,9 +85,9 @@ export default function Home() {
           <div className="flex flex-col justify-center">
 
             <div className="leading-[0.8] tracking-[-0.04em]">
-              <h1 className="font-black text-[18vw] lg:text-[9vw]">ROHAN</h1>
-              <h1 className="font-black text-[18vw] lg:text-[9vw]">SINGH</h1>
-              <h1 className="font-black text-[18vw] lg:text-[9vw]">NEGI</h1>
+              <h1 className="font-bold text-[18vw] lg:text-[10vw]">ROHAN</h1>
+              <h1 className="font-bold text-[18vw] lg:text-[10vw]">SINGH</h1>
+              <h1 className="font-bold text-[18vw] lg:text-[10vw]">NEGI</h1>
             </div>
 
             {/* Email */}
@@ -113,7 +113,7 @@ export default function Home() {
 
           {/* RIGHT SIDE (unchanged) */}
           <div className="flex flex-col items-center lg:items-end space-y-10">
-            <div className="relative w-52 h-52 md:w-60 md:h-60 lg:w-72 lg:h-72">
+            <div className="relative w-52 h-52 md:w-60 md:h-60 lg:w-60 lg:h-60">
               <div className="absolute inset-0 bg-gray-300 rounded-full blur-2xl opacity-20"></div>
               <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg border border-gray-200">
                 <Image
@@ -128,9 +128,9 @@ export default function Home() {
 
             <div className="max-w-md lg:max-w-lg">
               <p className="text-[1.3rem] md:text-[1.5rem] lg:text-[1.7rem] leading-[1.5] 
-                            text-gray-900 font-light text-center lg:text-right">
-                Cinematic storytelling through motion and light.<br />
-                Precision editing. Refined color. Impactful visuals.<br />
+                            text-gray-900 font-medium text-center lg:text-right">
+                Cinematic storytelling through motion and light.
+                Precision editing. Refined color. Impactful visuals.
                 Exploring the future of 3D with Unreal Engine.
               </p>
             </div>
