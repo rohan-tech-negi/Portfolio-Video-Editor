@@ -462,7 +462,7 @@ export default function ProjectsSection() {
                 playsInline
                 onClick={handleVideoToggle}
               >
-                <source src="/StarWars.mp4" type="video/mp4" />
+                <source src="/craft.mp4" type="video/mp4" />
               </video>
               
               <div 
@@ -500,7 +500,7 @@ export default function ProjectsSection() {
                 playsInline
                 onClick={handleVideoToggle}
               >
-                <source src="/v1.mp4" type="video/mp4" />
+                <source src="/toh kya badla.mp4" type="video/mp4" />
               </video>
               
               <div 
