@@ -55,57 +55,46 @@ export default function Navbar() {
       </h1>
 
       {/* Right Side Container */}
-      <div className="relative w-14 h-14 flex items-center justify-end">
-
-        {/* Expanding Oval Background - Behind everything */}
-        <motion.div
-          animate={{
-            width: menuOpen ? 280 : 0,
-          }}
-          transition={{
-            duration: 0.6,
-            ease: [0.76, 0, 0.24, 1]
-          }}
-          className="absolute right-14 top-0 h-14 bg-black rounded-full"
-          style={{ originX: 1 }}
-        />
+      <div className="relative flex items-center justify-end gap-8">
 
         {/* Menu Items */}
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.25 }}
-            className="absolute right-16 top-1/2 -translate-y-1/2 flex gap-8 z-40"
-          >
-            {["Home", "Projects", "Contact"].map((item, i) => (
-              <motion.span
-                key={item}
-                initial={{ x: 20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.3 + i * 0.1 }}
-                className="text-white text-sm md:text-base font-medium cursor-pointer hover:opacity-70 transition"
-              >
-                {item}
-              </motion.span>
-            ))}
-          </motion.div>
-        )}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ 
+            opacity: menuOpen ? 1 : 0,
+            x: menuOpen ? 0 : 20
+          }}
+          transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
+          className="flex gap-8"
+          style={{ pointerEvents: menuOpen ? 'auto' : 'none' }}
+        >
+          {["Works", "About", "Contact"].map((item, i) => (
+            <motion.span
+              key={item}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: menuOpen ? 1 : 0 }}
+              transition={{ delay: menuOpen ? 0.2 + i * 0.1 : 0, duration: 0.3 }}
+              className="text-black text-sm md:text-base font-medium cursor-pointer hover:opacity-70 transition"
+            >
+              {item}
+            </motion.span>
+          ))}
+        </motion.div>
 
-        {/* Click Area with 4 boxes - Always on top */}
+        {/* Click Area with 4 boxes */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="relative w-14 h-14 flex items-center justify-center z-50 bg-white rounded-2xl"
+          className="relative w-10 h-10 flex items-center justify-center z-50"
         >
-          <div className="grid grid-cols-2 gap-1.5">
+          <div className="grid grid-cols-2 gap-1">
             {[0, 1, 2, 3].map((i) => (
               <motion.span
                 key={i}
                 animate={{
-                  backgroundColor: menuOpen ? "#ffffff" : "#000000"
+                  scale: menuOpen ? 0.8 : 1
                 }}
                 transition={{ duration: 0.3 }}
-                className="w-2.5 h-2.5 rounded-sm bg-black"
+                className="w-2 h-2 rounded-sm bg-black"
               />
             ))}
           </div>
