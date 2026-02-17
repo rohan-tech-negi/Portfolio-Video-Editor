@@ -1104,20 +1104,25 @@ export default function ProjectsSection() {
             {/* "Projects" — split text */}
             
 
-              <SplitText
-  text="Hello, you!"
-  className="text-2xl font-semibold text-center"
-  delay={50}
-  duration={1.25}
-  ease="power3.out"
-  splitType="chars"
-  from={{ opacity: 0, y: 40 }}
-  to={{ opacity: 1, y: 0 }}
-  threshold={0.1}
-  rootMargin="-100px"
-  textAlign="center"
-  
-/>
+             <h2 
+  className="font-semibold text-white text-center w-fit mx-auto font-display"
+  style={{ 
+    fontSize: 'clamp(4rem, 6vw, 15rem)', 
+    lineHeight: 1,
+    letterSpacing: '-0.02em'
+  }}
+>
+  <SplitText
+    text="My work"
+    splitType="chars"
+    from={{ opacity: 0, y: 50 }}
+    to={{ opacity: 1, y: 0 }}
+    duration={1.25}
+    stagger={0.05}
+    ease="power3.out"
+  />
+</h2>
+
               
 
           </div>
