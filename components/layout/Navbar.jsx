@@ -42,6 +42,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
+import Link from "next/link"
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -99,17 +100,27 @@ export default function Navbar() {
           className="flex gap-8"
           style={{ pointerEvents: menuOpen ? 'auto' : 'none' }}
         >
-          {["Works", "About", "Contact"].map((item, i) => (
-            <motion.span
-              key={item}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: menuOpen ? 1 : 0 }}
-              transition={{ delay: menuOpen ? 0.2 + i * 0.1 : 0, duration: 0.3 }}
-              className="text-black text-sm md:text-base font-medium cursor-pointer hover:opacity-70 transition"
-            >
-              {item}
-            </motion.span>
-          ))}
+          {["Work", "Contact"].map((item, i) => {
+  const href = item === "Contact" ? "/contact" : "/"
+
+  return (
+    <motion.div
+      key={item}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: menuOpen ? 1 : 0 }}
+      transition={{ delay: menuOpen ? 0.2 + i * 0.1 : 0, duration: 0.3 }}
+    >
+      <Link
+        href={href}
+        className="text-black text-sm md:text-base font-medium cursor-pointer hover:opacity-70 transition"
+        onClick={() => setMenuOpen(false)}
+      >
+        {item}
+      </Link>
+    </motion.div>
+  )
+})}
+
         </motion.div>
 
         {/* Click Area with 4 boxes */}
