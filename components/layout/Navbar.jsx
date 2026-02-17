@@ -47,7 +47,6 @@ import Link from "next/link"
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
-  // Animation variants
   const logoVariants = {
     hidden: { opacity: 0, y: -50 },
     visible: {
@@ -76,15 +75,17 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-6 bg-[#f5f5f5] border-b">
 
-      {/* Logo */}
-      <motion.h1
-        initial="hidden"
-        animate="visible"
-        variants={logoVariants}
-        className="text-lg md:text-xl font-bold tracking-wider"
-      >
-        ROHAN
-      </motion.h1>
+      {/* Logo → Home Route */}
+      <Link href="/" onClick={() => setMenuOpen(false)}>
+        <motion.h1
+          initial="hidden"
+          animate="visible"
+          variants={logoVariants}
+          className="text-lg md:text-xl font-bold tracking-wider cursor-pointer"
+        >
+          ROHAN
+        </motion.h1>
+      </Link>
 
       {/* Right Side Container */}
       <div className="relative flex items-center justify-end gap-8">
@@ -92,7 +93,7 @@ export default function Navbar() {
         {/* Menu Items */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
-          animate={{ 
+          animate={{
             opacity: menuOpen ? 1 : 0,
             x: menuOpen ? 0 : 20
           }}
@@ -101,26 +102,33 @@ export default function Navbar() {
           style={{ pointerEvents: menuOpen ? 'auto' : 'none' }}
         >
           {["Work", "Contact"].map((item, i) => {
-  const href = item === "Contact" ? "/contact" : "/"
+            const href =
+              item === "Contact"
+                ? "/contact"
+                : item === "Work"
+                ? "/work"
+                : "/"
 
-  return (
-    <motion.div
-      key={item}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: menuOpen ? 1 : 0 }}
-      transition={{ delay: menuOpen ? 0.2 + i * 0.1 : 0, duration: 0.3 }}
-    >
-      <Link
-        href={href}
-        className="text-black text-sm md:text-base font-medium cursor-pointer hover:opacity-70 transition"
-        onClick={() => setMenuOpen(false)}
-      >
-        {item}
-      </Link>
-    </motion.div>
-  )
-})}
-
+            return (
+              <motion.div
+                key={item}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: menuOpen ? 1 : 0 }}
+                transition={{
+                  delay: menuOpen ? 0.2 + i * 0.1 : 0,
+                  duration: 0.3
+                }}
+              >
+                <Link
+                  href={href}
+                  className="text-black text-sm md:text-base font-medium cursor-pointer hover:opacity-70 transition"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </Link>
+              </motion.div>
+            )
+          })}
         </motion.div>
 
         {/* Click Area with 4 boxes */}
