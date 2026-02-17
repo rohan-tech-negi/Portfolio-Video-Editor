@@ -24,7 +24,7 @@ const HomePage = () => {
         <ToolBox></ToolBox>
         <ContactSection></ContactSection>
         {/* <AboutSection></AboutSection> */}
-        <ContactReport></ContactReport>
+        {/* <ContactReport></ContactReport> */}
         
         
     </>
