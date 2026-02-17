@@ -969,6 +969,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Play, Pause, ArrowUpRight } from 'lucide-react';
+// import SplitText from 'gsap/SplitText.js';
+import SplitText from '../SplitText';
 
 /* ─── tiny hook: fires once when element enters viewport ─── */
 function useInView(ref, threshold = 0.15) {
@@ -987,31 +989,7 @@ function useInView(ref, threshold = 0.15) {
 }
 
 /* ─── SplitText: wraps each word in a masked span ─── */
-function SplitText({ text, inView, baseDelay = 0, stagger = 60, className = '' }) {
-  return (
-    <span className={className} aria-label={text} style={{ display: 'inline-block' }}>
-      {text.split(' ').map((word, i) => (
-        <span
-          key={i}
-          style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom' }}
-        >
-          <span
-            style={{
-              display: 'inline-block',
-              transform: inView ? 'translateY(0)' : 'translateY(110%)',
-              opacity: inView ? 1 : 0,
-              transition: `transform 0.75s cubic-bezier(0.16,1,0.3,1) ${baseDelay + i * stagger}ms,
-                           opacity 0.55s ease ${baseDelay + i * stagger}ms`,
-            }}
-          >
-            {word}
-            {i < text.split(' ').length - 1 ? '\u00A0' : ''}
-          </span>
-        </span>
-      ))}
-    </span>
-  );
-}
+
 
 /* ─── ScaleReveal: scale 50→100 + fade ─── */
 function ScaleReveal({ children, inView, delay = 0, className = '', style = {} }) {
@@ -1124,9 +1102,24 @@ export default function ProjectsSection() {
             </div>
 
             {/* "Projects" — split text */}
-            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-light text-white leading-none tracking-tight">
-              <SplitText text="Projects" inView={inView} baseDelay={120} stagger={80} />
-            </h1>
+            
+
+              <SplitText
+  text="Hello, you!"
+  className="text-2xl font-semibold text-center"
+  delay={50}
+  duration={1.25}
+  ease="power3.out"
+  splitType="chars"
+  from={{ opacity: 0, y: 40 }}
+  to={{ opacity: 1, y: 0 }}
+  threshold={0.1}
+  rootMargin="-100px"
+  textAlign="center"
+  
+/>
+              
+
           </div>
 
           {/* Right — "View More" split text */}
