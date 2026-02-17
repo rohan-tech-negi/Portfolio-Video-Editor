@@ -4,7 +4,7 @@ import { useState, ChangeEvent, FormEvent } from 'react';
 import { FaXTwitter, FaInstagram, FaBehance } from 'react-icons/fa6';
 import { SiDribbble } from 'react-icons/si';
 
-export default function AboutSection() {
+export default function ContactReport() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',

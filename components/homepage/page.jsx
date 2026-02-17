@@ -7,6 +7,7 @@ import AboutSection from '../contact/page'
 import ProjectsSection from '../herosection/ProjectShowCase'
 import ProjectsSection1 from '../herosection/ProjectShowCase2'
 import Home from '../sections/Hero2'
+import ContactReport from '../contact/page'
 // import Contact from '../sections/Contact'
 // import Projects from '../sections/Projects'
 // import LandingSection from '../landingsection/page'
@@ -22,7 +23,8 @@ const HomePage = () => {
         <ProjectsSection1></ProjectsSection1>
         <ToolBox></ToolBox>
         <ContactSection></ContactSection>
-        <AboutSection></AboutSection>
+        {/* <AboutSection></AboutSection> */}
+        <ContactReport></ContactReport>
         
         
     </>
