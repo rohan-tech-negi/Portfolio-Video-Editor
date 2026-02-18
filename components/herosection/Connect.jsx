@@ -119,6 +119,7 @@ import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { FaXTwitter, FaInstagram, FaBehance } from 'react-icons/fa6';
 import { SiDribbble } from 'react-icons/si';
+import { TypewriterOnScroll } from '../common/TypeWritter';
 
 export default function ContactSection() {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
@@ -173,7 +174,10 @@ export default function ContactSection() {
         <div className="mb-16">
           <div className="flex items-center gap-2 mb-6">
             <div className="w-2 h-2 rounded-full bg-lime-400" />
-            <span className="text-xl font-medium text-white">[03] — Connect me</span>
+            <TypewriterOnScroll
+                text="[03] — Connect me"
+  className="text-xl font-medium text-white"
+            ></TypewriterOnScroll>
           </div>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-medium text-white leading-tight">
             My Social Profiles
