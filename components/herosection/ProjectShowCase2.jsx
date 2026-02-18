@@ -971,6 +971,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Play, Pause, ArrowUpRight } from 'lucide-react';
 // import SplitText from 'gsap/SplitText.js';
 import SplitText from '../SplitText';
+import { TypewriterOnScroll } from '../common/TypeWritter';
 
 /* ─── tiny hook: fires once when element enters viewport ─── */
 function useInView(ref, threshold = 0.15) {
@@ -1096,9 +1097,12 @@ export default function ProjectsSection() {
               }}
             >
               <div className="w-2 h-2 rounded-full bg-lime-400" />
-              <span className="text-sm font-medium text-gray-400 tracking-wide">
-                [02] — MY WORK
-              </span>
+            <TypewriterOnScroll
+            text="[01] — My Projects"
+  className="text-xl font-medium text-white"
+            >
+
+            </TypewriterOnScroll>
             </div>
 
             {/* "Projects" — split text */}

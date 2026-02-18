@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./ToolBox.css";
+import { TypewriterOnScroll } from "../common/TypeWritter";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -47,9 +48,12 @@ export default function ToolBox() {
       <div ref={textRef} className="toolbox-text">
         <div className="flex items-center gap-2 mb-8">
           <div className="w-2 h-2 rounded-full bg-lime-400" /> {/* Self-closing */}
-          <span className="text-xl font-medium text-gray-600">
-            [02] - Tools & Skills 
-          </span>
+          <TypewriterOnScroll
+          text="[02] — Tools & Skills"
+  className="text-xl font-medium text-black"
+          >
+
+          </TypewriterOnScroll>
         </div>
         <h1 className="toolbox-title text-black">My Creative Toolbox</h1>
       </div>
