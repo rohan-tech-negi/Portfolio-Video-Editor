@@ -176,7 +176,7 @@ export default function ContactSection() {
             <span className="text-xl font-medium text-white">[03] — Connect me</span>
           </div>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-medium text-white leading-tight">
-            I'm all over the internet
+            My Social Profiles
           </h1>
         </div>
 
