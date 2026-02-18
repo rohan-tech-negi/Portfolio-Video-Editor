@@ -16,7 +16,6 @@ export default function Home() {
     setTimeout(() => setEmailCopied(false), 2000)
   }
 
-  // Track mouse position with smooth interpolation
   useEffect(() => {
     let animationFrameId
     let targetPosition = { x: 0, y: 0 }
@@ -25,7 +24,6 @@ export default function Home() {
 
     const move = (e) => {
       targetPosition = { x: e.clientX, y: e.clientY }
-      
       if (!isInitialized) {
         currentPosition = { x: e.clientX, y: e.clientY }
         setPosition({ x: e.clientX, y: e.clientY })
@@ -36,12 +34,7 @@ export default function Home() {
     const animate = () => {
       currentPosition.x += (targetPosition.x - currentPosition.x) * 0.15
       currentPosition.y += (targetPosition.y - currentPosition.y) * 0.15
-
-      setPosition({
-        x: currentPosition.x,
-        y: currentPosition.y
-      })
-
+      setPosition({ x: currentPosition.x, y: currentPosition.y })
       animationFrameId = requestAnimationFrame(animate)
     }
 
@@ -52,13 +45,10 @@ export default function Home() {
 
     return () => {
       window.removeEventListener('mousemove', move)
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId)
-      }
+      if (animationFrameId) cancelAnimationFrame(animationFrameId)
     }
   }, [showCursor])
 
-  // Animation variants
   const nameVariants = {
     hidden: { opacity: 0, y: 100 },
     visible: (i) => ({
@@ -117,13 +107,13 @@ export default function Home() {
       )}
 
       {/* Hero Section */}
-      <section className="min-h-screen px-6 md:px-12 lg:px-16 flex items-center">
-        <div className="w-full max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
+      {/* pt-24 offsets the fixed navbar (~80px tall) so ROHAN isn't hidden behind it */}
+      <section className="min-h-screen pt-24 pb-16 px-6 md:px-12 lg:px-16 flex items-center">
+        <div className="w-full max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-16 lg:gap-12">
 
-          {/* LEFT SIDE */}
+          {/* LEFT SIDE — Name + Email */}
           <div className="flex flex-col justify-center overflow-hidden">
-
-            <div className="leading-[0.8] tracking-[-0.04em]">
+            <div className="leading-[0.85] tracking-[-0.04em]">
               {['ROHAN', 'SINGH', 'NEGI'].map((name, i) => (
                 <motion.h1
                   key={name}
@@ -157,23 +147,22 @@ export default function Home() {
               </button>
 
               {emailCopied && (
-                <p className="text-sm text-gray-500 mt-2">
-                  Copied to clipboard!
-                </p>
+                <p className="text-sm text-gray-500 mt-2">Copied to clipboard!</p>
               )}
             </motion.div>
           </div>
 
-          {/* RIGHT SIDE */}
-          <div className="flex flex-col items-center lg:items-end space-y-10">
-            {/* Profile Image with Scale Animation */}
+          {/* RIGHT SIDE — Image + Description */}
+          {/* On mobile: add top margin to separate it from the name block */}
+          <div className="flex flex-col items-center lg:items-end space-y-10 mt-4 lg:mt-0">
+
             <motion.div
               initial="hidden"
               animate="visible"
               variants={imageVariants}
               className="relative w-52 h-52 md:w-60 md:h-60 lg:w-60 lg:h-60"
             >
-              <div className="absolute inset-0 bg-gray-300 rounded-full blur-2xl opacity-20"></div>
+              <div className="absolute inset-0 bg-gray-300 rounded-full blur-2xl opacity-20" />
               <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg border border-gray-200">
                 <Image
                   src="/profile.jpg"
@@ -185,7 +174,6 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Description Text */}
             <motion.div
               initial="hidden"
               animate="visible"

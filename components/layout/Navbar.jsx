@@ -52,10 +52,7 @@ export default function Navbar() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.6, 0.05, 0.01, 0.9]
-      }
+      transition: { duration: 0.8, ease: [0.6, 0.05, 0.01, 0.9] }
     }
   }
 
@@ -64,18 +61,14 @@ export default function Navbar() {
     visible: {
       scale: 1,
       opacity: 1,
-      transition: {
-        duration: 0.6,
-        delay: 0.3,
-        ease: [0.6, 0.05, 0.01, 0.9]
-      }
+      transition: { duration: 0.6, delay: 0.3, ease: [0.6, 0.05, 0.01, 0.9] }
     }
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-6 bg-[#f5f5f5] border-b">
+    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-14 md:px-12 py-6 bg-[#f5f5f5] border-b">
 
-      {/* Logo → Home Route */}
+      {/* Logo */}
       <Link href="/" onClick={() => setMenuOpen(false)}>
         <motion.h1
           initial="hidden"
@@ -87,41 +80,34 @@ export default function Navbar() {
         </motion.h1>
       </Link>
 
-      {/* Right Side Container */}
-      <div className="relative flex items-center justify-end gap-8">
+      {/* Right side: button always anchored to the right */}
+      <div className="flex items-center gap-6">
 
-        {/* Menu Items */}
+        {/* Menu items — absolutely positioned so they never push the button */}
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
           animate={{
             opacity: menuOpen ? 1 : 0,
-            x: menuOpen ? 0 : 20
+            x: menuOpen ? 0 : 16,
           }}
           transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
-          className="flex gap-8"
-          style={{ pointerEvents: menuOpen ? 'auto' : 'none' }}
+          style={{ pointerEvents: menuOpen ? "auto" : "none" }}
+          className="flex gap-6"
         >
           {["Work", "Contact"].map((item, i) => {
-            const href =
-              item === "Contact"
-                ? "/contact"
-                : item === "Work"
-                ? "/work"
-                : "/"
+            const href = item === "Contact" ? "/contact" : item === "Work" ? "/work" : "/"
 
             return (
               <motion.div
                 key={item}
-                initial={{ opacity: 0 }}
                 animate={{ opacity: menuOpen ? 1 : 0 }}
                 transition={{
-                  delay: menuOpen ? 0.2 + i * 0.1 : 0,
-                  duration: 0.3
+                  delay: menuOpen ? 0.15 + i * 0.1 : 0,
+                  duration: 0.3,
                 }}
               >
                 <Link
                   href={href}
-                  className="text-black text-sm md:text-base font-medium cursor-pointer hover:opacity-70 transition"
+                  className="text-black text-sm md:text-base font-medium hover:opacity-70 transition whitespace-nowrap"
                   onClick={() => setMenuOpen(false)}
                 >
                   {item}
@@ -131,23 +117,22 @@ export default function Navbar() {
           })}
         </motion.div>
 
-        {/* Click Area with 4 boxes */}
+        {/* 4-box button — always visible, always rightmost */}
         <motion.button
           initial="hidden"
           animate="visible"
           variants={boxContainerVariants}
           onClick={() => setMenuOpen(!menuOpen)}
-          className="relative w-10 h-10 flex items-center justify-center z-50"
+          className="relative w-10 h-10 flex items-center justify-center z-50 flex-shrink-0"
+          aria-label="Toggle menu"
         >
           <div className="grid grid-cols-2 gap-1">
             {[0, 1, 2, 3].map((i) => (
               <motion.span
                 key={i}
-                animate={{
-                  scale: menuOpen ? 0.8 : 1
-                }}
+                animate={{ scale: menuOpen ? 0.7 : 1 }}
                 transition={{ duration: 0.3 }}
-                className="w-2 h-2 rounded-sm bg-black"
+                className="w-2 h-2 rounded-sm bg-black block"
               />
             ))}
           </div>
