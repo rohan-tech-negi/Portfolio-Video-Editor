@@ -120,6 +120,7 @@ import { ArrowRight } from 'lucide-react';
 import { FaXTwitter, FaInstagram, FaBehance } from 'react-icons/fa6';
 import { SiDribbble } from 'react-icons/si';
 import { TypewriterOnScroll } from '../common/TypeWritter';
+import SplitText from '../SplitText';
 
 export default function ContactSection() {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
@@ -179,9 +180,22 @@ export default function ContactSection() {
   className="text-xl font-medium text-white"
             ></TypewriterOnScroll>
           </div>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-medium text-white leading-tight">
-            My Social Profiles
-          </h1>
+          <SplitText
+            text="My Social Profiles"
+  className="text-7xl font-semibold text-center text-white pb-4"
+  delay={50}
+  duration={1.25}
+  ease="power3.out"
+  splitType="chars"
+  from={{ opacity: 0, y: 40 }}
+  to={{ opacity: 1, y: 0 }}
+  threshold={0.1}
+  rootMargin="-100px"
+  textAlign="center"
+
+          >
+            
+          </SplitText>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

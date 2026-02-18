@@ -1116,7 +1116,8 @@ export default function ProjectsSection() {
     letterSpacing: '-0.02em'
   }}
 >
-  <SplitText
+  <SplitText 
+  className='pb-4'
     text="My work"
     splitType="chars"
     from={{ opacity: 0, y: 50 }}
