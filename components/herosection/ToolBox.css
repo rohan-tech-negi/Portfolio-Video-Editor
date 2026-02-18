@@ -1,7 +1,6 @@
 :root {
   --cards: 4;
   --cardHeight: 30vh;
-  /* --cardTopPadding: 0em; */
   --cardMargin: 4vw;
 }
 
@@ -51,18 +50,15 @@
 }
 
 /* ===== SVG LOGO CONTAINER ===== */
-/* Logo container */
 .logo-wrapper {
   width: 70px;
   height: 70px;
   flex-shrink: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Force all logos to behave the same */
 .logo-wrapper img {
   width: 100%;
   height: 100%;
@@ -70,8 +66,6 @@
   display: block;
 }
 
-
-/* Optional: If you want to control SVG colors */
 .logo-wrapper svg {
   fill: currentColor;
   stroke: currentColor;
@@ -124,6 +118,7 @@
   font-weight: 600;
 }
 
+/* ===== DESKTOP CARD STACK ===== */
 #cards {
   list-style: none;
   padding-left: 0;
@@ -135,21 +130,10 @@
   margin-bottom: var(--cardMargin);
 }
 
-#card1 {
-  --index: 1;
-}
-
-#card2 {
-  --index: 2;
-}
-
-#card3 {
-  --index: 3;
-}
-
-#card4 {
-  --index: 4;
-}
+#card1 { --index: 1; }
+#card2 { --index: 2; }
+#card3 { --index: 3; }
+#card4 { --index: 4; }
 
 .card {
   position: sticky;
@@ -157,34 +141,145 @@
   padding-top: calc(var(--index) * var(--cardTopPadding));
 }
 
-#card1 .card-body {
-  background-color: white;
-}
-
-#card2 .card-body {
-  background-color: white;
-}
-
-#card3 .card-body {
-  background-color: white;
-}
-
-#card4 .card-body {
-  background-color: white;
-}
-
 .card-body {
   box-sizing: border-box;
   padding: 30px;
   border-radius: 12px;
   filter: drop-shadow();
-  /* box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1); */
   height: var(--cardHeight);
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: white;
 }
 
 h2 {
   font-size: 2.5em;
+}
+
+/* ===================================================
+   MOBILE STYLES (max-width: 768px)
+   - Stack layout vertically
+   - Disable sticky stacking cards (too cramped)
+   - Auto height cards so text isn't clipped
+   - Touch-friendly spacing
+=================================================== */
+@media (max-width: 768px) {
+
+  /* Stack the whole section vertically */
+  .toolbox-wrapper {
+    flex-direction: column;
+    padding: 8vh 5vw;
+    gap: 0;
+  }
+
+  /* Text block: full width, no sticky, centered */
+  .toolbox-text {
+    position: static;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 10vw;
+    text-align: left;
+  }
+
+  .toolbox-title {
+    font-size: 3rem;
+    line-height: 1.1;
+  }
+
+  /* Cards container: full width */
+  .container {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* Cards list: simple vertical stack, auto height */
+  #cards {
+    grid-template-rows: unset;   /* Remove fixed 30vh rows */
+    gap: 16px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  /* Disable sticky stacking on mobile — just normal scroll */
+  .card {
+    position: static;
+    padding-top: 0;
+  }
+
+  /* Auto height so content never gets clipped */
+  .card-body {
+    height: auto;
+    min-height: 140px;
+    padding: 24px 20px;
+    border-radius: 16px;
+    align-items: flex-start;
+  }
+
+  /* Skill card: keep row layout but tighter */
+  .skill-card {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  /* Smaller logo on mobile */
+  .logo-wrapper {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .skill-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+  }
+
+  .skill-content p {
+    font-size: 0.85rem;
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+/* Slightly larger phones / small tablets (768px–1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .toolbox-wrapper {
+    flex-direction: column;
+    padding: 8vh 6vw;
+  }
+
+  .toolbox-text {
+    position: static;
+    max-width: 100%;
+    margin-bottom: 6vw;
+  }
+
+  .toolbox-title {
+    font-size: 4rem;
+  }
+
+  .container {
+    width: 100%;
+    margin: 0;
+  }
+
+  #cards {
+    grid-template-rows: unset;
+    gap: 20px;
+  }
+
+  .card {
+    position: static;
+    padding-top: 0;
+  }
+
+  .card-body {
+    height: auto;
+    min-height: 160px;
+    padding: 28px 24px;
+    align-items: flex-start;
+  }
 }

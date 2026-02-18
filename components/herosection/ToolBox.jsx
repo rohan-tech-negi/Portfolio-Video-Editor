@@ -12,48 +12,53 @@ export default function ToolBox() {
   const cardsRef = useRef([]);
 
   useEffect(() => {
-  const ctx = gsap.context(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 70%",
-        end: "bottom 60%",
-        toggleActions: "play none none reverse",
-        markers: false, // set true for debugging
-      },
-    });
+    const isMobile = window.innerWidth <= 768;
 
-    tl.from(textRef.current, {
-      x: -80,
-      opacity: 0,
-      duration: 1,
-      ease: "power3.out",
-    })
-    .from(cardsRef.current, {
-      x: 80,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.2,
-      ease: "power3.out",
-    }, "-=0.5");
-  }, sectionRef);
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%",
+          end: "bottom 60%",
+          toggleActions: "play none none reverse",
+          markers: false,
+        },
+      });
 
-  return () => ctx.revert();
-}, []);
+      // On mobile: fade + slide up instead of left/right (fits single column better)
+      tl.from(textRef.current, {
+        x: isMobile ? 0 : -80,
+        y: isMobile ? 30 : 0,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+      }).from(
+        cardsRef.current,
+        {
+          x: isMobile ? 0 : 80,
+          y: isMobile ? 40 : 0,
+          opacity: 0,
+          duration: 0.8,
+          stagger: isMobile ? 0.12 : 0.2,
+          ease: "power3.out",
+        },
+        "-=0.5"
+      );
+    }, sectionRef);
 
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section ref={sectionRef} className="toolbox-wrapper bg-white">
       {/* LEFT TEXT */}
       <div ref={textRef} className="toolbox-text">
         <div className="flex items-center gap-2 mb-8">
-          <div className="w-2 h-2 rounded-full bg-lime-400" /> {/* Self-closing */}
+          <div className="w-2 h-2 rounded-full bg-lime-400" />
           <TypewriterOnScroll
-          text="[02] — Tools & Skills"
-  className="text-xl font-medium text-black"
-          >
-
-          </TypewriterOnScroll>
+            text="[02] — Tools & Skills"
+            className="text-xl font-medium text-black"
+          />
         </div>
         <h1 className="toolbox-title text-black">My Creative Toolbox</h1>
       </div>
@@ -69,7 +74,9 @@ export default function ToolBox() {
               <div className="skill-content">
                 <h3>Adobe Premiere Pro</h3>
                 <p>
-                  Premiere Pro is my go-to for professional video editing—combining precision, speed, and seamless integration. It lets me craft cinematic stories with powerful tools for editing, color grading, and audio—all in one fluid workflow.
+                  Premiere Pro is my go-to for professional video editing—combining precision,
+                  speed, and seamless integration. It lets me craft cinematic stories with
+                  powerful tools for editing, color grading, and audio—all in one fluid workflow.
                 </p>
               </div>
             </div>
@@ -83,7 +90,9 @@ export default function ToolBox() {
               <div className="skill-content">
                 <h3>Adobe After Effects</h3>
                 <p>
-                  After Effects is where motion comes alive—my essential tool for dynamic animations, visual effects, and compositing. Its deep integration with Adobe apps streamlines everything from kinetic typography to complex VFX.
+                  After Effects is where motion comes alive—my essential tool for dynamic
+                  animations, visual effects, and compositing. Its deep integration with Adobe
+                  apps streamlines everything from kinetic typography to complex VFX.
                 </p>
               </div>
             </div>
@@ -97,7 +106,9 @@ export default function ToolBox() {
               <div className="skill-content">
                 <h3>Adobe Illustrator</h3>
                 <p>
-                  Illustrator powers my vector creativity—perfect for designing logos, icons, and graphics with crisp precision. Its clean, scalable output ensures every visual element shines across any medium.
+                  Illustrator powers my vector creativity—perfect for designing logos, icons,
+                  and graphics with crisp precision. Its clean, scalable output ensures every
+                  visual element shines across any medium.
                 </p>
               </div>
             </div>
@@ -111,7 +122,9 @@ export default function ToolBox() {
               <div className="skill-content">
                 <h3>DaVinci Resolve</h3>
                 <p>
-                  DaVinci Resolve is my color grading powerhouse—offering Hollywood-grade correction, editing, and finishing in one suite. Its node-based workflow gives me unmatched control over mood, tone, and cinematic look.
+                  DaVinci Resolve is my color grading powerhouse—offering Hollywood-grade
+                  correction, editing, and finishing in one suite. Its node-based workflow gives
+                  me unmatched control over mood, tone, and cinematic look.
                 </p>
               </div>
             </div>
