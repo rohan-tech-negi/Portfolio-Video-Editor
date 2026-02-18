@@ -115,7 +115,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { FaXTwitter, FaInstagram, FaBehance } from 'react-icons/fa6';
 import { SiDribbble } from 'react-icons/si';
@@ -125,6 +125,8 @@ import SplitText from '../SplitText';
 export default function ContactSection() {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [hasRevealed, setHasRevealed] = useState(false);
+  const sectionRef = useRef(null);
 
   const socialLinks = [
     {
@@ -160,11 +162,26 @@ export default function ContactSection() {
     },
   ];
 
+  // Trigger reveal once when grid enters viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasRevealed) {
+          setHasRevealed(true);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, [hasRevealed]);
+
   const handleMouseMove = (e) => {
     requestAnimationFrame(() => {
       setCursorPosition({
         x: e.clientX,
-        y: e.clientY
+        y: e.clientY,
       });
     });
   };
@@ -176,57 +193,80 @@ export default function ContactSection() {
           <div className="flex items-center gap-2 mb-6">
             <div className="w-2 h-2 rounded-full bg-lime-400" />
             <TypewriterOnScroll
-                text="[03] — Connect me"
-  className="text-xl font-medium text-white"
-            ></TypewriterOnScroll>
+              text="[03] — Connect me"
+              className="text-xl font-medium text-white"
+            />
           </div>
           <SplitText
             text="My Social Profiles"
-  className="text-7xl font-semibold text-center text-white pb-4"
-  delay={50}
-  duration={1.25}
-  ease="power3.out"
-  splitType="chars"
-  from={{ opacity: 0, y: 40 }}
-  to={{ opacity: 1, y: 0 }}
-  threshold={0.1}
-  rootMargin="-100px"
-  textAlign="center"
-
-          >
-            
-          </SplitText>
+            className="text-7xl font-semibold text-center text-white pb-4"
+            delay={50}
+            duration={1.25}
+            ease="power3.out"
+            splitType="chars"
+            from={{ opacity: 0, y: 40 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0.1}
+            rootMargin="-100px"
+            textAlign="center"
+          />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {socialLinks.map((social) => {
+        {/* Grid — observed for scroll trigger */}
+        <div ref={sectionRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {socialLinks.map((social, index) => {
             const IconComponent = social.icon;
-            
-            // CTA Card
+
+            const cardContent = (
+              <div className="flex flex-col justify-between h-48">
+                <h3 className={`text-xl font-medium ${social.isCta ? 'text-gray-900' : 'text-gray-900'}`}>
+                  {social.platform}
+                </h3>
+                <div className="flex justify-end">
+                  {social.isCta ? (
+                    <IconComponent className="w-7 h-7 text-gray-900 group-hover:translate-x-1 transition-transform duration-300" />
+                  ) : (
+                    <div className="bg-lime-400 rounded-full p-3 group-hover:scale-110 transition-transform duration-300">
+                      <IconComponent className="w-5 h-5 text-gray-900" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+
+            // Shared mask wrapper — overflow hidden clips the upward-sliding content
+            const maskStyle = {
+              overflow: 'hidden',
+              borderRadius: 'inherit',
+            };
+
+            // Inner content starts off-screen (translateY 100%) and slides up
+            const innerStyle = {
+              transform: hasRevealed ? 'translateY(0%)' : 'translateY(105%)',
+              transition: hasRevealed
+                ? `transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.12}s`
+                : 'none',
+            };
+
             if (social.isCta) {
               return (
                 <a
                   key={social.id}
                   href={social.link}
-                  className="group bg-lime-400 rounded-3xl p-8 hover:bg-lime-500 hover:shadow-md transition-all duration-300"
+                  className="group bg-lime-400 rounded-3xl p-8 hover:bg-lime-500 hover:shadow-md transition-colors duration-300"
                   style={{ cursor: hoveredCard === social.id ? 'none' : 'pointer' }}
                   onMouseEnter={() => setHoveredCard(social.id)}
                   onMouseLeave={() => setHoveredCard(null)}
                   onMouseMove={handleMouseMove}
                 >
-                  <div className="flex flex-col justify-between h-48">
-                    <h3 className="text-xl font-medium text-gray-900">
-                      {social.platform}
-                    </h3>
-                    <div className="flex justify-end">
-                      <IconComponent className="w-7 h-7 text-gray-900 group-hover:translate-x-1 transition-transform duration-300" />
-                    </div>
+                  {/* Mask wrapper */}
+                  <div style={maskStyle}>
+                    <div style={innerStyle}>{cardContent}</div>
                   </div>
                 </a>
               );
             }
-            
-            // Standard social cards
+
             return (
               <a
                 key={social.id}
@@ -239,15 +279,9 @@ export default function ContactSection() {
                 onMouseLeave={() => setHoveredCard(null)}
                 onMouseMove={handleMouseMove}
               >
-                <div className="flex flex-col justify-between h-48">
-                  <h3 className="text-xl font-medium text-gray-900">
-                    {social.platform}
-                  </h3>
-                  <div className="flex justify-end">
-                    <div className="bg-lime-400 rounded-full p-3 group-hover:scale-110 transition-transform duration-300">
-                      <IconComponent className="w-5 h-5 text-gray-900" />
-                    </div>
-                  </div>
+                {/* Mask wrapper */}
+                <div style={maskStyle}>
+                  <div style={innerStyle}>{cardContent}</div>
                 </div>
               </a>
             );
@@ -257,7 +291,7 @@ export default function ContactSection() {
 
       {/* Custom Oval Cursor */}
       {hoveredCard && (
-        <div 
+        <div
           className="custom-cursor fixed pointer-events-none z-50"
           style={{
             left: `${cursorPosition.x}px`,
