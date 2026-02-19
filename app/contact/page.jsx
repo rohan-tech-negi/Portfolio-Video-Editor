@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { FaXTwitter, FaInstagram, FaBehance } from 'react-icons/fa6';
 import { SiDribbble } from 'react-icons/si';
+import { TypewriterOnScroll } from '@/components/common/TypeWritter';
 
 export default function ContactSection() {
   // ✅ Fixed: Removed TypeScript types, using standard JS inference
@@ -41,13 +42,13 @@ export default function ContactSection() {
   ];
 
   return (
-    <section className="w-full min-h-screen bg-[#f0f0ee] font-sans">
+    <section className="w-full min-h-screen bg-[#f5f5f5] font-sans">
       {/* Font Imports */}
-      <style>{`
+      {/* <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
         .font-display { font-family: 'Syne', sans-serif; }
         .font-body { font-family: 'DM Sans', sans-serif; }
-      `}</style>
+      `}</style> */}
 
       <div className="font-body max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         
@@ -59,11 +60,12 @@ export default function ContactSection() {
 
             {/* Tag + Heading */}
             <div>
-              <div className="tag-pill inline-flex items-center gap-1.5 bg-black text-white text-[11px] font-bold tracking-widest uppercase px-3.5 py-1.5 rounded-full mb-6 font-display">
-                <span className="text-red-500 font-extrabold">//</span>
-                Contact
-                <span className="text-red-500 font-extrabold">//</span>
-              </div>
+              <TypewriterOnScroll
+                          text="[01] — Contact"
+                className="text-xl font-medium text-black"
+                          >
+              
+                          </TypewriterOnScroll>
               
               <h1 className="text-[clamp(3rem,6vw,5.5rem)] font-extrabold leading-[1.05] text-[#111] m-0 font-display">
                 Let's Talk.
