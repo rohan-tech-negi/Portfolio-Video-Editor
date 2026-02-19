@@ -73,3 +73,5 @@ strokeLinejoin="round"
 />
 </svg>
 )
+
+export default Logo
