@@ -139,7 +139,7 @@ body {
   }
 }
 
-.transition-overlay{
+.transition-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -147,11 +147,10 @@ body {
   height: 100vh;
   display: flex;
   pointer-events: none;
-  z-index: 2;
+  z-index: 1000; /* very important */
 }
 
-
-.block{
+.block {
   flex: 1;
   height: 100%;
   background-color: #222;
@@ -159,13 +158,13 @@ body {
   transform-origin: left;
 }
 
-.logo-overlay{
+.logo-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 2;
+  z-index: 1001; /* above blocks */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -174,11 +173,10 @@ body {
   opacity: 0;
 }
 
-.logo-container{
+.logo-container {
   width: 200px;
   height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
 }

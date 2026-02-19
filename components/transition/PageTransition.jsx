@@ -1,151 +1,146 @@
 "use client";
 
 import Logo from "./Logo";
-import { useEffect, useRef } from "react";
-import { useRouter, usePathname } from "next/router";
-import { gsap } from "gsap/gsap-core";
+import { useRef } from "react";
+import { useRouter } from "next/navigation";
+import { gsap } from "gsap";
+
 const PageTransition = ({ children }) => {
-    const router = useRouter()
-    const pathname = usePathname()
-    const overlayRef = useRef(null)
-    const logoOverlayRef = useRef(null)
-    const logoRef = useRef(null)
-    const blockRef = useRef()
-    const isTransitioning = useRef(false)
+  const router = useRouter();
 
-    useEffect(()=>{
-        const createBlocks = () =>{
-            if(!overlayRef.current) return;
-            overlayRef.current.innerHTML = "";
-            blockRef.current = [];
+  const overlayRef = useRef(null);
+  const logoOverlayRef = useRef(null);
+  const logoRef = useRef(null);
+  const blocksRef = useRef([]);
+  const isTransitioning = useRef(false);
 
-            for(let i =0; i<20; i++){
-                const block = document.createElement("div")
-                block.className = "block";
-                overlayRef.current.appendChild(block)
-                blockRef.current.push(block)
-            }
-        }
-        createBlocks();
-        gsap.set(blockRef.current, {scaleX:0 , transformOrigin:"left"});
+  const createBlocks = () => {
+    const overlay = overlayRef.current;
+    overlay.innerHTML = "";
+    blocksRef.current = [];
 
-        if(logoRef.current){
-            const path = logoRef.current.querySelectore("path");
-            if(path){
-                const length = path.getTotalLength();
-                gsap.set(path, {
-                    strokeDasharray: length,
-                    strokeDashoffset: length,
-                    fill: "transparent",
-                })
-            }
-        }revealPage();
+    for (let i = 0; i < 20; i++) {
+      const block = document.createElement("div");
+      block.className = "block";
+      overlay.appendChild(block);
+      blocksRef.current.push(block);
+    }
+  };
 
-        const handleRouteChange = (url) =>{
-            if(isTransitioning.current) return;
-            isTransitioning.current = true;
-            coverPage(url)
-        }
+  const revealPage = () => {
+    // Logo overlay fades out first, then blocks slide away
+    gsap.to(logoOverlayRef.current, {
+      opacity: 0,
+      duration: 0.3,
+      onComplete: () => {
+        gsap.set(blocksRef.current, {
+          scaleX: 1,
+          transformOrigin: "right",
+        });
 
-        const links = document.querySelectorAll('a[href^="/')
-        links.forEach((link)=>{
-            link.addEventListener("click", (e)=>{
-                e.preventDefault()
-                const href = e.currentTarget.href;
-                const url = new URL(href).pathname;
-                if(url !== pathname){
-                    handleRouteChange(url)
-                }
-            })
-        })
+        gsap.to(blocksRef.current, {
+          scaleX: 0,
+          duration: 0.4,
+          stagger: 0.02,
+          ease: "power2.out",
+          transformOrigin: "right",
+          onComplete: () => {
+            isTransitioning.current = false;
+          },
+        });
+      },
+    });
+  };
 
-        return ()=>{
-            links.forEach((link)=>{
-                link.removeEventListener("click",handleRouteChange)
-            })
-        }
-    },[router, pathname])
+  const coverPage = (url) => {
+    if (isTransitioning.current) return;
+    isTransitioning.current = true;
 
-    const coverPage = (url) =>{
-        const tl = gsap.timeline({
-            onComplete: ()=> router.push(url)
-        })
+    createBlocks();
 
-        tl.to(blockRef.current, {
-            scaleX: 1,
-            duration: 0.4,
-            stagger: 0.02,
-            ease: "power2.out",
-            transformOrigin: "left"
-        })
-        .set(logoOverlayRef.current, {opacity:1}, "-=0.2")
-        .set(
-            logoRef.current.querySelector("path"),
-            {
-                strokeDashoffset: logoRef.current
-                .querySelector("path")
-                .getTotalLength(),
-                fill: "transparent"
-            },
-            "-=025"
-        )
-        .to(
-            logoRef.current.querySelector("path",
-                {
-                    strokeDashoffset: 0,
-                    duration: 2,
-                    ease: "power2inOut"
-                },
-                "-=0.5"
-            )
-            .to(
-                logoRef.current.querySelector("path",
-                    {
-                        fill: "#e3e4d8",
-                        duration: 1,
-                        ease: "power2.out"
-                    },
-                    "-=0.5"
-                )
-                .to(logoOverlayRef.current, {
-                    opacity: 0,
-                    duration: 0.25,
-                    ease: "power2.out"
-                })
-            )
-            
-        )
+    // Reset blocks to hidden before animating
+    gsap.set(blocksRef.current, { scaleX: 0, transformOrigin: "left" });
+
+    // Make sure logo overlay is hidden at start
+    gsap.set(logoOverlayRef.current, { opacity: 0 });
+
+    const path = logoRef.current?.querySelector("path");
+    const pathLength = path ? path.getTotalLength() : 0;
+
+    if (path) {
+      gsap.set(path, {
+        strokeDasharray: pathLength,
+        strokeDashoffset: pathLength,
+        fill: "transparent",
+      });
     }
 
-    const revealPage=()=>{
-        gsap.set(blockRef.current, {
-            scaleX: 1,
-            transformOrigin: "right"
-        })
+    const tl = gsap.timeline();
 
-        gsap.to(blockRef.current, {
-            scaleX: 0,
-            duration: 0.4,
-            stagger: 0.02,
-            ease: "power2.out",
-            transformOrigin: "right",
-            onComplete: ()=>{
-                isTransitioning.current = false;
-            }
-        })
-    }
+    // STEP 1: Blocks slide in from left — covers the current page
+    tl.to(blocksRef.current, {
+      scaleX: 1,
+      duration: 0.5,
+      stagger: 0.03,
+      ease: "power2.inOut",
+      transformOrigin: "left",
+    })
 
+    // STEP 2: Logo overlay appears
+    .set(logoOverlayRef.current, { opacity: 1 })
+
+    // STEP 3: Logo draws itself
+    .to(path, {
+      strokeDashoffset: 0,
+      duration: 1.5,
+      ease: "power2.inOut",
+    })
+
+    // STEP 4: Logo fills in
+    .to(path, {
+      fill: "#e3e4d8",
+      duration: 0.8,
+    }, "-=0.5")
+
+    // STEP 5: NOW navigate — screen is fully covered, user sees nothing
+    .call(() => {
+      router.push(url);
+    })
+
+    // STEP 6: Wait for Next.js to render the new page underneath, then reveal
+    .to({}, { duration: 0.5 })
+
+    .call(() => {
+      revealPage();
+    });
+  };
+
+  const handleClick = (e) => {
+    const target = e.target.closest("a");
+    if (!target) return;
+
+    const href = target.getAttribute("href");
+    if (!href || !href.startsWith("/")) return;
+
+    e.preventDefault();
+    coverPage(href);
+  };
 
   return (
     <>
-        <div ref={overlayRef} className="transition-overlay"></div>
-        <div ref={logoOverlayRef} className="logo-overlay">
-            <div className="logo-container">
-                <Logo ref={logoRef}></Logo>
-            </div>
-        </div>
+      <div onClick={handleClick}>
         {children}
+      </div>
+
+      <div ref={overlayRef} className="transition-overlay" />
+
+      <div ref={logoOverlayRef} className="logo-overlay">
+        <div className="logo-container">
+          <Logo ref={logoRef} />
+        </div>
+      </div>
     </>
   );
-}
-export default PageTransition
+};
+
+export default PageTransition;
