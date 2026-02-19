@@ -81,7 +81,7 @@ export default function Navbar() {
       </Link>
 
       {/* Right side: button always anchored to the right */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-6 ">
 
         {/* Menu items — absolutely positioned so they never push the button */}
         <motion.div
@@ -123,18 +123,19 @@ export default function Navbar() {
           animate="visible"
           variants={boxContainerVariants}
           onClick={() => setMenuOpen(!menuOpen)}
-          className="relative w-10 h-10 flex items-center justify-center z-50 flex-shrink-0"
+          className="relative w-10 h-10 flex items-center justify-center z-50 flex-shrink-0 "
           aria-label="Toggle menu"
         >
           <div className="grid grid-cols-2 gap-1">
             {[0, 1, 2, 3].map((i) => (
-              <motion.span
-                key={i}
-                animate={{ scale: menuOpen ? 0.7 : 1 }}
-                transition={{ duration: 0.3 }}
-                className="w-2 h-2 rounded-sm bg-black block"
-              />
-            ))}
+  <span
+    key={i}
+    className={`w-2 h-2 rounded-sm bg-black transition-transform duration-300 ${
+      menuOpen ? "scale-75" : "scale-100"
+    }`}
+  />
+))}
+
           </div>
         </motion.button>
 
