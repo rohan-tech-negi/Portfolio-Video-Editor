@@ -35,14 +35,14 @@ export default function ContactSection() {
   };
 
   const socialLinks = [
-    { platform: 'X', icon: FaXTwitter, link: 'https://twitter.com' },
+    
     { platform: 'Instagram', icon: FaInstagram, link: 'https://instagram.com' },
     { platform: 'Dribbble', icon: SiDribbble, link: 'https://dribbble.com' },
     { platform: 'Behance', icon: FaBehance, link: 'https://behance.net' },
   ];
 
   return (
-    <section className="w-full min-h-screen bg-[#f5f5f5] font-sans">
+    <section className="w-full min-h-screen bg-[#f5f5f5] font-sans pt-10">
       {/* Font Imports */}
       {/* <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
@@ -98,7 +98,7 @@ export default function ContactSection() {
             {/* Info Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               {/* Email Card */}
-              <div className="bg-white rounded-[18px] p-7 flex flex-col gap-7">
+              <div className="bg-[#111] rounded-[18px] p-7 flex flex-col gap-7 ">
                 <div className="flex justify-between items-center">
                   <div className="w-11 h-11 bg-[#f5f5f3] rounded-[10px] flex items-center justify-center text-[#333]">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -111,46 +111,21 @@ export default function ContactSection() {
                   </div>
                 </div>
                 <div>
-                  <p className="text-[11px] font-bold tracking-widest text-[#999] uppercase mb-1.5">
-                    / Chat to me
-                  </p>
-                  <a
-                    href="mailto:rohanwork953@gmail.com"
-                    className="text-sm font-semibold text-[#111] no-underline hover:underline"
-                  >
-                    rohanwork953@gmail.com
-                  </a>
-                </div>
+  <p className="text-[11px] font-bold tracking-widest text-[#999] uppercase mb-1.5">
+    / Chat to me
+  </p>
+  <a
+    href="mailto:rohanwork953@gmail.com"
+    className="text-sm font-semibold text-white no-underline hover:underline"
+  >
+    rohanwork953@gmail.com
+  </a>
+</div>
+
               </div>
 
               {/* Book Call Card */}
-              <div className="bg-[#111] rounded-[18px] p-7 flex flex-col gap-7">
-                <div className="flex justify-between items-center">
-                  <div className="w-11 h-11 bg-[#222] rounded-[10px] flex items-center justify-center text-white">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.08 1.18 2 2 0 012.03 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/>
-                    </svg>
-                  </div>
-                  <div className="flex gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-red-500" />
-                    <span className="w-2 h-2 rounded-full bg-red-500" />
-                  </div>
-                </div>
-                <div>
-                  <p className="text-[11px] font-bold tracking-widest text-[#666] uppercase mb-1.5">
-                    / Book a call
-                  </p>
-                  <a
-                    href="#contact"
-                    className="inline-flex items-center gap-2.5 bg-red-500 text-white text-sm font-medium px-4.5 py-3 rounded-full no-underline transition-colors hover:bg-red-600 group"
-                  >
-                    Schedule now
-                    <svg className="transition-transform group-hover:translate-x-1" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                  </a>
-                </div>
-              </div>
+              
             </div>
 
             {/* Bio Blurb */}
@@ -207,31 +182,7 @@ export default function ContactSection() {
               </div>
 
               {/* Project type */}
-              <div>
-                <label className="text-xs font-medium text-[#999] mb-2 block font-body tracking-wide">
-                  Project type
-                </label>
-                <div className="flex gap-2.5">
-                  <button
-                    type="button"
-                    className={`flex-1 bg-[#1e1e1e] border border-[#2a2a2a] text-gray-500 text-[11px] font-bold tracking-wide uppercase py-3.5 px-2.5 rounded-lg cursor-pointer transition-all font-display
-                      ${pricingModel === 'short' ? 'bg-red-500 border-red-500 text-white' : 'hover:bg-red-500 hover:border-red-500 hover:text-white'}
-                    `}
-                    onClick={() => setPricingModel(pricingModel === 'short' ? null : 'short')}
-                  >
-                    Short-form
-                  </button>
-                  <button
-                    type="button"
-                    className={`flex-1 bg-[#1e1e1e] border border-[#2a2a2a] text-gray-500 text-[11px] font-bold tracking-wide uppercase py-3.5 px-2.5 rounded-lg cursor-pointer transition-all font-display
-                      ${pricingModel === 'long' ? 'bg-red-500 border-red-500 text-white' : 'hover:bg-red-500 hover:border-red-500 hover:text-white'}
-                    `}
-                    onClick={() => setPricingModel(pricingModel === 'long' ? null : 'long')}
-                  >
-                    Long-form / Film
-                  </button>
-                </div>
-              </div>
+              
 
               {/* Message */}
               <div>
