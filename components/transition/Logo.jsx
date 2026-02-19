@@ -1,5 +1,4 @@
 const Logo = () => {
-}
 return (
 <svg width="160" height="160" viewBox="-4-4 133 136"
 fill="none">
@@ -73,5 +72,9 @@ strokeLinejoin="round"
 />
 </svg>
 )
+
+
+
+}
 
 export default Logo

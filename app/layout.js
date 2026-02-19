@@ -3,6 +3,7 @@ import "./globals.css";
 // import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
+import PageTransition from "@/components/transition/PageTransition";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,10 +27,14 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* <Navbar></Navbar> */}
-        <Navbar></Navbar>
+        <PageTransition>
+<Navbar></Navbar>
         
         {children}
         <Footer></Footer>
+
+        </PageTransition>
+        
       </body>
     </html>
   );
