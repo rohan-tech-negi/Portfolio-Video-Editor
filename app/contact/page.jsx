@@ -110,7 +110,7 @@ export default function ContactSection() {
             </div>
 
             {/* Social Links Row (outside card) */}
-            <div className="flex gap-2.5">
+            {/* <div className="flex gap-2.5">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
                 return (
@@ -126,7 +126,7 @@ export default function ContactSection() {
                   </a>
                 );
               })}
-            </div>
+            </div> */}
 
             {/* ── Enhanced Email Card — Full Width Horizontal ── */}
             <div className="bg-[#111] rounded-[18px] p-7 w-full"
