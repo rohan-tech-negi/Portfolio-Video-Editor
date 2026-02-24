@@ -26,11 +26,11 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
  
 
-  <PageTransition>
+  {/* <PageTransition> */}
  <Navbar />
     {children}
  <Footer />
-  </PageTransition>
+  {/* </PageTransition> */}
 
  
 </body>
