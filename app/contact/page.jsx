@@ -18,12 +18,24 @@ const sectionVariants = {
   },
 };
 
+// Left column: orchestrates stagger across its children
 const leftColVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.22,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+// Shared variant for every direct child item in the left column
+const leftItemVariants = {
   hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, delay: 0.2, ease },
+    transition: { duration: 1.0, ease },
   },
 };
 
@@ -147,7 +159,7 @@ export default function ContactSection() {
       <div className="font-body max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-6 lg:gap-10 items-start">
 
-          {/* ── LEFT COLUMN ── */}
+          {/* ── LEFT COLUMN — stagger container ── */}
           <motion.div
             className="flex flex-col gap-7"
             variants={leftColVariants}
@@ -155,8 +167,8 @@ export default function ContactSection() {
             whileInView="visible"
             viewport={viewport}
           >
-            {/* Tag + Heading */}
-            <div>
+            {/* Child 1: Tag + Heading + Paragraph */}
+            <motion.div variants={leftItemVariants}>
               <TypewriterOnScroll
                 text="[01] — Contact"
                 className="text-xl font-medium text-black"
@@ -167,10 +179,14 @@ export default function ContactSection() {
               <p className="mt-4 text-[#666] text-sm leading-relaxed max-w-[340px]">
                 I'm Rohan, a video editor and cinematographer passionate about crafting cinematic stories and immersive visual experiences.
               </p>
-            </div>
+            </motion.div>
 
-            {/* Enhanced Email Card */}
-            <div className="bg-[#111] rounded-[18px] p-7 w-full" style={{ minHeight: '180px' }}>
+            {/* Child 2: Email / Social Card */}
+            <motion.div
+              variants={leftItemVariants}
+              className="bg-[#111] rounded-[18px] p-7 w-full"
+              style={{ minHeight: '180px' }}
+            >
               <div className="flex items-stretch gap-0 h-full">
 
                 {/* LEFT side of card */}
@@ -236,14 +252,14 @@ export default function ContactSection() {
                 </div>
 
               </div>
-            </div>
+            </motion.div>
 
-            {/* Bio */}
-            <div className="border-t border-[#ddd] pt-6">
+            {/* Child 3: Bio Blurb */}
+            <motion.div variants={leftItemVariants} className="border-t border-[#ddd] pt-6">
               <p className="text-[#555] text-sm leading-relaxed">
                 Beyond editing, I continuously explore the world of 3D and real-time environments in Unreal Engine, pushing my creative boundaries into virtual production and immersive visuals. Over time, I've worked on diverse creative projects — blending motion, sound, and storytelling to deliver compelling visual experiences.
               </p>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* ── RIGHT COLUMN ── */}
