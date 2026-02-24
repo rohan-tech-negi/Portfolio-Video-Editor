@@ -128,64 +128,87 @@ export default function ContactSection() {
               })}
             </div>
 
-            {/* Info Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            {/* ── Enhanced Email Card — Full Width Horizontal ── */}
+            <div className="bg-[#111] rounded-[18px] p-7 w-full"
+              style={{ minHeight: '180px' }}>
 
-              {/* ── Enhanced Email Card ── */}
-              <div className="bg-[#111] rounded-[18px] p-7 flex flex-col gap-6 col-span-1 sm:col-span-2 lg:col-span-1"
-                style={{ minHeight: '260px' }}>
+              {/* Horizontal layout: left section + divider + right section */}
+              <div className="flex items-stretch gap-0 h-full">
 
-                {/* Top row: attachment icon + dots */}
-                <div className="flex justify-between items-center">
-                  <div className="w-11 h-11 bg-[#f5f5f3] rounded-[10px] flex items-center justify-center text-[#333]">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
-                    </svg>
+                {/* LEFT: attachment icon + social icons stacked */}
+                <div className="flex flex-col justify-between gap-5 pr-7" style={{ minWidth: '160px' }}>
+                  {/* Top: attachment icon + status dots */}
+                  <div className="flex justify-between items-center">
+                    <div className="w-11 h-11 bg-[#f5f5f3] rounded-[10px] flex items-center justify-center text-[#333]">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
+                      </svg>
+                    </div>
+                    <div className="flex gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-red-500" />
+                      <span className="w-2 h-2 rounded-full bg-[#444]" />
+                    </div>
                   </div>
-                  <div className="flex gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-red-500" />
-                    <span className="w-2 h-2 rounded-full bg-[#ddd]" />
+
+                  {/* Bottom: social icon buttons */}
+                  <div className="flex gap-2.5">
+                    {socialLinks.map((social) => {
+                      const Icon = social.icon;
+                      return (
+                        <a
+                          key={social.platform}
+                          href={social.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="social-icon-hover w-9 h-9 rounded-full bg-[#222] flex items-center justify-center text-[#aaa] no-underline transition-all hover:bg-white hover:text-black"
+                          aria-label={`Visit my ${social.platform} profile`}
+                          onMouseEnter={() => setActiveIcon(() => social.icon)}
+                          onMouseLeave={() => setActiveIcon(null)}
+                        >
+                          <Icon size={15} />
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
 
-                {/* Social Icons inside card — with custom cursor on hover */}
-                <div className="flex gap-3">
-                  {socialLinks.map((social) => {
-                    const Icon = social.icon;
-                    return (
+                {/* Vertical Divider */}
+                <div style={{ width: '1px', backgroundColor: '#2a2a2a', alignSelf: 'stretch', flexShrink: 0 }} />
+
+                {/* RIGHT: label + email + platform names */}
+                <div className="flex flex-col justify-between pl-7 flex-1">
+                  {/* Top: label */}
+                  <p className="text-[11px] font-bold tracking-widest text-[#555] uppercase m-0">
+                    / Find me on
+                  </p>
+
+                  {/* Middle: platform names */}
+                  <div className="flex gap-4 flex-wrap">
+                    {socialLinks.map((social) => (
                       <a
                         key={social.platform}
                         href={social.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="social-icon-hover w-9 h-9 rounded-full bg-[#222] flex items-center justify-center text-[#aaa] no-underline transition-all hover:bg-white hover:text-black"
-                        aria-label={`Visit my ${social.platform} profile`}
-                        onMouseEnter={() => {
-                          setActiveIcon(() => social.icon);
-                          setCursorVisible(true);
-                        }}
-                        onMouseLeave={() => {
-                          setActiveIcon(null);
-                          setCursorVisible(false);
-                        }}
+                        className="text-[13px] font-medium text-[#666] no-underline transition-colors hover:text-white"
                       >
-                        <Icon size={15} />
+                        {social.platform}
                       </a>
-                    );
-                  })}
-                </div>
+                    ))}
+                  </div>
 
-                {/* Label + Email */}
-                <div>
-                  <p className="text-[11px] font-bold tracking-widest text-[#999] uppercase mb-1.5">
-                    / Chat to me
-                  </p>
-                  <a
-                    href="mailto:rohanwork953@gmail.com"
-                    className="text-sm font-semibold text-white no-underline hover:underline"
-                  >
-                    rohanwork953@gmail.com
-                  </a>
+                  {/* Bottom: chat label + email */}
+                  <div>
+                    <p className="text-[11px] font-bold tracking-widest text-[#555] uppercase mb-1">
+                      / Chat to me
+                    </p>
+                    <a
+                      href="mailto:rohanwork953@gmail.com"
+                      className="text-sm font-semibold text-white no-underline hover:underline"
+                    >
+                      rohanwork953@gmail.com
+                    </a>
+                  </div>
                 </div>
 
               </div>
