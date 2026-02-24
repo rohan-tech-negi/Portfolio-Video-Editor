@@ -180,3 +180,20 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+
+
+.perspective {
+  perspective: 600px;
+}
+
+.rotate-x-90 {
+  transform: rotateX(90deg);
+}
+
+.group:hover .group-hover\:rotate-x-90 {
+  transform: rotateX(90deg);
+}
+.rotate-x-90 {
+  transform: rotateX(90deg);
+}
