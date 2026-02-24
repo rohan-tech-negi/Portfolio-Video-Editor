@@ -20,7 +20,7 @@ function ProjectCard({ name, type, src }) {
           controls={false}
           onMouseEnter={(e) => (e.currentTarget.controls = true)}
           onMouseLeave={(e) => (e.currentTarget.controls = false)}
-          className="w-full aspect-[16/9] object-cover block transition-transform duration-500 group-hover:scale-[1.04]"
+          className="w-full aspect-video object-cover block transition-transform duration-500 group-hover:scale-[1.04]"
         />
       </div>
 
@@ -50,13 +50,16 @@ export default function ProjectsSection() {
                       >
           
                       </TypewriterOnScroll>
-          <h2 className="text-[clamp(4rem,8vw,6rem)] font-extrabold leading-tight text-[#111]">
+          <h2 className="text-[clamp(4rem,8vw,6.5rem)] font-extrabold leading-tight text-[#111]">
             Projects
           </h2>
         </header>
 
-        {/* Larger grid spacing + bigger cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 lg:gap-14">
+        {/* 
+          To adjust the size of the videos manually, change the max-width value below. 
+          For example: decrease to max-w-[800px] for smaller videos, or increase to max-w-[1200px] for larger ones. 
+        */}
+        <div className="max-w-[1000px] mx-auto grid grid-cols-1 gap-12 lg:gap-20">
           {projects.map((project) => (
             <ProjectCard
               key={project.id}
