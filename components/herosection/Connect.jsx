@@ -121,6 +121,7 @@ import { FaXTwitter, FaInstagram, FaBehance } from 'react-icons/fa6';
 import { SiDribbble } from 'react-icons/si';
 import { TypewriterOnScroll } from '../common/TypeWritter';
 import SplitText from '../SplitText';
+import Link from 'next/link';
 
 
 
@@ -161,7 +162,7 @@ export default function ContactSection() {
     { id: 2, platform: 'Instagram',    icon: FaInstagram, link: 'https://instagram.com' },
     { id: 3, platform: 'Dribbble',     icon: SiDribbble,  link: 'https://dribbble.com' },
     { id: 4, platform: 'Behance',      icon: FaBehance,   link: 'https://behance.net' },
-    { id: 5, platform: 'Get in touch', icon: ArrowRight,  link: 'mailto:hello@example.com', isCta: true },
+    { id: 5, platform: 'Get in touch', icon: ArrowRight, link: '/contact', isCta: true },
   ];
 
   // Trigger once when the grid scrolls into view

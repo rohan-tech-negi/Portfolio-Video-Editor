@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useEffect, useState } from "react";
 
 const Footer = () => {
@@ -23,15 +23,18 @@ const Footer = () => {
   });
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full h-48 bg-gray-900 text-white flex flex-col items-center justify-center z-0">
+    <footer className="w-full h-48 flex flex-col items-center justify-center bg-gray-900 text-white">
+      {/* Name */}
       <h2 className="text-2xl font-semibold tracking-wide">
         Rohan
       </h2>
 
+      {/* Live Date & Time */}
       <p className="mt-2 text-sm text-gray-300">
         {formattedTime}
       </p>
 
+      {/* Location */}
       <p className="mt-1 text-sm text-gray-400">
         New Delhi, Delhi
       </p>
