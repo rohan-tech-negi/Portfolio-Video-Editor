@@ -122,13 +122,7 @@ import { SiDribbble } from 'react-icons/si';
 import { TypewriterOnScroll } from '../common/TypeWritter';
 import SplitText from '../SplitText';
 
-// Grid layout at lg (3 cols):
-//  [0] left col  → slide from left  (translateX -60px)
-//  [1] center    → slide from bottom (translateY +60px)
-//  [2] right col → slide from right (translateX +60px)
-//  [3] bottom-left  → slide from bottom
-//  [4] bottom-center → slide from bottom
-// All cards fade in simultaneously (opacity 0 → 1)
+
 
 function getDirectionStyle(index, hasRevealed) {
   const col = index % 3;
@@ -191,7 +185,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="w-full min-h-screen bg-black py-20 px-4 sm:px-6 lg:px-8">
+    <section className="relative z-10 w-full min-h-screen bg-black py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
