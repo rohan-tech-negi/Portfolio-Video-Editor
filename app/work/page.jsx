@@ -1,10 +1,10 @@
 'use client';
 import { TypewriterOnScroll } from "@/components/common/TypeWritter";
 const projects = [
-  { id: 1, name: 'Star Wars', type: 'Motion Graphics', src: '/StarWars.mp4' },
-  { id: 2, name: 'Star Wars', type: 'Cinematic', src: '/videos/StarWars.mp4' },
-  { id: 3, name: 'Star Wars', type: 'Color Grade', src: '/videos/StarWars.mp4' },
-  { id: 4, name: 'Star Wars', type: 'VFX', src: '/videos/StarWars.mp4' },
+  { id: 1, name: 'Craft', type: 'Motion Graphics', src: '/craft.mp4' },
+  { id: 2, name: 'Star Wars', type: 'Cinematic', src: '/StarWars.mp4' },
+  { id: 3, name: 'Project 1', type: 'Color Grade', src: '/v1.mp4' },
+  { id: 4, name: 'Project 2', type: 'VFX', src: '/v2.mp4' },
 ];
 
 function ProjectCard({ name, type, src }) {
@@ -45,7 +45,7 @@ export default function ProjectsSection() {
         {/* Left aligned header */}
         <header className="mb-16">
           <TypewriterOnScroll
-                      text="[02] — My Projects"
+                      text="[02] — My Work"
             className="text-xl font-medium text-black"
                       >
           
