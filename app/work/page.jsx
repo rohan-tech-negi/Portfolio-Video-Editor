@@ -1,188 +1,181 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
 
-const projects = [
-  { id: 1, name: 'Craft', type: 'Motion Graphics', src: '/craft.mp4' },
-  { id: 2, name: 'Star Wars', type: 'Cinematic', src: '/StarWars.mp4' },
-  { id: 3, name: 'Project 1', type: 'Color Grade', src: '/v1.mp4' },
-  { id: 4, name: 'Project 2', type: 'VFX', src: '/v2.mp4' },
-];
+import { useState, useRef, useEffect } from 'react';
+import { Play, Pause } from 'lucide-react';
+import SplitText from '@/components/SplitText';
+import { TypewriterOnScroll } from '@/components/common/TypeWritter';
 
-function useInView(ref) {
+/* ─── tiny hook: fires once when element enters viewport ─── */
+function useInView(ref, threshold = 0.15) {
   const [inView, setInView] = useState(false);
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.25 }
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setInView(true); obs.disconnect(); } },
+      { threshold }
     );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [ref, threshold]);
   return inView;
 }
 
-function ProjectCard({ name, type, src, index }) {
-  const wrapperRef = useRef(null);
-  const videoRef = useRef(null);
-  const inView = useInView(wrapperRef);
-  const [loaded, setLoaded] = useState(false);
-  const [error, setError] = useState(false);
-  const [hovered, setHovered] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (inView && !loaded && !error) {
-      if (!video.src) {
-        video.src = src;
-        video.load();
-      }
-      
-      const playVideo = async () => {
-        try {
-          await video.play();
-        } catch (err) {
-          console.warn('Autoplay failed:', err);
-          video.controls = true;
-        }
-      };
-      
-      playVideo();
-    } else if (!inView) {
-      video.pause();
-    }
-  }, [inView, src, loaded, error]);
-
-  const handleMouseEnter = () => {
-    setHovered(true);
-    const video = videoRef.current;
-    if (video) {
-      video.controls = true;
-      if (video.paused && inView) {
-        video.play().catch(() => {});
-      }
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setHovered(false);
-    const video = videoRef.current;
-    if (video && inView) {
-      video.controls = false;
-    }
-  };
-
-  const handleCanPlay = () => {
-    setLoaded(true);
-    setError(false);
-  };
-
-  const handleError = () => {
-    setError(true);
-    setLoaded(false);
-  };
-
+/* ─── ScaleReveal: scale 50→100 + fade ─── */
+function ScaleReveal({ children, inView, delay = 0 }) {
   return (
-    <article
-      ref={wrapperRef}
-      className="flex flex-col gap-4 group"
+    <div
       style={{
-        opacity: 0,
-        animation: `fadeSlideUp 0.7s ease forwards`,
-        animationDelay: `${index * 0.15}s`,
+        transform: inView ? 'scale(1)' : 'scale(0.5)',
+        opacity: inView ? 1 : 0,
+        transition: `transform 0.85s cubic-bezier(0.16,1,0.3,1) ${delay}ms,
+                     opacity 0.65s ease ${delay}ms`,
+        willChange: 'transform, opacity',
       }}
     >
-      <div
-        className="relative overflow-hidden rounded-3xl shadow-lg bg-[#111]"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        {!loaded && !error && (
-          <div
-            className="absolute inset-0 z-10"
-            style={{
-              background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)',
-              backgroundSize: '200% 100%',
-              animation: 'shimmer 1.5s infinite',
-            }}
-          />
-        )}
-
-        {error && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-[#111]">
-            <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="#444">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z" />
-            </svg>
-            <span className="text-[#555] text-xs tracking-widest uppercase">Video unavailable</span>
-          </div>
-        )}
-
-        <video
-          ref={videoRef}
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          onCanPlay={handleCanPlay}
-          onError={handleError}
-          className="w-full aspect-video object-cover block transition-transform duration-500 group-hover:scale-[1.04]"
-          style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.4s ease, transform 0.5s ease' }}
-        />
-
-        {!hovered && loaded && (
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-            <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className="flex items-center justify-between px-1">
-        <span className="text-[#111] text-base font-semibold tracking-tight">{name}</span>
-        <span className="text-[#777] text-xs font-medium tracking-widest uppercase">{type}</span>
-      </div>
-
-      <style>{`
-        @keyframes fadeSlideUp {
-          from { opacity: 0; transform: translateY(32px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes shimmer {
-          0% { background-position: 200% 0; }
-          100% { background-position: -200% 0; }
-        }
-      `}</style>
-    </article>
+      {children}
+    </div>
   );
 }
 
+/* ══════════════════════════════════════════════ */
 export default function ProjectsSection() {
+  const [isPlaying, setIsPlaying]           = useState(false);
+  const [hoveredProject, setHoveredProject] = useState(null);
+
+  const video1Ref = useRef(null);
+  const video2Ref = useRef(null);
+  const video3Ref = useRef(null);
+  const video4Ref = useRef(null);
+  const videoRefs = [video1Ref, video2Ref, video3Ref, video4Ref];
+
+  const sectionRef = useRef(null);
+  const inView     = useInView(sectionRef, 0.1);
+
+  /* ── auto-play on mount (unchanged from original) ── */
+  useEffect(() => {
+    videoRefs.forEach(r => r.current?.play().catch(() => {}));
+    setIsPlaying(true);
+  }, []);
+
+  /* ── play/pause toggle (unchanged from original) ── */
+  const handleVideoToggle = () => {
+    if (isPlaying) {
+      videoRefs.forEach(r => r.current?.pause());
+      setIsPlaying(false);
+    } else {
+      videoRefs.forEach(r => r.current?.play().catch(() => {}));
+      setIsPlaying(true);
+    }
+  };
+
+  const handleMouseEnter = (id, ref) => {
+    setHoveredProject(id);
+    if (ref.current) ref.current.muted = false;
+  };
+  const handleMouseLeave = (ref) => {
+    setHoveredProject(null);
+    if (ref.current) ref.current.muted = true;
+  };
+
+  /* ── overlay (unchanged from original) ── */
+  const overlay = (id) => (
+    <div
+      className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 ${
+        isPlaying && hoveredProject !== id ? 'opacity-0' : 'opacity-100'
+      }`}
+      onClick={handleVideoToggle}
+    >
+      <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+        {!isPlaying
+          ? <Play  className="w-8 h-8 text-white ml-1" fill="white" />
+          : <Pause className="w-8 h-8 text-white"      fill="white" />}
+      </div>
+    </div>
+  );
+
+  const projectData = [
+    { id: 1, name: 'Craft',     type: 'Motion Graphics', src: '/craft.mp4',         ref: video1Ref, delay: 200 },
+    { id: 2, name: 'Star Wars', type: 'Cinematic',        src: '/StarWars.mp4',      ref: video2Ref, delay: 320 },
+    { id: 3, name: 'Project 1', type: 'Color Grade',      src: '/toh kya badla.mp4', ref: video3Ref, delay: 440 },
+    { id: 4, name: 'Project 2', type: 'VFX',              src: '/v1.mp4',            ref: video4Ref, delay: 560 },
+  ];
+
   return (
-    <section className="w-full bg-[#f5f5f5] py-24 sm:py-32">
+    <section
+      ref={sectionRef}
+      className="w-full bg-[#f5f5f5] py-24 sm:py-32"
+    >
       <div className="max-w-[1500px] mx-auto px-6 sm:px-10 lg:px-16">
+
+        {/* ── Header ── */}
         <header className="mb-16">
-          <p className="text-xl font-medium text-black mb-2">[02] — My Work</p>
+          <div
+            style={{
+              opacity:    inView ? 1 : 0,
+              transform:  inView ? 'translateY(0)' : 'translateY(24px)',
+              transition: 'opacity 0.6s ease, transform 0.6s ease',
+            }}
+          >
+            <TypewriterOnScroll
+              text="[02] — My Work"
+              className="text-xl font-medium text-black"
+            />
+          </div>
+
           <h2 className="text-[clamp(4rem,8vw,6.5rem)] font-extrabold leading-tight text-[#111]">
-            Projects
+            <SplitText
+              text="Projects"
+              splitType="chars"
+              from={{ opacity: 0, y: 50 }}
+              to={{ opacity: 1, y: 0 }}
+              duration={1.25}
+              stagger={0.05}
+              ease="power3.out"
+            />
           </h2>
         </header>
 
+        {/* ── Single-column cards (original layout) ── */}
         <div className="max-w-[1000px] mx-auto grid grid-cols-1 gap-12 lg:gap-20">
-          {projects.map((project, i) => (
-            <ProjectCard
-              key={project.id}
-              index={i}
-              name={project.name}
-              type={project.type}
-              src={project.src}
-            />
+          {projectData.map((project) => (
+            <ScaleReveal key={project.id} inView={inView} delay={project.delay}>
+              <article className="flex flex-col gap-4 group">
+
+                {/* Video card */}
+                <div
+                  className="relative overflow-hidden rounded-3xl shadow-lg bg-[#111] cursor-pointer"
+                  onMouseEnter={() => handleMouseEnter(project.id, project.ref)}
+                  onMouseLeave={() => handleMouseLeave(project.ref)}
+                >
+                  <video
+                    ref={project.ref}
+                    className="w-full aspect-video object-cover block transition-transform duration-500 group-hover:scale-[1.04]"
+                    loop
+                    muted
+                    playsInline
+                    onClick={handleVideoToggle}
+                  >
+                    <source src={project.src} type="video/mp4" />
+                  </video>
+                  {overlay(project.id)}
+                </div>
+
+                {/* Name + type label */}
+                <div className="flex items-center justify-between px-1">
+                  <span className="text-[#111] text-base font-semibold tracking-tight">
+                    {project.name}
+                  </span>
+                  <span className="text-[#777] text-xs font-medium tracking-widest uppercase">
+                    {project.type}
+                  </span>
+                </div>
+
+              </article>
+            </ScaleReveal>
           ))}
         </div>
+
       </div>
     </section>
   );
