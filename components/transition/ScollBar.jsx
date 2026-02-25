@@ -1,8 +1,10 @@
 'use client';
 
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, useScroll, useSpring, useMotionValueEvent } from 'framer-motion';
 
 export default function ScrollProgressBar() {
+  const [isVisible, setIsVisible] = useState(false);
   const { scrollYProgress } = useScroll();
   
   // Apply a spring physics smoothing to the scroll progress
@@ -12,8 +14,32 @@ export default function ScrollProgressBar() {
     restDelta: 0.001
   });
 
+  // Track when scrolling happens, to show the bar and set a timeout to hide it
+  useEffect(() => {
+    let timeoutId;
+    
+    // Subscribe to motion value change
+    const unsubscribe = scrollYProgress.on("change", () => {
+      setIsVisible(true);
+      
+      // Clear previous timeout and set a new one
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setIsVisible(false);
+      }, 2000);
+    });
+
+    return () => {
+      unsubscribe();
+      clearTimeout(timeoutId);
+    };
+  }, [scrollYProgress]);
+
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isVisible ? 1 : 0 }}
+      transition={{ duration: 0.4 }}
       style={{
         position: 'fixed',
         right: '28px',
@@ -31,7 +57,7 @@ export default function ScrollProgressBar() {
       <div
         style={{
           position: 'relative',
-          width: '3px',
+          width: '5px', // Slightly wider track
           height: '110px',
           background: 'rgba(255,255,255,0.08)',
           borderRadius: '2px',
@@ -47,7 +73,7 @@ export default function ScrollProgressBar() {
             left: 0,
             right: 0,
             bottom: 0,
-            background: '#1aff1a', // Solid Green
+            background: '#8CDB00', // Solid Green
             borderRadius: '2px',
             transformOrigin: 'top', // Scale from the top down visually
             scaleY: scaleY,
@@ -55,6 +81,6 @@ export default function ScrollProgressBar() {
           }}
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
