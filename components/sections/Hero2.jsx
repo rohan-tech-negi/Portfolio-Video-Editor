@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Copy } from 'lucide-react'
+import { Copy, Download } from 'lucide-react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 
@@ -84,27 +84,41 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5] text-black relative">
+    <div 
+      className="min-h-screen bg-[#f5f5f5] text-black relative overflow-hidden"
+      style={{
+        backgroundImage: `
+          linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
+        `,
+        backgroundSize: '24px 24px',
+      }}
+    >
+      {/* Radial feather overlay - edges fade, center stays visible */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(245, 245, 245, 0.5) 85%, rgba(245, 245, 245, 0.9) 100%)`
+        }}
+      />
 
       {/* Custom Cursor */}
-      {/* Custom Cursor */}
-{showCursor && (
-  <div
-    className="hidden md:flex fixed pointer-events-none z-50 items-center justify-center 
-               px-6 py-2 rounded-full bg-[#7CFF4E] text-black text-sm font-semibold"
-    style={{
-      left: position.x,
-      top: position.y,
-      transform: 'translate(-50%, -50%)',
-    }}
-  >
-    VISIT
-  </div>
-)}
+      {showCursor && (
+        <div
+          className="hidden md:flex fixed pointer-events-none z-50 items-center justify-center 
+                     px-6 py-2 rounded-full bg-[#7CFF4E] text-black text-sm font-semibold"
+          style={{
+            left: position.x,
+            top: position.y,
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          VISIT
+        </div>
+      )}
 
       {/* Hero Section */}
-      {/* pt-24 offsets the fixed navbar (~80px tall) so ROHAN isn't hidden behind it */}
-      <section className="min-h-screen pt-24 pb-16 px-6 md:px-12 lg:px-16 flex items-center">
+      <section className="min-h-screen pt-24 pb-16 px-6 md:px-12 lg:px-16 flex items-center relative z-10">
         <div className="w-full max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-16 lg:gap-12">
 
           {/* LEFT SIDE — Name + Email */}
@@ -124,48 +138,41 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Email */}
+            {/* Resume Button */}
             <motion.div
-  initial={{ scale: 0, opacity: 0 }}
-  animate={{ scale: 1, opacity: 1 }}
-  transition={{
-    duration: 0.6,
-    delay: 0.6,
-    ease: [0.6, 0.05, 0.01, 0.9],
-  }}
-  className="mt-10 origin-left"
->
-  <a
-    href="https://mail.google.com/mail/?view=cm&fs=1&to=rohanwork953@gmail.com"
-    target="_blank"
-    rel="noopener noreferrer"
-    onMouseEnter={() => setShowCursor(true)}
-    onMouseLeave={() => setShowCursor(false)}
-    className="group inline-flex items-center gap-3 bg-[#1a1a1a] text-white 
-               pl-6 pr-2 py-2 rounded-full text-sm font-medium 
-               transition-all duration-300 cursor-none"
-  >
-    <span className="tracking-wide">Email</span>
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{
+                duration: 0.6,
+                delay: 0.6,
+                ease: [0.6, 0.05, 0.01, 0.9],
+              }}
+              className="mt-10 origin-left"
+            >
+              <a
+                href="/resume.pdf"
+                download="Rohan_Singh_Negi_Resume.pdf"
+                onMouseEnter={() => setShowCursor(true)}
+                onMouseLeave={() => setShowCursor(false)}
+                className="group inline-flex items-center gap-3 bg-[#1a1a1a] text-white 
+                           pl-6 pr-2 py-2 rounded-full text-sm font-medium 
+                           transition-all duration-300 cursor-none"
+              >
+                <span className="tracking-wide">My Resume</span>
 
-    {/* Arrow Circle */}
-    <span
-      className="flex items-center justify-center 
-                 w-9 h-9 rounded-full bg-white text-black 
-                 transition-all duration-300 group-hover:bg-gray-200"
-    >
-      <span
-        className="inline-block transition-transform duration-300 
-                   group-hover:translate-x-1 text-base"
-      >
-        →
-      </span>
-    </span>
-  </a>
-</motion.div> 
+                {/* Download Circle */}
+                <span
+                  className="flex items-center justify-center 
+                             w-9 h-9 rounded-full bg-white text-black 
+                             transition-all duration-300 group-hover:bg-gray-200"
+                >
+                  <Download className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+                </span>
+              </a>
+            </motion.div> 
           </div>
 
           {/* RIGHT SIDE — Image + Description */}
-          {/* On mobile: add top margin to separate it from the name block */}
           <div className="flex flex-col items-center lg:items-end space-y-10 mt-4 lg:mt-0">
 
             <motion.div
