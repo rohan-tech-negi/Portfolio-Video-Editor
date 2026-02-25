@@ -52,15 +52,23 @@ export default function ToolBox() {
   return (
     <section 
       ref={sectionRef} 
-      className="toolbox-wrapper bg-white relative overflow-hidden"
+      className="toolbox-wrapper bg-white relative"
       style={{
         backgroundImage: `
           linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
           linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
         `,
-        backgroundSize: '24px 24px'
+        backgroundSize: '24px 24px',
       }}
     >
+      {/* Radial fade overlay - edges fade to white */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(255, 255, 255, 0.4) 85%, rgba(255, 255, 255, 0.8) 100%)`
+        }}
+      />
+      
       {/* LEFT TEXT */}
       <div ref={textRef} className="toolbox-text relative z-10">
         <div className="flex items-center gap-2 mb-8">
