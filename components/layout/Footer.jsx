@@ -37,7 +37,9 @@ export default function Footer() {
               Let&apos;s craft something beautiful together. Reach out if you have a project in mind.
             </p>
             <a 
-              href="mailto:rohanwork953@gmail.com" 
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=rohanwork953@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-8 inline-flex items-center gap-2 text-lg border-b border-white/30 pb-1 hover:border-white transition-colors group"
             >
               rohanwork953@gmail.com
