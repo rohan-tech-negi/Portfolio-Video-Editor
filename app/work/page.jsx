@@ -1,4 +1,25 @@
-"use client "
+'use client';
+import { useEffect, useRef, useState } from 'react';
+
+const projects = [
+  { id: 1, name: 'Craft', type: 'Motion Graphics', src: '/craft.mp4' },
+  { id: 2, name: 'Star Wars', type: 'Cinematic', src: '/StarWars.mp4' },
+  { id: 3, name: 'Project 1', type: 'Color Grade', src: '/v1.mp4' },
+  { id: 4, name: 'Project 2', type: 'VFX', src: '/v2.mp4' },
+];
+
+function useInView(ref) {
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.25 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+  return inView;
+}
 
 function ProjectCard({ name, type, src, index }) {
   const wrapperRef = useRef(null);
@@ -8,25 +29,21 @@ function ProjectCard({ name, type, src, index }) {
   const [error, setError] = useState(false);
   const [hovered, setHovered] = useState(false);
 
-  // Load and play video when in viewport
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     if (inView && !loaded && !error) {
-      // Set src only once
       if (!video.src) {
         video.src = src;
         video.load();
       }
       
-      // Attempt to play with proper handling
       const playVideo = async () => {
         try {
           await video.play();
         } catch (err) {
           console.warn('Autoplay failed:', err);
-          // Fallback: ensure controls are available if autoplay fails
           video.controls = true;
         }
       };
@@ -37,13 +54,11 @@ function ProjectCard({ name, type, src, index }) {
     }
   }, [inView, src, loaded, error]);
 
-  // Handle manual play on hover for better UX
   const handleMouseEnter = () => {
     setHovered(true);
     const video = videoRef.current;
     if (video) {
       video.controls = true;
-      // If not playing and in view, try to play
       if (video.paused && inView) {
         video.play().catch(() => {});
       }
@@ -55,20 +70,15 @@ function ProjectCard({ name, type, src, index }) {
     const video = videoRef.current;
     if (video && inView) {
       video.controls = false;
-      // Optionally pause on leave, or keep playing
-      // video.pause();
     }
   };
 
-  // Handle video load success
   const handleCanPlay = () => {
     setLoaded(true);
     setError(false);
   };
 
-  // Handle video load error
-  const handleError = (e) => {
-    console.error('Video load error:', e);
+  const handleError = () => {
     setError(true);
     setLoaded(false);
   };
@@ -88,7 +98,6 @@ function ProjectCard({ name, type, src, index }) {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Skeleton shimmer shown while loading */}
         {!loaded && !error && (
           <div
             className="absolute inset-0 z-10"
@@ -100,7 +109,6 @@ function ProjectCard({ name, type, src, index }) {
           />
         )}
 
-        {/* Error state */}
         {error && (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-[#111]">
             <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="#444">
@@ -123,7 +131,6 @@ function ProjectCard({ name, type, src, index }) {
           style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.4s ease, transform 0.5s ease' }}
         />
 
-        {/* Hover overlay with play indicator */}
         {!hovered && loaded && (
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
             <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
@@ -151,5 +158,32 @@ function ProjectCard({ name, type, src, index }) {
         }
       `}</style>
     </article>
+  );
+}
+
+export default function ProjectsSection() {
+  return (
+    <section className="w-full bg-[#f5f5f5] py-24 sm:py-32">
+      <div className="max-w-[1500px] mx-auto px-6 sm:px-10 lg:px-16">
+        <header className="mb-16">
+          <p className="text-xl font-medium text-black mb-2">[02] — My Work</p>
+          <h2 className="text-[clamp(4rem,8vw,6.5rem)] font-extrabold leading-tight text-[#111]">
+            Projects
+          </h2>
+        </header>
+
+        <div className="max-w-[1000px] mx-auto grid grid-cols-1 gap-12 lg:gap-20">
+          {projects.map((project, i) => (
+            <ProjectCard
+              key={project.id}
+              index={i}
+              name={project.name}
+              type={project.type}
+              src={project.src}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
