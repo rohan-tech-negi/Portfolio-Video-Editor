@@ -30,7 +30,7 @@ function ScaleReveal({ children, inView, delay = 0 }) {
         opacity: inView ? 1 : 0,
         transition: `transform 0.85s cubic-bezier(0.16,1,0.3,1) ${delay}ms,
                      opacity 0.65s ease ${delay}ms`,
-        willChange: 'transform, opacity',
+        WebkitTransform: 'translateZ(0)',
       }}
     >
       {children}
@@ -104,9 +104,24 @@ export default function ProjectsSection() {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-[#f5f5f5] py-24 sm:py-32"
+      className="w-full bg-[#f5f5f5] py-24 sm:py-32 relative overflow-hidden"
+      style={{
+        backgroundImage: `
+          linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
+        `,
+        backgroundSize: '24px 24px',
+      }}
     >
-      <div className="max-w-[1500px] mx-auto px-6 sm:px-10 lg:px-16">
+      {/* Radial feather overlay - edges fade, center stays visible */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(245, 245, 245, 0.5) 85%, rgba(245, 245, 245, 0.9) 100%)`
+        }}
+      />
+
+      <div className="max-w-[1500px] mx-auto px-6 sm:px-10 lg:px-16 relative z-10">
 
         {/* ── Header ── */}
         <header className="mb-16">
@@ -149,14 +164,17 @@ export default function ProjectsSection() {
                   onMouseLeave={() => handleMouseLeave(project.ref)}
                 >
                   <video
-  ref={project.ref}
-  src={project.src}         
-  className="w-full aspect-video object-cover block transition-transform duration-500 group-hover:scale-[1.04]"
-  loop
-  muted
-  playsInline
-  onClick={handleVideoToggle}
-/>
+                    ref={project.ref}
+                    src={project.src}
+                    className="w-full aspect-video object-cover block transition-transform duration-500 group-hover:scale-[1.04]"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    onClick={handleVideoToggle}
+                    style={{ WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}
+                  />
                   {overlay(project.id)}
                 </div>
 
@@ -178,4 +196,4 @@ export default function ProjectsSection() {
       </div>
     </section>
   );
-}
+} 
