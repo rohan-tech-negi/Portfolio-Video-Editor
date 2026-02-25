@@ -58,6 +58,12 @@ export default function ProjectsSection() {
     setIsPlaying(true);
   }, []);
 
+  useEffect(() => {
+  console.log('refs:', videoRefs.map(r => r.current));
+  videoRefs.forEach(r => r.current?.play().catch(console.error));
+  setIsPlaying(true);
+}, []);
+
   /* ── play/pause toggle (unchanged from original) ── */
   const handleVideoToggle = () => {
     if (isPlaying) {
@@ -94,12 +100,12 @@ export default function ProjectsSection() {
     </div>
   );
 
-  const projectData = [
-    { id: 1, name: 'Craft',     type: 'Motion Graphics', src: '/craft.mp4',         ref: video1Ref, delay: 200 },
-    { id: 2, name: 'Star Wars', type: 'Cinematic',        src: '/StarWars.mp4',      ref: video2Ref, delay: 320 },
-    { id: 3, name: 'Project 1', type: 'Color Grade',      src: '/toh kya badla.mp4', ref: video3Ref, delay: 440 },
-    { id: 4, name: 'Project 2', type: 'VFX',              src: '/v1.mp4',            ref: video4Ref, delay: 560 },
-  ];
+ const projectData = useMemo(() => [
+  { id: 1, name: 'Craft',     type: 'Motion Graphics', src: '/craft.mp4',        ref: video1Ref, delay: 200 },
+  { id: 2, name: 'Star Wars', type: 'Cinematic',       src: '/StarWars.mp4',     ref: video2Ref, delay: 320 },
+  { id: 3, name: 'Project 1', type: 'Color Grade',     src: '/toh-kya-badla.mp4',ref: video3Ref, delay: 440 },
+  { id: 4, name: 'Project 2', type: 'VFX',             src: '/v1.mp4',           ref: video4Ref, delay: 560 },
+], []);
 
   return (
     <section
