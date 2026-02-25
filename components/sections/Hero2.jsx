@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Copy } from 'lucide-react'
+import { Copy, Download } from 'lucide-react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 
@@ -133,7 +133,7 @@ export default function Home() {
     delay: 0.6,
     ease: [0.6, 0.05, 0.01, 0.9],
   }}
-  className="mt-10 origin-left"
+  className="mt-10 origin-left flex flex-wrap items-center gap-4"
 >
   <a
     href="https://mail.google.com/mail/?view=cm&fs=1&to=rohanwork953@gmail.com"
@@ -158,6 +158,32 @@ export default function Home() {
                    group-hover:translate-x-1 text-base"
       >
         →
+      </span>
+    </span>
+  </a>
+
+  <a
+    href="/resume.pdf"
+    target="_blank"
+    rel="noopener noreferrer"
+    onMouseEnter={() => setShowCursor(true)}
+    onMouseLeave={() => setShowCursor(false)}
+    className="group inline-flex items-center gap-3 bg-[#1a1a1a] text-white 
+               pl-6 pr-2 py-2 rounded-full text-sm font-medium 
+               transition-all duration-300 cursor-none"
+  >
+    <span className="tracking-wide">Resume</span>
+
+    <span
+      className="flex items-center justify-center 
+                 w-9 h-9 rounded-full bg-white text-black 
+                 transition-all duration-300 group-hover:bg-gray-200"
+    >
+      <span
+        className="inline-block transition-transform duration-300 
+                   group-hover:translate-y-0.5 text-base"
+      >
+        <Download size={16} strokeWidth={2} />
       </span>
     </span>
   </a>
