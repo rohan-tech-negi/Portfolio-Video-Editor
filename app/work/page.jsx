@@ -1,7 +1,7 @@
 'use client';
 import { TypewriterOnScroll } from "@/components/common/TypeWritter";
 const projects = [
-  { id: 1, name: 'Craft', type: 'Motion Graphics', src: '/craft.mp4' },
+  { id: 1, name: 'Craft', type: 'Motion Graphics', src: 'https://www.w3schools.com/html/mov_bbb.mp4' },
   { id: 2, name: 'Star Wars', type: 'Cinematic', src: '/StarWars.mp4' },
   { id: 3, name: 'Project 1', type: 'Color Grade', src: '/v1.mp4' },
   { id: 4, name: 'Project 2', type: 'VFX', src: '/v2.mp4' },
