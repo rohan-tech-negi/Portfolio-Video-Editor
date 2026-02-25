@@ -138,25 +138,40 @@ export default function ContactSection() {
   };
 
   const socialLinks = [
-    { platform: 'Instagram', icon: FaInstagram, link: 'https://instagram.com' },
-    { platform: 'Dribbble',  icon: SiDribbble,  link: 'https://dribbble.com'  },
-    { platform: 'Behance',   icon: FaBehance,   link: 'https://behance.net'   },
+    { platform: 'Instagram', icon: FaInstagram, link: 'https://instagram.com  ' },
+    { platform: 'Dribbble',  icon: SiDribbble,  link: 'https://dribbble.com  '  },
+    { platform: 'Behance',   icon: FaBehance,   link: 'https://behance.net  '   },
   ];
 
   const viewport = { once: true, amount: 0.3 };
 
   return (
     <motion.section
-      className="w-full min-h-screen bg-[#f5f5f5] font-sans pt-10"
+      className="w-full min-h-screen bg-[#f5f5f5] font-sans pt-10 relative overflow-hidden"
       variants={sectionVariants}
       initial="hidden"
       whileInView="visible"
       viewport={viewport}
+      style={{
+        backgroundImage: `
+          linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
+        `,
+        backgroundSize: '24px 24px',
+      }}
     >
+      {/* Radial feather overlay - edges fade, center stays visible */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(245, 245, 245, 0.5) 85%, rgba(245, 245, 245, 0.9) 100%)`
+        }}
+      />
+
       <style>{`.social-icon-hover:hover { cursor: none !important; }`}</style>
       <CustomCursor activeIcon={activeIcon} position={cursorPos} />
 
-      <div className="font-body max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div className="font-body max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-6 lg:gap-10 items-start">
 
           {/* ── LEFT COLUMN — stagger container ── */}
@@ -231,11 +246,11 @@ export default function ContactSection() {
                 <div className="flex flex-col justify-between pl-7 flex-1">
                   <p className="text-[11px] font-bold tracking-widest text-[#555] uppercase m-0">/ Contact Number</p>
                   <a 
-  href="tel:+919354690290" 
-  className="text-[11px] font-bold tracking-widest text-white uppercase m-0 hover:underline transition-colors no-underline"
->
-  +91 9354690290
-</a>
+                    href="tel:+919354690290" 
+                    className="text-[11px] font-bold tracking-widest text-white uppercase m-0 hover:underline transition-colors no-underline"
+                  >
+                    +91 9354690290
+                  </a>
                   {/* <div className="flex gap-4 flex-wrap">
                     {socialLinks.map((social) => (
                       <a
