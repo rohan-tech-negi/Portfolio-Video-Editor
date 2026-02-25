@@ -50,9 +50,19 @@ export default function ToolBox() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="toolbox-wrapper bg-white">
+    <section 
+      ref={sectionRef} 
+      className="toolbox-wrapper bg-white relative overflow-hidden"
+      style={{
+        backgroundImage: `
+          linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
+        `,
+        backgroundSize: '24px 24px'
+      }}
+    >
       {/* LEFT TEXT */}
-      <div ref={textRef} className="toolbox-text">
+      <div ref={textRef} className="toolbox-text relative z-10">
         <div className="flex items-center gap-2 mb-8">
           <div className="w-2 h-2 rounded-full bg-lime-400" />
           <TypewriterOnScroll
@@ -64,7 +74,7 @@ export default function ToolBox() {
       </div>
 
       {/* RIGHT CARDS */}
-      <div className="container">
+      <div className="container relative z-10">
         <ul id="cards">
           <li ref={(el) => (cardsRef.current[0] = el)} className="card" id="card1">
             <div className="card-body skill-card">
