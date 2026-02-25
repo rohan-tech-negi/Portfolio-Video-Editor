@@ -6,15 +6,10 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 export default function Home() {
-  const [emailCopied, setEmailCopied] = useState(false)
+
   const [showCursor, setShowCursor] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 })
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText('rohanwork953@gmail.com')
-    setEmailCopied(true)
-    setTimeout(() => setEmailCopied(false), 2000)
-  }
 
   useEffect(() => {
     let animationFrameId
@@ -92,19 +87,20 @@ export default function Home() {
     <div className="min-h-screen bg-[#f5f5f5] text-black relative">
 
       {/* Custom Cursor */}
-      {showCursor && (
-        <div
-          className="hidden md:flex fixed pointer-events-none z-50 items-center justify-center 
-                     px-6 py-2 rounded-full bg-[#7CFF4E] text-black text-sm font-semibold"
-          style={{
-            left: position.x,
-            top: position.y,
-            transform: 'translate(-50%, -50%)',
-          }}
-        >
-          COPY
-        </div>
-      )}
+      {/* Custom Cursor */}
+{showCursor && (
+  <div
+    className="hidden md:flex fixed pointer-events-none z-50 items-center justify-center 
+               px-6 py-2 rounded-full bg-[#7CFF4E] text-black text-sm font-semibold"
+    style={{
+      left: position.x,
+      top: position.y,
+      transform: 'translate(-50%, -50%)',
+    }}
+  >
+    VISIT
+  </div>
+)}
 
       {/* Hero Section */}
       {/* pt-24 offsets the fixed navbar (~80px tall) so ROHAN isn't hidden behind it */}
@@ -130,26 +126,24 @@ export default function Home() {
 
             {/* Email */}
             <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={textVariants}
-              className="mt-10"
-            >
-              <button
-                onClick={copyEmail}
-                onMouseEnter={() => setShowCursor(true)}
-                onMouseLeave={() => setShowCursor(false)}
-                className="flex items-center gap-3 text-base md:text-lg font-medium 
-                           hover:opacity-60 transition-opacity cursor-none"
-              >
-                <span>rohanwork953@gmail.com</span>
-                <Copy className="w-5 h-5 opacity-50" strokeWidth={2} />
-              </button>
-
-              {emailCopied && (
-                <p className="text-sm text-gray-500 mt-2">Copied to clipboard!</p>
-              )}
-            </motion.div>
+  initial="hidden"
+  animate="visible"
+  variants={textVariants}
+  className="mt-10"
+>
+  <a
+    href="https://mail.google.com/mail/?view=cm&fs=1&to=rohanwork953@gmail.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    onMouseEnter={() => setShowCursor(true)}
+    onMouseLeave={() => setShowCursor(false)}
+    className="flex items-center gap-3 text-base md:text-lg font-medium 
+               hover:opacity-60 transition-opacity cursor-none"
+  >
+    <span>rohanwork953@gmail.com</span>
+    <Copy className="w-5 h-5 opacity-50" strokeWidth={2} />
+  </a>
+</motion.div>
           </div>
 
           {/* RIGHT SIDE — Image + Description */}
