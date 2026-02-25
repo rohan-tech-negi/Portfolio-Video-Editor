@@ -8,6 +8,7 @@ import ProjectsSection from '../herosection/ProjectShowCase'
 import ProjectsSection1 from '../herosection/ProjectShowCase2'
 import Home from '../sections/Hero2'
 import ContactReport from '../../app/contact/page'
+import ScrollProgressBar from '../transition/ScollBar'
 // import Contact from '../sections/Contact'
 // import Projects from '../sections/Projects'
 // import LandingSection from '../landingsection/page'
@@ -18,6 +19,7 @@ const HomePage = () => {
         {/* <LandingSection></LandingSection> */}
         {/* <LandingSection></LandingSection> */}
         {/* <Hero></Hero> */}
+        <ScrollProgressBar></ScrollProgressBar>
         <Home></Home>
         {/* <ProjectsSection></ProjectsSection> */}
         <ProjectsSection1></ProjectsSection1>
