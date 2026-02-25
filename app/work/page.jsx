@@ -149,15 +149,14 @@ export default function ProjectsSection() {
                   onMouseLeave={() => handleMouseLeave(project.ref)}
                 >
                   <video
-                    ref={project.ref}
-                    className="w-full aspect-video object-cover block transition-transform duration-500 group-hover:scale-[1.04]"
-                    loop
-                    muted
-                    playsInline
-                    onClick={handleVideoToggle}
-                  >
-                    <source src={project.src} type="video/mp4" />
-                  </video>
+  ref={project.ref}
+  src={project.src}         
+  className="w-full aspect-video object-cover block transition-transform duration-500 group-hover:scale-[1.04]"
+  loop
+  muted
+  playsInline
+  onClick={handleVideoToggle}
+/>
                   {overlay(project.id)}
                 </div>
 
