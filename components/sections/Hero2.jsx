@@ -137,11 +137,19 @@ export default function Home() {
     rel="noopener noreferrer"
     onMouseEnter={() => setShowCursor(true)}
     onMouseLeave={() => setShowCursor(false)}
-    className="flex items-center gap-3 text-base md:text-lg font-medium 
-               hover:opacity-60 transition-opacity cursor-none"
+    className="group inline-flex items-center gap-6 bg-black text-white 
+               px-8 py-4 rounded-full text-base font-medium 
+               transition-all duration-300 hover:scale-105 cursor-none"
   >
-    <span>rohanwork953@gmail.com</span>
-    <Copy className="w-5 h-5 opacity-50" strokeWidth={2} />
+    <span>Email Me</span>
+
+    {/* Circle Arrow */}
+    <span className="flex items-center justify-center w-10 h-10 
+                     rounded-full bg-white text-black 
+                     transition-transform duration-300 
+                     group-hover:translate-x-1">
+      →
+    </span>
   </a>
 </motion.div>
           </div>
