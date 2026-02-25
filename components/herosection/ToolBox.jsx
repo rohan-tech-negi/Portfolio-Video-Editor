@@ -103,7 +103,7 @@ export default function ToolBox() {
           <li ref={(el) => (cardsRef.current[1] = el)} className="card" id="card2">
             <div className="card-body skill-card">
               <div className="logo-wrapper">
-                <img src="/ae.svg" alt="After Effects" />
+                <img src="/after.png" alt="After Effects" height={200} width={1000}/>
               </div>
               <div className="skill-content">
                 <h3>Adobe After Effects</h3>
@@ -119,7 +119,7 @@ export default function ToolBox() {
           <li ref={(el) => (cardsRef.current[2] = el)} className="card" id="card3">
             <div className="card-body skill-card">
               <div className="logo-wrapper">
-                <img src="/ai.svg" alt="Illustrator" />
+                <img src="/illus.png" alt="Illustrator" />
               </div>
               <div className="skill-content">
                 <h3>Adobe Illustrator</h3>
@@ -135,7 +135,7 @@ export default function ToolBox() {
           <li ref={(el) => (cardsRef.current[3] = el)} className="card" id="card4">
             <div className="card-body skill-card">
               <div className="logo-wrapper">
-                <img src="/dr.svg" alt="DaVinci Resolve" />
+                <img src="/davin.png" alt="DaVinci Resolve" />
               </div>
               <div className="skill-content">
                 <h3>DaVinci Resolve</h3>
