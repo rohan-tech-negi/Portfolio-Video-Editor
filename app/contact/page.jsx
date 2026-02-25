@@ -229,8 +229,14 @@ export default function ContactSection() {
 
                 {/* RIGHT side of card */}
                 <div className="flex flex-col justify-between pl-7 flex-1">
-                  <p className="text-[11px] font-bold tracking-widest text-[#555] uppercase m-0">/ Find me on</p>
-                  <div className="flex gap-4 flex-wrap">
+                  <p className="text-[11px] font-bold tracking-widest text-[#555] uppercase m-0">/ Contact Number</p>
+                  <a 
+  href="tel:+919354690290" 
+  className="text-[11px] font-bold tracking-widest text-white uppercase m-0 hover:underline transition-colors no-underline"
+>
+  +91 9354690290
+</a>
+                  {/* <div className="flex gap-4 flex-wrap">
                     {socialLinks.map((social) => (
                       <a
                         key={social.platform}
@@ -242,7 +248,7 @@ export default function ContactSection() {
                         {social.platform}
                       </a>
                     ))}
-                  </div>
+                  </div> */}
                   <div>
                     <p className="text-[11px] font-bold tracking-widest text-[#555] uppercase mb-1">/ Chat to me</p>
                     <a href="mailto:rohanwork953@gmail.com" className="text-sm font-semibold text-white no-underline hover:underline">
