@@ -1,25 +1,4 @@
-'use client';
-import { useEffect, useRef, useState } from 'react';
-
-const projects = [
-  { id: 1, name: 'Craft', type: 'Motion Graphics', src: '/craft.mp4' },
-  { id: 2, name: 'Star Wars', type: 'Cinematic', src: '/StarWars.mp4' },
-  { id: 3, name: 'Project 1', type: 'Color Grade', src: '/v1.mp4' },
-  { id: 4, name: 'Project 2', type: 'VFX', src: '/v2.mp4' },
-];
-
-function useInView(ref) {
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.25 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-  return inView;
-}
+"use client "
 
 function ProjectCard({ name, type, src, index }) {
   const wrapperRef = useRef(null);
@@ -29,33 +8,69 @@ function ProjectCard({ name, type, src, index }) {
   const [error, setError] = useState(false);
   const [hovered, setHovered] = useState(false);
 
-  // Load video only when in viewport
+  // Load and play video when in viewport
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (inView) {
-      if (!video.src || video.src === window.location.href) {
+
+    if (inView && !loaded && !error) {
+      // Set src only once
+      if (!video.src) {
         video.src = src;
         video.load();
       }
-      video.play().catch(() => {});
-    } else {
+      
+      // Attempt to play with proper handling
+      const playVideo = async () => {
+        try {
+          await video.play();
+        } catch (err) {
+          console.warn('Autoplay failed:', err);
+          // Fallback: ensure controls are available if autoplay fails
+          video.controls = true;
+        }
+      };
+      
+      playVideo();
+    } else if (!inView) {
       video.pause();
     }
-  }, [inView, src]);
+  }, [inView, src, loaded, error]);
 
+  // Handle manual play on hover for better UX
   const handleMouseEnter = () => {
     setHovered(true);
-    if (videoRef.current) {
-      videoRef.current.controls = true;
+    const video = videoRef.current;
+    if (video) {
+      video.controls = true;
+      // If not playing and in view, try to play
+      if (video.paused && inView) {
+        video.play().catch(() => {});
+      }
     }
   };
 
   const handleMouseLeave = () => {
     setHovered(false);
-    if (videoRef.current) {
-      videoRef.current.controls = false;
+    const video = videoRef.current;
+    if (video && inView) {
+      video.controls = false;
+      // Optionally pause on leave, or keep playing
+      // video.pause();
     }
+  };
+
+  // Handle video load success
+  const handleCanPlay = () => {
+    setLoaded(true);
+    setError(false);
+  };
+
+  // Handle video load error
+  const handleError = (e) => {
+    console.error('Video load error:', e);
+    setError(true);
+    setLoaded(false);
   };
 
   return (
@@ -101,9 +116,9 @@ function ProjectCard({ name, type, src, index }) {
           muted
           loop
           playsInline
-          preload="none"
-          onCanPlay={() => setLoaded(true)}
-          onError={() => setError(true)}
+          preload="metadata"
+          onCanPlay={handleCanPlay}
+          onError={handleError}
           className="w-full aspect-video object-cover block transition-transform duration-500 group-hover:scale-[1.04]"
           style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.4s ease, transform 0.5s ease' }}
         />
@@ -136,34 +151,5 @@ function ProjectCard({ name, type, src, index }) {
         }
       `}</style>
     </article>
-  );
-}
-
-export default function ProjectsSection() {
-  return (
-    <section className="w-full bg-[#f5f5f5] py-24 sm:py-32">
-      <div className="max-w-[1500px] mx-auto px-6 sm:px-10 lg:px-16">
-
-        <header className="mb-16">
-          <p className="text-xl font-medium text-black mb-2">[02] — My Work</p>
-          <h2 className="text-[clamp(4rem,8vw,6.5rem)] font-extrabold leading-tight text-[#111]">
-            Projects
-          </h2>
-        </header>
-
-        <div className="max-w-[1000px] mx-auto grid grid-cols-1 gap-12 lg:gap-20">
-          {projects.map((project, i) => (
-            <ProjectCard
-              key={project.id}
-              index={i}
-              name={project.name}
-              type={project.type}
-              src={project.src}
-            />
-          ))}
-        </div>
-
-      </div>
-    </section>
   );
 }

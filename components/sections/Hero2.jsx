@@ -126,10 +126,14 @@ export default function Home() {
 
             {/* Email */}
             <motion.div
-  initial="hidden"
-  animate="visible"
-  variants={textVariants}
-  className="mt-10"
+  initial={{ scale: 0, opacity: 0 }}
+  animate={{ scale: 1, opacity: 1 }}
+  transition={{
+    duration: 0.6,
+    delay: 0.6,
+    ease: [0.6, 0.05, 0.01, 0.9],
+  }}
+  className="mt-10 origin-left"
 >
   <a
     href="https://mail.google.com/mail/?view=cm&fs=1&to=rohanwork953@gmail.com"
@@ -137,21 +141,27 @@ export default function Home() {
     rel="noopener noreferrer"
     onMouseEnter={() => setShowCursor(true)}
     onMouseLeave={() => setShowCursor(false)}
-    className="group inline-flex items-center gap-6 bg-black text-white 
-               px-8 py-4 rounded-full text-base font-medium 
-               transition-all duration-300 hover:scale-105 cursor-none"
+    className="group inline-flex items-center gap-3 bg-[#1a1a1a] text-white 
+               pl-6 pr-2 py-2 rounded-full text-sm font-medium 
+               transition-all duration-300 cursor-none"
   >
-    <span>Email Me</span>
+    <span className="tracking-wide">Book a Call</span>
 
-    {/* Circle Arrow */}
-    <span className="flex items-center justify-center w-10 h-10 
-                     rounded-full bg-white text-black 
-                     transition-transform duration-300 
-                     group-hover:translate-x-1">
-      →
+    {/* Arrow Circle */}
+    <span
+      className="flex items-center justify-center 
+                 w-9 h-9 rounded-full bg-white text-black 
+                 transition-all duration-300 group-hover:bg-gray-200"
+    >
+      <span
+        className="inline-block transition-transform duration-300 
+                   group-hover:translate-x-1 text-base"
+      >
+        →
+      </span>
     </span>
   </a>
-</motion.div>
+</motion.div> 
           </div>
 
           {/* RIGHT SIDE — Image + Description */}
