@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TypewriterOnScroll } from "@/components/common/TypeWritter";
 import Lenis from "lenis";
 import ScrollProgressBar from "@/components/transition/ScollBar";
@@ -11,8 +11,10 @@ const projects = [
   { id: 4, title: "Sequence", category: "VFX", videoSrc: "/v1.mp4", poster: "" },
 ];
 
-function ProjectCard({ title, category, videoSrc, poster, index }) {
+function ProjectCard({ title, category, videoSrc, poster, index, onExpand }) {
   const cardRef = useRef(null);
+  const videoRef = useRef(null);
+  const [playing, setPlaying] = useState(true);
 
   useEffect(() => {
     const el = cardRef.current;
@@ -36,6 +38,19 @@ function ProjectCard({ title, category, videoSrc, poster, index }) {
     return () => observer.disconnect();
   }, [index]);
 
+  const togglePlay = (e) => {
+    e.stopPropagation();
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play();
+      setPlaying(true);
+    } else {
+      video.pause();
+      setPlaying(false);
+    }
+  };
+
   return (
     <div ref={cardRef} className="group flex flex-col gap-4 card-hidden">
       {/* Card */}
@@ -52,6 +67,7 @@ function ProjectCard({ title, category, videoSrc, poster, index }) {
         {/* 16:9 aspect ratio wrapper */}
         <div className="relative w-full aspect-video">
           <video
+            ref={videoRef}
             src={videoSrc}
             poster={poster}
             autoPlay
@@ -60,8 +76,56 @@ function ProjectCard({ title, category, videoSrc, poster, index }) {
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
           />
+
           {/* Subtle vignette overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+
+          {/* Controls — fade in on card hover */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+
+            {/* Play / Pause — bottom left */}
+            <button
+              onClick={togglePlay}
+              className="
+                absolute bottom-3 left-3
+                w-9 h-9 rounded-full
+                bg-black/60 backdrop-blur-sm
+                flex items-center justify-center
+                hover:bg-black/80 transition-colors duration-200
+              "
+            >
+              {playing ? (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="white">
+                  <rect x="2" y="1" width="4" height="12" rx="1" />
+                  <rect x="8" y="1" width="4" height="12" rx="1" />
+                </svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="white">
+                  <polygon points="2,1 13,7 2,13" />
+                </svg>
+              )}
+            </button>
+
+            {/* Expand — bottom right */}
+            <button
+              onClick={(e) => { e.stopPropagation(); onExpand(videoSrc); }}
+              className="
+                absolute bottom-3 right-3
+                w-9 h-9 rounded-full
+                bg-black/60 backdrop-blur-sm
+                flex items-center justify-center
+                hover:bg-black/80 transition-colors duration-200
+              "
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round">
+                <polyline points="9,1 13,1 13,5" />
+                <polyline points="1,9 1,13 5,13" />
+                <line x1="13" y1="1" x2="8" y2="6" />
+                <line x1="1" y1="13" x2="6" y2="8" />
+              </svg>
+            </button>
+
+          </div>
         </div>
       </div>
 
@@ -83,8 +147,95 @@ function ProjectCard({ title, category, videoSrc, poster, index }) {
   );
 }
 
+/* ── Expanded video modal ── */
+function VideoModal({ src, onClose }) {
+  const videoRef = useRef(null);
+  const [playing, setPlaying] = useState(true);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) { video.play(); setPlaying(true); }
+    else { video.pause(); setPlaying(false); }
+  };
+
+  return (
+    /* Backdrop — click outside to close */
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center"
+      style={{ backdropFilter: "blur(12px)", background: "rgba(0,0,0,0.55)" }}
+      onClick={onClose}
+    >
+      {/* Modal — stops click from closing when clicking inside */}
+      <div
+        className="relative w-[88vw] max-w-5xl rounded-2xl overflow-hidden shadow-2xl"
+        style={{ aspectRatio: "16/9" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <video
+          ref={videoRef}
+          src={src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        />
+
+        {/* Play / Pause — bottom left */}
+        <button
+          onClick={togglePlay}
+          className="
+            absolute bottom-4 left-4
+            w-10 h-10 rounded-full
+            bg-black/60 backdrop-blur-sm
+            flex items-center justify-center
+            hover:bg-black/80 transition-colors duration-200
+          "
+        >
+          {playing ? (
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="white">
+              <rect x="2" y="1" width="4" height="12" rx="1" />
+              <rect x="8" y="1" width="4" height="12" rx="1" />
+            </svg>
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="white">
+              <polygon points="2,1 13,7 2,13" />
+            </svg>
+          )}
+        </button>
+
+        {/* Close (collapse) — bottom right */}
+        <button
+          onClick={onClose}
+          className="
+            absolute bottom-4 right-4
+            w-10 h-10 rounded-full
+            bg-black/60 backdrop-blur-sm
+            flex items-center justify-center
+            hover:bg-black/80 transition-colors duration-200
+          "
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round">
+            <line x1="2" y1="2" x2="12" y2="12" />
+            <line x1="12" y1="2" x2="2" y2="12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectsSection() {
   const headingRef = useRef(null);
+  const [expandedSrc, setExpandedSrc] = useState(null);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -120,27 +271,23 @@ export default function ProjectsSection() {
 
   return (
     <>
-    <ScrollProgressBar></ScrollProgressBar>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter  :wght@400;700;900&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap');
+      <ScrollProgressBar />
 
-        /* Heading reveal */
-        .heading-wrap {
-          overflow: hidden;
-        }
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap');
+
+        .heading-wrap { overflow: hidden; }
         .projects-heading {
           display: block;
           transform: translateY(100%);
           opacity: 0;
-          transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-                      opacity 0.9s ease;
+          transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease;
         }
         .heading-revealed .projects-heading {
           transform: translateY(0);
           opacity: 1;
         }
 
-        /* Card reveal */
         .card-hidden {
           opacity: 0;
           transform: scale(0.5);
@@ -153,54 +300,67 @@ export default function ProjectsSection() {
         }
       `}</style>
 
-      <section 
-        className="min-h-screen w-full py-24 px-5 sm:px-8 relative overflow-hidden"
-        style={{
-          backgroundColor: '#f9f9f8',
-          backgroundImage: `
-            linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
-          `,
-          backgroundSize: '24px 24px',
-        }}
-      >
-        {/* Radial feather overlay - edges fade, center stays visible */}
-        <div 
-          className="absolute inset-0 pointer-events-none"
+      {/* Wrap page content so blur applies when modal opens */}
+      <div style={{ filter: expandedSrc ? "blur(5px)" : "none", transition: "filter 0.3s ease" }}>
+        <section
+          className="min-h-screen w-full py-24 px-5 sm:px-8 relative overflow-hidden"
           style={{
-            background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(249, 249, 248, 0.5) 85%, rgba(249, 249, 248, 0.9) 100%)`
+            backgroundColor: '#f9f9f8',
+            backgroundImage: `
+              linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
+            `,
+            backgroundSize: '24px 24px',
           }}
-        />
+        >
+          {/* Radial feather overlay */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(249, 249, 248, 0.5) 85%, rgba(249, 249, 248, 0.9) 100%)`
+            }}
+          />
 
-        <div className="max-w-5xl mx-auto relative z-10">
+          <div className="max-w-5xl mx-auto relative z-10">
 
-          {/* ── Section Header ── */}
-          <div className="mb-16">
-            <TypewriterOnScroll text="[02] — Work" className="text-xl font-medium text-black" />
-            <div ref={headingRef} className="heading-wrap pb-4 mt-4">
-              <h2
-                className="
-                  projects-heading
-                  font-['Inter',sans-serif]
-                  text-[clamp(3rem,9vw,6rem)]
-                  font-black leading-[0.9] tracking-tighter
-                  text-[#0d0d0d]
-                "
-              >
-                Projects.
-              </h2>
+            {/* ── Section Header ── */}
+            <div className="mb-16">
+              <TypewriterOnScroll text="[02] — Work" className="text-xl font-medium text-black" />
+              <div ref={headingRef} className="heading-wrap pb-4 mt-4">
+                <h2
+                  className="
+                    projects-heading
+                    font-['Inter',sans-serif]
+                    text-[clamp(3rem,9vw,6rem)]
+                    font-black leading-[0.9] tracking-tighter
+                    text-[#0d0d0d]
+                  "
+                >
+                  Projects.
+                </h2>
+              </div>
             </div>
-          </div>
 
-          {/* ── Project Cards ── */}
-          <div className="flex flex-col gap-14 sm:gap-20">
-            {projects.map((project, i) => (
-              <ProjectCard key={project.id} {...project} index={i} />
-            ))}
-          </div>
+            {/* ── Project Cards ── */}
+            <div className="flex flex-col gap-14 sm:gap-20">
+              {projects.map((project, i) => (
+                <ProjectCard
+                  key={project.id}
+                  {...project}
+                  index={i}
+                  onExpand={setExpandedSrc}
+                />
+              ))}
+            </div>
 
-        </div>
-      </section>
+          </div>
+        </section>
+      </div>
+
+      {/* Modal sits outside the blur wrapper */}
+      {expandedSrc && (
+        <VideoModal src={expandedSrc} onClose={() => setExpandedSrc(null)} />
+      )}
     </>
   );
 }
