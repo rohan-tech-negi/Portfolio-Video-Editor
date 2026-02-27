@@ -31,6 +31,7 @@ import { Play, Pause, ArrowUpRight } from 'lucide-react';
 // import SplitText from 'gsap/SplitText.js';
 import SplitText from '../SplitText';
 import { TypewriterOnScroll } from '../common/TypeWritter';
+import Link from "next/link";
 
 /* ─── tiny hook: fires once when element enters viewport ─── */
 function useInView(ref, threshold = 0.15) {
@@ -199,7 +200,7 @@ export default function ProjectsSection() {
               onMouseEnter={() => setIsViewMoreHovered(true)}
               onMouseLeave={() => setIsViewMoreHovered(false)}
               onMouseMove={handleViewMoreMouseMove}
-              onClick={() => (window.location.href = '/projects')}
+              onClick={() => (window.location.href = '/work')}
             >
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light text-white/60 leading-none tracking-tight transition-colors duration-300 hover:text-white">
                 <SplitText text="View More" inView={inView} baseDelay={300} stagger={90} />
@@ -287,7 +288,7 @@ export default function ProjectsSection() {
               onMouseEnter={() => setIsCtaHovered(true)}
               onMouseLeave={() => setIsCtaHovered(false)}
               onMouseMove={handleViewMoreMouseMove}
-              onClick={() => (window.location.href = '/projects')}
+              onClick={() => (window.location.href = '/work')}
             >
               <div className="absolute inset-0 opacity-20">
                 <div
