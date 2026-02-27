@@ -185,7 +185,7 @@ export default function ContactSection() {
             {/* Child 1: Tag + Heading + Paragraph */}
             <motion.div variants={leftItemVariants}>
               <TypewriterOnScroll
-                text="[01] — Contact"
+                text="[03] — Contact"
                 className="text-xl font-medium text-black"
               />
               <h1 className="text-[clamp(3rem,6vw,5.5rem)] font-extrabold leading-[1.05] text-[#111] m-0 font-display">
