@@ -52,7 +52,12 @@ function ProjectCard({ title, category, videoSrc, poster, index, onExpand }) {
   };
 
   return (
-    <div ref={cardRef} className="group flex flex-col gap-4 card-hidden">
+    <div
+      ref={cardRef}
+      className="group flex flex-col gap-4 card-hidden"
+      onMouseEnter={() => { if (videoRef.current) videoRef.current.muted = false; }}
+      onMouseLeave={() => { if (videoRef.current) videoRef.current.muted = true; }}
+    >
       {/* Card */}
       <div
         className="
@@ -173,9 +178,9 @@ function VideoModal({ src, onClose }) {
       style={{ backdropFilter: "blur(12px)", background: "rgba(0,0,0,0.55)" }}
       onClick={onClose}
     >
-      {/* Modal — stops click from closing when clicking inside */}
+      {/* Modal box */}
       <div
-        className="relative w-[88vw] max-w-5xl rounded-2xl overflow-hidden shadow-2xl"
+        className="relative w-[96vw] max-w-6xl rounded-2xl overflow-hidden shadow-2xl"
         style={{ aspectRatio: "16/9" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -183,7 +188,6 @@ function VideoModal({ src, onClose }) {
           ref={videoRef}
           src={src}
           autoPlay
-          muted
           loop
           playsInline
           className="w-full h-full object-cover"
@@ -212,7 +216,7 @@ function VideoModal({ src, onClose }) {
           )}
         </button>
 
-        {/* Close (collapse) — bottom right */}
+        {/* Close — bottom right */}
         <button
           onClick={onClose}
           className="
@@ -300,7 +304,7 @@ export default function ProjectsSection() {
         }
       `}</style>
 
-      {/* Wrap page content so blur applies when modal opens */}
+      {/* Blur page when modal is open */}
       <div style={{ filter: expandedSrc ? "blur(5px)" : "none", transition: "filter 0.3s ease" }}>
         <section
           className="min-h-screen w-full py-24 px-5 sm:px-8 relative overflow-hidden"
@@ -357,7 +361,7 @@ export default function ProjectsSection() {
         </section>
       </div>
 
-      {/* Modal sits outside the blur wrapper */}
+      {/* Modal sits outside blur wrapper */}
       {expandedSrc && (
         <VideoModal src={expandedSrc} onClose={() => setExpandedSrc(null)} />
       )}
