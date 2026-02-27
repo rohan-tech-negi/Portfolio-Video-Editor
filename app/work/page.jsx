@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import { TypewriterOnScroll } from "@/components/common/TypeWritter";
 import Lenis from "lenis";
+import ScrollProgressBar from "@/components/transition/ScollBar";
 
 const projects = [
   { id: 1, title: "Craft", category: "Motion Graphics", videoSrc: "/craft.mp4", poster: "" },
@@ -119,6 +120,7 @@ export default function ProjectsSection() {
 
   return (
     <>
+    <ScrollProgressBar></ScrollProgressBar>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter  :wght@400;700;900&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap');
 
