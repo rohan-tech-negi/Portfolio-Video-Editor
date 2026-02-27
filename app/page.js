@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Lenis from "@studio-freight/lenis";
-import HomePage from "../components/homepage/page";
+import HomePage from "./components/homepage/page";
 
 export default function Home() {
   const lenisRef = useRef(null);

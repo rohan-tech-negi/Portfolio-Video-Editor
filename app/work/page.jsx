@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { TypewriterOnScroll } from "@/components/common/TypeWritter";
+import { TypewriterOnScroll } from "@/app/components/common/TypeWritter";
 import Lenis from "lenis";
-import ScrollProgressBar from "@/components/transition/ScollBar";
+import ScrollProgressBar from "@/app/components/transition/ScollBar";
 
 const projects = [
   { id: 1, title: "Craft", category: "Motion Graphics", videoSrc: "/craft.mp4", poster: "" },
