@@ -60,23 +60,33 @@ function ProjectCard({ title, category, videoSrc, poster }) {
       </div>
 
       {/* Below-card meta row */}
-      <div className="flex items-baseline justify-between px-1">
+      <div className="flex items-center justify-between px-1 mt-2">
         <span
           className="
-             text-4xl md:text-5xl lg:text-6xl font-black font-['Inter',sans-serif] tracking-tighter
-            text-[#0d0d0d] leading-none
+             text-xl md:text-2xl font-medium font-['DM_Sans',sans-serif] tracking-tight
+            text-[#222] leading-none mb-0
           "
         >
           {title}
         </span>
-        <span
-          className="
-            font-['DM_Mono',monospace] text-[11px] tracking-[0.2em]
-            uppercase text-white/40 leading-none
-          "
-        >
-          {category}
-        </span>
+        <div className="flex items-center gap-6">
+          <span
+            className="
+              font-['DM_Mono',monospace] text-xs tracking-widest
+              uppercase text-gray-500 leading-none
+            "
+          >
+            {category}
+          </span>
+          <span
+            className="
+              font-['DM_Mono',monospace] text-[10px] tracking-widest
+              text-gray-400 leading-none
+            "
+          >
+            2024
+          </span>
+        </div>
       </div>
     </div>
   );
