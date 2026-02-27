@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { TypewriterOnScroll } from "@/components/common/TypeWritter";
+import Lenis from "lenis";
 
 const projects = [
   { id: 1, title: "Craft", category: "Motion Graphics", videoSrc: "/craft.mp4", poster: "" },
@@ -83,6 +84,22 @@ function ProjectCard({ title, category, videoSrc, poster, index }) {
 
 export default function ProjectsSection() {
   const headingRef = useRef(null);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.4,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
+  }, []);
 
   useEffect(() => {
     const el = headingRef.current;

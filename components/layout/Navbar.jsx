@@ -46,15 +46,16 @@ export default function Navbar() {
       <div className="flex items-center gap-6 ">
 
         {/* Menu items — absolutely positioned so they never push the button */}
-        <motion.div
-          animate={{
-            opacity: menuOpen ? 1 : 0,
-            x: menuOpen ? 0 : 16,
-          }}
-          transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
-          style={{ pointerEvents: menuOpen ? "auto" : "none" }}
-          className="flex gap-6"
-        >
+       <motion.div
+  initial={{ opacity: 0, x: 16 }}
+  animate={{
+    opacity: menuOpen ? 1 : 0,
+    x: menuOpen ? 0 : 16,
+  }}
+  transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
+  style={{ pointerEvents: menuOpen ? "auto" : "none" }}
+  className="flex gap-6"
+>
           {["Work", "Contact"].map((item, i) => {
             const href = item === "Contact" ? "/contact" : item === "Work" ? "/work" : "/"
 
