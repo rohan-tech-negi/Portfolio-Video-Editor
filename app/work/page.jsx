@@ -103,15 +103,7 @@ export default function ProjectsSection() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap');
-
-        .grid-bg {
-          background-color: #f9f9f8;
-          background-image:
-            linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
-          background-size: 40px 40px;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter  :wght@400;700;900&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap');
 
         /* Heading reveal */
         .heading-wrap {
@@ -142,8 +134,26 @@ export default function ProjectsSection() {
         }
       `}</style>
 
-      <section className="grid-bg min-h-screen w-full py-24 px-5 sm:px-8">
-        <div className="max-w-5xl mx-auto">
+      <section 
+        className="min-h-screen w-full py-24 px-5 sm:px-8 relative overflow-hidden"
+        style={{
+          backgroundColor: '#f9f9f8',
+          backgroundImage: `
+            linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
+          `,
+          backgroundSize: '24px 24px',
+        }}
+      >
+        {/* Radial feather overlay - edges fade, center stays visible */}
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(249, 249, 248, 0.5) 85%, rgba(249, 249, 248, 0.9) 100%)`
+          }}
+        />
+
+        <div className="max-w-5xl mx-auto relative z-10">
 
           {/* ── Section Header ── */}
           <div className="mb-16">
