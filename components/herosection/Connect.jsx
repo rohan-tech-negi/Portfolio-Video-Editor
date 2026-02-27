@@ -21,7 +21,7 @@ import { FaXTwitter, FaInstagram, FaBehance } from 'react-icons/fa6';
 import { SiDribbble } from 'react-icons/si';
 import { TypewriterOnScroll } from '../common/TypeWritter';
 import SplitText from '../SplitText';
-import Link from 'next/link';
+
 
 
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Copy, Download } from 'lucide-react'
+import {  Download } from 'lucide-react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 
