@@ -8,7 +8,7 @@ import { TypewriterOnScroll } from '@/app/components/common/TypeWritter';
 
 // ── YOUR WEB3FORMS ACCESS KEY ─────────────────────────────────────────────────
 // Get it free at https://web3forms.com → Enter your Gmail → Copy key
-const WEB3FORMS_KEY = "YOUR_ACCESS_KEY_HERE";
+const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
 
 // ── Animation Variants ────────────────────────────────────────────────────────
 
@@ -182,10 +182,10 @@ export default function ContactSection() {
             <motion.div variants={leftItemVariants}>
               <TypewriterOnScroll text="[03] — Contact" className="text-xl font-medium text-black" />
               <h1 className="text-[clamp(3rem,6vw,5.5rem)] font-extrabold leading-[1.05] text-[#111] m-0 font-display">
-                Let's Talk.
+                Let&apos;s Talk.
               </h1>
               <p className="mt-4 text-[#666] text-sm leading-relaxed max-w-[340px]">
-                I'm Rohan, a video editor and cinematographer passionate about crafting cinematic stories and immersive visual experiences.
+                I&apos;m Rohan, a video editor and cinematographer passionate about crafting cinematic stories and immersive visual experiences.
               </p>
             </motion.div>
 
@@ -216,7 +216,7 @@ export default function ContactSection() {
                     {socialLinks.map((social) => {
                       const Icon = social.icon;
                       return (
-                        
+                        <a
                           key={social.platform}
                           href={social.link}
                           target="_blank"
@@ -241,7 +241,7 @@ export default function ContactSection() {
                 <div className="flex flex-col justify-between sm:pl-7 flex-1 gap-4 sm:gap-0">
                   <div>
                     <p className="text-[11px] font-bold tracking-widest text-[#555] uppercase m-0">/ Contact Number</p>
-                    
+                    <a
                       href="tel:+919354690290"
                       className="text-[11px] font-bold tracking-widest text-white uppercase mt-1 block hover:underline no-underline"
                     >
@@ -263,7 +263,7 @@ export default function ContactSection() {
             {/* Bio blurb */}
             <motion.div variants={leftItemVariants} className="border-t border-[#ddd] pt-6">
               <p className="text-[#555] text-sm leading-relaxed">
-                Beyond editing, I continuously explore the world of 3D and real-time environments in Unreal Engine, pushing my creative boundaries into virtual production and immersive visuals. Over time, I've worked on diverse creative projects — blending motion, sound, and storytelling to deliver compelling visual experiences.
+                Beyond editing, I continuously explore the world of 3D and real-time environments in Unreal Engine, pushing my creative boundaries into virtual production and immersive visuals. Over time, I&apos;ve worked on diverse creative projects — blending motion, sound, and storytelling to deliver compelling visual experiences.
               </p>
             </motion.div>
           </motion.div>
@@ -296,7 +296,7 @@ export default function ContactSection() {
                     </svg>
                   </div>
                   <p className="text-xl font-bold">Message sent!</p>
-                  <p className="text-sm text-[#999]">Thanks for reaching out. I'll get back to you soon.</p>
+                  <p className="text-sm text-[#999]">Thanks for reaching out. I&apos;ll get back to you soon.</p>
                 </motion.div>
               ) : (
                 <motion.form
