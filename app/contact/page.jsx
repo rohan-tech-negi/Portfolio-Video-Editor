@@ -1,10 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaInstagram, FaBehance } from 'react-icons/fa6';
 import { SiDribbble } from 'react-icons/si';
 import { TypewriterOnScroll } from '@/app/components/common/TypeWritter';
+
+// ── YOUR WEB3FORMS ACCESS KEY ─────────────────────────────────────────────────
+// Get it free at https://web3forms.com → Enter your Gmail → Copy key
+const WEB3FORMS_KEY = "YOUR_ACCESS_KEY_HERE";
 
 // ── Animation Variants ────────────────────────────────────────────────────────
 
@@ -12,70 +16,44 @@ const ease = [0.25, 0.1, 0.25, 1];
 
 const sectionVariants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.8, ease },
-  },
+  visible: { opacity: 1, transition: { duration: 0.8, ease } },
 };
 
-// Left column: orchestrates stagger across its children
 const leftColVariants = {
   hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.22,
-      delayChildren: 0.2,
-    },
-  },
+  visible: { transition: { staggerChildren: 0.22, delayChildren: 0.2 } },
 };
 
-// Shared variant for every direct child item in the left column
 const leftItemVariants = {
   hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 1.0, ease },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 1.0, ease } },
 };
 
 const rightColVariants = {
   hidden: { opacity: 0, x: 60 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.8, delay: 0.4, ease },
-  },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.8, delay: 0.4, ease } },
 };
 
-// Stagger container for form fields
 const formContainerVariants = {
   hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.55,
-    },
-  },
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.55 } },
 };
 
 const formFieldVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease } },
 };
 
 const buttonVariants = {
   hidden: { opacity: 0, y: 16, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.5, ease },
-  },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease } },
+};
+
+// Success message pop-in
+const successVariants = {
+  hidden: { opacity: 0, scale: 0.92, y: 10 },
+  visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.45, ease } },
+  exit: { opacity: 0, scale: 0.92, y: -10, transition: { duration: 0.3 } },
 };
 
 // ── Custom Cursor ─────────────────────────────────────────────────────────────
@@ -94,19 +72,13 @@ function CustomCursor({ activeIcon, position }) {
         zIndex: 9999,
       }}
     >
-      <div
-        style={{
-          width: 52,
-          height: 52,
-          borderRadius: '50%',
-          backgroundColor: 'white',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
-          border: '1.5px solid rgba(0,0,0,0.08)',
-        }}
-      >
+      <div style={{
+        width: 52, height: 52, borderRadius: '50%',
+        backgroundColor: 'white', display: 'flex',
+        alignItems: 'center', justifyContent: 'center',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+        border: '1.5px solid rgba(0,0,0,0.08)',
+      }}>
         <Icon size={22} color="#111" />
       </div>
     </div>
@@ -117,6 +89,7 @@ function CustomCursor({ activeIcon, position }) {
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
   const [activeIcon, setActiveIcon] = useState(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
 
@@ -131,16 +104,42 @@ export default function ContactSection() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  // ✅ Web3Forms submission — sends directly to your Gmail, no backend needed
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setFormData({ name: '', email: '', message: '' });
+    setStatus('loading');
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          ...formData,
+          // Optional: customise the subject line in your Gmail inbox
+          subject: `Portfolio Contact from ${formData.name}`,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        // Reset back to idle after 4s so they can submit again
+        setTimeout(() => setStatus('idle'), 4000);
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   const socialLinks = [
-    { platform: 'Instagram', icon: FaInstagram, link: 'https://instagram.com  ' },
-    { platform: 'Dribbble',  icon: SiDribbble,  link: 'https://dribbble.com  '  },
-    { platform: 'Behance',   icon: FaBehance,   link: 'https://behance.net  '   },
+    { platform: 'Instagram', icon: FaInstagram, link: 'https://instagram.com' },
+    { platform: 'Dribbble',  icon: SiDribbble,  link: 'https://dribbble.com' },
+    { platform: 'Behance',   icon: FaBehance,   link: 'https://behance.net' },
   ];
 
   const viewport = { once: true, amount: 0.3 };
@@ -160,12 +159,9 @@ export default function ContactSection() {
         backgroundSize: '24px 24px',
       }}
     >
-      {/* Radial feather overlay - edges fade, center stays visible */}
-      <div 
+      <div
         className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(245, 245, 245, 0.5) 85%, rgba(245, 245, 245, 0.9) 100%)`
-        }}
+        style={{ background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(245,245,245,0.5) 85%, rgba(245,245,245,0.9) 100%)` }}
       />
 
       <style>{`.social-icon-hover:hover { cursor: none !important; }`}</style>
@@ -174,7 +170,7 @@ export default function ContactSection() {
       <div className="font-body max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-6 lg:gap-10 items-start">
 
-          {/* ── LEFT COLUMN — stagger container ── */}
+          {/* ── LEFT COLUMN ── */}
           <motion.div
             className="flex flex-col gap-7"
             variants={leftColVariants}
@@ -182,12 +178,9 @@ export default function ContactSection() {
             whileInView="visible"
             viewport={viewport}
           >
-            {/* Child 1: Tag + Heading + Paragraph */}
+            {/* Heading */}
             <motion.div variants={leftItemVariants}>
-              <TypewriterOnScroll
-                text="[03] — Contact"
-                className="text-xl font-medium text-black"
-              />
+              <TypewriterOnScroll text="[03] — Contact" className="text-xl font-medium text-black" />
               <h1 className="text-[clamp(3rem,6vw,5.5rem)] font-extrabold leading-[1.05] text-[#111] m-0 font-display">
                 Let's Talk.
               </h1>
@@ -196,17 +189,17 @@ export default function ContactSection() {
               </p>
             </motion.div>
 
-            {/* Child 2: Email / Social Card */}
+            {/* ✅ Contact Card — flex-col on mobile, flex-row on sm+ */}
             <motion.div
               variants={leftItemVariants}
-              className="bg-[#111] rounded-[18px] p-7 w-full"
-              style={{ minHeight: '180px' }}
+              className="bg-[#111] rounded-[18px] p-6 sm:p-7 w-full"
             >
-              <div className="flex items-stretch gap-0 h-full">
+              <div className="flex flex-col sm:flex-row gap-6 sm:gap-0">
 
                 {/* LEFT side of card */}
-                <div className="flex flex-col justify-between gap-5 pr-7" style={{ minWidth: '160px' }}>
-                  <div className="flex justify-between items-center">
+                <div className="flex flex-row sm:flex-col justify-between sm:justify-between gap-5 sm:pr-7 sm:min-w-[160px]">
+                  <div className="flex justify-between items-center w-full sm:w-auto">
+                    {/* Paperclip icon */}
                     <div className="w-11 h-11 bg-[#f5f5f3] rounded-[10px] flex items-center justify-center text-[#333]">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
@@ -218,11 +211,12 @@ export default function ContactSection() {
                     </div>
                   </div>
 
-                  <div className="flex gap-2.5">
+                  {/* Social icons */}
+                  <div className="flex gap-2.5 items-center">
                     {socialLinks.map((social) => {
                       const Icon = social.icon;
                       return (
-                        <a
+                        
                           key={social.platform}
                           href={social.link}
                           target="_blank"
@@ -239,19 +233,22 @@ export default function ContactSection() {
                   </div>
                 </div>
 
-                {/* Divider */}
-                <div style={{ width: '1px', backgroundColor: '#2a2a2a', alignSelf: 'stretch', flexShrink: 0 }} />
+                {/* ✅ Divider — horizontal on mobile, vertical on sm+ */}
+                <div className="block sm:hidden h-px w-full bg-[#2a2a2a]" />
+                <div className="hidden sm:block w-px bg-[#2a2a2a] self-stretch flex-shrink-0" />
 
                 {/* RIGHT side of card */}
-                <div className="flex flex-col justify-between pl-7 flex-1">
-                  <p className="text-[11px] font-bold tracking-widest text-[#555] uppercase m-0">/ Contact Number</p>
-                  <a 
-                    href="tel:+919354690290" 
-                    className="text-[11px] font-bold tracking-widest text-white uppercase m-0 hover:underline transition-colors no-underline"
-                  >
-                    +91 9354690290
-                  </a>
-                  
+                <div className="flex flex-col justify-between sm:pl-7 flex-1 gap-4 sm:gap-0">
+                  <div>
+                    <p className="text-[11px] font-bold tracking-widest text-[#555] uppercase m-0">/ Contact Number</p>
+                    
+                      href="tel:+919354690290"
+                      className="text-[11px] font-bold tracking-widest text-white uppercase mt-1 block hover:underline no-underline"
+                    >
+                      +91 9354690290
+                    </a>
+                  </div>
+
                   <div>
                     <p className="text-[11px] font-bold tracking-widest text-[#555] uppercase mb-1">/ Chat to me</p>
                     <a href="mailto:rohanwork953@gmail.com" className="text-sm font-semibold text-white no-underline hover:underline">
@@ -263,7 +260,7 @@ export default function ContactSection() {
               </div>
             </motion.div>
 
-            {/* Child 3: Bio Blurb */}
+            {/* Bio blurb */}
             <motion.div variants={leftItemVariants} className="border-t border-[#ddd] pt-6">
               <p className="text-[#555] text-sm leading-relaxed">
                 Beyond editing, I continuously explore the world of 3D and real-time environments in Unreal Engine, pushing my creative boundaries into virtual production and immersive visuals. Over time, I've worked on diverse creative projects — blending motion, sound, and storytelling to deliver compelling visual experiences.
@@ -271,9 +268,9 @@ export default function ContactSection() {
             </motion.div>
           </motion.div>
 
-          {/* ── RIGHT COLUMN ── */}
+          {/* ── RIGHT COLUMN — Form ── */}
           <motion.div
-            className="bg-[#111] rounded-[24px] p-10 text-white"
+            className="bg-[#111] rounded-[24px] p-7 sm:p-10 text-white"
             variants={rightColVariants}
             initial="hidden"
             whileInView="visible"
@@ -281,74 +278,108 @@ export default function ContactSection() {
           >
             <h2 className="text-2xl font-bold mb-8 font-display">Get in touch</h2>
 
-            <motion.form
-              onSubmit={handleSubmit}
-              className="flex flex-col gap-5"
-              variants={formContainerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-            >
-              {/* Name */}
-              <motion.div variants={formFieldVariants}>
-                <label htmlFor="name" className="text-xs font-medium text-[#999] mb-2 block tracking-wide">
-                  Your name*
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Your name"
-                  required
-                  className="w-full bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl px-5 py-4 text-white text-sm outline-none transition-colors focus:border-red-500 placeholder:text-gray-600"
-                />
-              </motion.div>
+            {/* ✅ AnimatePresence swaps form ↔ success message */}
+            <AnimatePresence mode="wait">
+              {status === 'success' ? (
+                <motion.div
+                  key="success"
+                  variants={successVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="flex flex-col items-center justify-center gap-4 py-16 text-center"
+                >
+                  {/* Checkmark circle */}
+                  <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <p className="text-xl font-bold">Message sent!</p>
+                  <p className="text-sm text-[#999]">Thanks for reaching out. I'll get back to you soon.</p>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="form"
+                  onSubmit={handleSubmit}
+                  className="flex flex-col gap-5"
+                  variants={formContainerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {/* Name */}
+                  <motion.div variants={formFieldVariants}>
+                    <label htmlFor="name" className="text-xs font-medium text-[#999] mb-2 block tracking-wide">
+                      Your name*
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Your name"
+                      required
+                      disabled={status === 'loading'}
+                      className="w-full bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl px-5 py-4 text-white text-sm outline-none transition-colors focus:border-red-500 placeholder:text-gray-600 disabled:opacity-50"
+                    />
+                  </motion.div>
 
-              {/* Email */}
-              <motion.div variants={formFieldVariants}>
-                <label htmlFor="email" className="text-xs font-medium text-[#999] mb-2 block tracking-wide">
-                  E-mail*
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Your Email"
-                  required
-                  className="w-full bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl px-5 py-4 text-white text-sm outline-none transition-colors focus:border-red-500 placeholder:text-gray-600"
-                />
-              </motion.div>
+                  {/* Email */}
+                  <motion.div variants={formFieldVariants}>
+                    <label htmlFor="email" className="text-xs font-medium text-[#999] mb-2 block tracking-wide">
+                      E-mail*
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Your Email"
+                      required
+                      disabled={status === 'loading'}
+                      className="w-full bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl px-5 py-4 text-white text-sm outline-none transition-colors focus:border-red-500 placeholder:text-gray-600 disabled:opacity-50"
+                    />
+                  </motion.div>
 
-              {/* Message */}
-              <motion.div variants={formFieldVariants}>
-                <label htmlFor="message" className="text-xs font-medium text-[#999] mb-2 block tracking-wide">
-                  Message
-                </label>
-                <textarea
-                  name="message"
-                  id="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Your Message"
-                  required
-                  rows={5}
-                  className="w-full bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl px-5 py-4 text-white text-sm outline-none transition-colors focus:border-red-500 placeholder:text-gray-600 resize-none"
-                />
-              </motion.div>
+                  {/* Message */}
+                  <motion.div variants={formFieldVariants}>
+                    <label htmlFor="message" className="text-xs font-medium text-[#999] mb-2 block tracking-wide">
+                      Message
+                    </label>
+                    <textarea
+                      name="message"
+                      id="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Your Message"
+                      required
+                      rows={5}
+                      disabled={status === 'loading'}
+                      className="w-full bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl px-5 py-4 text-white text-sm outline-none transition-colors focus:border-red-500 placeholder:text-gray-600 resize-none disabled:opacity-50"
+                    />
+                  </motion.div>
 
-              {/* Submit — last, scale in */}
-              <motion.button
-                type="submit"
-                variants={buttonVariants}
-                className="w-full bg-white text-black text-base font-medium py-4 rounded-full border-none cursor-pointer transition-colors hover:bg-red-500 hover:text-white mt-2"
-              >
-                Get in touch
-              </motion.button>
-            </motion.form>
+                  {/* ✅ Error state */}
+                  {status === 'error' && (
+                    <p className="text-red-400 text-xs text-center -mt-2">
+                      Something went wrong. Please try again or email directly.
+                    </p>
+                  )}
+
+                  {/* Submit */}
+                  <motion.button
+                    type="submit"
+                    variants={buttonVariants}
+                    disabled={status === 'loading'}
+                    className="w-full bg-white text-black text-base font-medium py-4 rounded-full border-none cursor-pointer transition-colors hover:bg-red-500 hover:text-white mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {status === 'loading' ? 'Sending…' : 'Get in touch'}
+                  </motion.button>
+                </motion.form>
+              )}
+            </AnimatePresence>
           </motion.div>
 
         </div>

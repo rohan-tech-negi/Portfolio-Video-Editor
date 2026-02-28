@@ -3,13 +3,12 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { TypewriterOnScroll } from "@/app/components/common/TypeWritter";
 import Lenis from "lenis";
 import ScrollProgressBar from "@/app/components/transition/ScollBar";
-import {getOptimizedVideoUrl} from "@/lib/imagekit";
 
 const projects = [
-  { id: 1, title: "Craft", category: "Motion Graphics", videoSrc: "craft.mp4", poster: "" },
-  { id: 2, title: "Star Wars", category: "VFX", videoSrc: "StarWars.mp4", poster: "" },
-  { id: 3, title: "Toh Kya Badla", category: "Cinametic", videoSrc: "toh kya badla.mp4", poster: "" },
-  { id: 4, title: "Money Talks", category: "Motion Graphics", videoSrc: "moneytalks.mp4", poster: "" },
+  { id: 1, title: "Craft", category: "Motion Graphics", videoSrc: "/craft.mp4", poster: "" },
+  { id: 2, title: "Star Wars", category: "Cinematic", videoSrc: "/StarWars.mp4", poster: "" },
+  { id: 3, title: "Toh Kya Badla", category: "Color Grade", videoSrc: "/toh kya badla.mp4", poster: "" },
+  { id: 4, title: "Sequence", category: "VFX", videoSrc: "/v1.mp4", poster: "" },
 ];
 
 function ProjectCard({ title, category, videoSrc, poster, index, onExpand }) {
@@ -70,8 +69,6 @@ function ProjectCard({ title, category, videoSrc, poster, index, onExpand }) {
     else video.pause();
   }, []);
 
-  const optimizedVideoSrc = getOptimizedVideoUrl(videoSrc);
-
   return (
     <div
       ref={cardRef}
@@ -83,7 +80,7 @@ function ProjectCard({ title, category, videoSrc, poster, index, onExpand }) {
         <div className="relative w-full aspect-video">
           <video
             ref={videoRef}
-            src={optimizedVideoSrc}
+            src={videoSrc}
             poster={poster}
             autoPlay
             muted
@@ -114,7 +111,7 @@ function ProjectCard({ title, category, videoSrc, poster, index, onExpand }) {
             </button>
 
             <button
-              onClick={(e) => { e.stopPropagation(); onExpand(optimizedVideoSrc); }}
+              onClick={(e) => { e.stopPropagation(); onExpand(videoSrc); }}
               className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center hover:bg-black/80 transition-colors duration-200"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round">
@@ -136,9 +133,9 @@ function ProjectCard({ title, category, videoSrc, poster, index, onExpand }) {
           <span className="font-['DM_Mono',monospace] text-xs tracking-widest uppercase text-gray-500 leading-none">
             {category}
           </span>
-          {/* <span className="font-['DM_Mono',monospace] text-[10px] tracking-widest text-gray-400 leading-none">
+          <span className="font-['DM_Mono',monospace] text-[10px] tracking-widest text-gray-400 leading-none">
             2024
-          </span> */}
+          </span>
         </div>
       </div>
     </div>
