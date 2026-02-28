@@ -6,9 +6,9 @@ import ScrollProgressBar from "@/app/components/transition/ScollBar";
 
 const projects = [
   { id: 1, title: "Craft", category: "Motion Graphics", videoSrc: "/craft.mp4", poster: "" },
-  { id: 2, title: "Star Wars", category: "Cinematic", videoSrc: "/StarWars.mp4", poster: "" },
-  { id: 3, title: "Toh Kya Badla", category: "Color Grade", videoSrc: "/toh kya badla.mp4", poster: "" },
-  { id: 4, title: "Sequence", category: "VFX", videoSrc: "/v1.mp4", poster: "" },
+  { id: 2, title: "Star Wars", category: "VFX", videoSrc: "/StarWars.mp4", poster: "" },
+  { id: 3, title: "Toh Kya Badla", category: "Cinametic", videoSrc: "/toh kya badla.mp4", poster: "" },
+  { id: 4, title: "Money Talks", category: "Motion Graphics", videoSrc: "/v1.mp4", poster: "" },
 ];
 
 function ProjectCard({ title, category, videoSrc, poster, index, onExpand }) {
@@ -133,9 +133,9 @@ function ProjectCard({ title, category, videoSrc, poster, index, onExpand }) {
           <span className="font-['DM_Mono',monospace] text-xs tracking-widest uppercase text-gray-500 leading-none">
             {category}
           </span>
-          <span className="font-['DM_Mono',monospace] text-[10px] tracking-widest text-gray-400 leading-none">
+          {/* <span className="font-['DM_Mono',monospace] text-[10px] tracking-widest text-gray-400 leading-none">
             2024
-          </span>
+          </span> */}
         </div>
       </div>
     </div>

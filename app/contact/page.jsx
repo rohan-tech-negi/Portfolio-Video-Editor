@@ -251,19 +251,7 @@ export default function ContactSection() {
                   >
                     +91 9354690290
                   </a>
-                  {/* <div className="flex gap-4 flex-wrap">
-                    {socialLinks.map((social) => (
-                      <a
-                        key={social.platform}
-                        href={social.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[13px] font-medium text-[#666] no-underline transition-colors hover:text-white"
-                      >
-                        {social.platform}
-                      </a>
-                    ))}
-                  </div> */}
+                  
                   <div>
                     <p className="text-[11px] font-bold tracking-widest text-[#555] uppercase mb-1">/ Chat to me</p>
                     <a href="mailto:rohanwork953@gmail.com" className="text-sm font-semibold text-white no-underline hover:underline">
