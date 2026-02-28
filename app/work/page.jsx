@@ -8,7 +8,7 @@ const projects = [
   { id: 1, title: "Craft", category: "Motion Graphics", videoSrc: "/craft.mp4", poster: "" },
   { id: 2, title: "Star Wars", category: "VFX", videoSrc: "/StarWars.mp4", poster: "" },
   { id: 3, title: "Toh Kya Badla", category: "Cinametic", videoSrc: "/toh kya badla.mp4", poster: "" },
-  { id: 4, title: "Money Talks", category: "Motion Graphics", videoSrc: "/v1.mp4", poster: "" },
+  { id: 4, title: "Money Talks", category: "Motion Graphics", videoSrc: "/moneytalks.mp4", poster: "" },
 ];
 
 function ProjectCard({ title, category, videoSrc, poster, index, onExpand }) {
