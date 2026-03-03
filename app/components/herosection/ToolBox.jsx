@@ -79,7 +79,7 @@ export default function ToolBox() {
             className="text-xl font-medium text-black"
           />
         </div>
-        <h1 className="toolbox-title text-black">My Creative Toolbox</h1>
+        <h1 className=" font-bold toolbox-title text-black">My Creative Toolbox</h1>
       </div>
 
       {/* RIGHT CARDS */}

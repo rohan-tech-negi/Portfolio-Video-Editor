@@ -221,7 +221,7 @@ export default function ProjectsSection() {
             >
               <div className="relative aspect-[16/10] bg-zinc-800">
                 <video ref={video1Ref} className="w-full h-full object-cover" loop muted playsInline onClick={handleVideoToggle}>
-                  <source src="/v1.mp4" type="video/mp4" />
+                  <source src="/moneytalks.mp4" type="video/mp4" />
                 </video>
                 {overlay(1)}
               </div>

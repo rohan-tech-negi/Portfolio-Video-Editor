@@ -123,7 +123,7 @@ export default function Home() {
 
           {/* LEFT SIDE — Name + Email */}
           <div className="flex flex-col justify-center overflow-hidden">
-            <div className="leading-[0.85] tracking-[-0.04em]">
+            <div className=" font-bold leading-[0.85] tracking-[-0.04em]">
               {['ROHAN', 'SINGH', 'NEGI'].map((name, i) => (
                 <motion.h1
                   key={name}
@@ -131,7 +131,7 @@ export default function Home() {
                   initial="hidden"
                   animate="visible"
                   variants={nameVariants}
-                  className="font-bold text-[18vw] lg:text-[10vw]"
+                  className="font-semibold text-[18vw] lg:text-[10vw]"
                 >
                   {name}
                 </motion.h1>
