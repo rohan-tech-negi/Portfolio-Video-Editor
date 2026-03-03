@@ -88,7 +88,7 @@ function CustomCursor({ activeIcon, position }) {
 // ── Main Component ────────────────────────────────────────────────────────────
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '', videoType: '', budget: '' });
   const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
   const [activeIcon, setActiveIcon] = useState(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
@@ -125,7 +125,7 @@ export default function ContactSection() {
 
       if (data.success) {
         setStatus('success');
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ name: '', email: '', message: '', videoType: '', budget: '' });
         // Reset back to idle after 4s so they can submit again
         setTimeout(() => setStatus('idle'), 4000);
       } else {
@@ -340,6 +340,54 @@ export default function ContactSection() {
                       required
                       disabled={status === 'loading'}
                       className="w-full bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl px-5 py-4 text-white text-sm outline-none transition-colors focus:border-red-500 placeholder:text-gray-600 disabled:opacity-50"
+                    />
+                  </motion.div>
+
+                  {/* Video Type */}
+                  <motion.div variants={formFieldVariants}>
+                    <label htmlFor="videoType" className="text-xs font-medium text-[#999] mb-2 block tracking-wide">
+                      Video Type*
+                    </label>
+                    <div className="relative">
+                      <select
+                        name="videoType"
+                        id="videoType"
+                        value={formData.videoType}
+                        onChange={handleChange}
+                        required
+                        disabled={status === 'loading'}
+                        className="w-full bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl px-5 py-4 text-white text-sm outline-none transition-colors focus:border-red-500 disabled:opacity-50 appearance-none"
+                      >
+                        <option value="" disabled className="text-gray-500">Select video type</option>
+                        <option value="Instagram reel">Instagram reel</option>
+                        <option value="Commercial ads">Commercial ads</option>
+                        <option value="Cinematic / Story telling">Cinematic / Story telling</option>
+                        <option value="Podcast edit">Podcast edit</option>
+                        <option value="Motion graphics">Motion graphics</option>
+                      </select>
+                      {/* Custom dropdown arrow */}
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-[#555]">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Budget */}
+                  <motion.div variants={formFieldVariants}>
+                    <label htmlFor="budget" className="text-xs font-medium text-[#999] mb-2 flex items-center gap-1.5 tracking-wide">
+                      Budget Range <span className="text-[#666] text-[10px] uppercase">(Optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="budget"
+                      id="budget"
+                      value={formData.budget}
+                      onChange={handleChange}
+                      placeholder="e.g. $500 - $1000"
+                      disabled={status === 'loading'}
+                      className="w-full bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl px-5 py-4 text-white text-sm outline-none transition-colors focus:border-red-500 placeholder:text-gray-500 disabled:opacity-50"
                     />
                   </motion.div>
 
