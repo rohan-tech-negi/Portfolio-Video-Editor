@@ -8,7 +8,7 @@ import { TypewriterOnScroll } from '@/app/components/common/TypeWritter';
 
 // ── YOUR WEB3FORMS ACCESS KEY ─────────────────────────────────────────────────
 // Get it free at https://web3forms.com → Enter your Gmail → Copy key
-const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+const WEB3FORMS_KEY = "0973e84d-9e4e-498a-a720-4a1b6247a8d9";
 
 // ── Animation Variants ────────────────────────────────────────────────────────
 
