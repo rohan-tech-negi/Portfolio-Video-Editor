@@ -9,7 +9,16 @@ function ProjectCard({ title, category, gridVideo, modalVideo, poster, index, on
   const cardRef = useRef(null);
   const videoRef = useRef(null);
   const [playing, setPlaying] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const rafRef = useRef(null);
+
+  const handleMouseMove = useCallback((e) => {
+  if (rafRef.current) cancelAnimationFrame(rafRef.current); // cancel previous frame
+  rafRef.current = requestAnimationFrame(() => {
+    setCursorPosition({ x: e.clientX, y: e.clientY });
+  });
+}, []);
 
   // Sync playing state with actual video state
   useEffect(() => {
@@ -70,7 +79,20 @@ function ProjectCard({ title, category, gridVideo, modalVideo, poster, index, on
       onMouseEnter={() => { if (videoRef.current) videoRef.current.muted = false; }}
       onMouseLeave={() => { if (videoRef.current) videoRef.current.muted = true; }}
     >
-      <div className="relative w-full rounded-2xl overflow-hidden bg-[#0d0d0d] border border-white/[0.06] transition-transform duration-500 ease-out group-hover:scale-[1.012] shadow-[0_8px_40px_rgba(0,0,0,0.45)] group-hover:shadow-[0_16px_60px_rgba(0,0,0,0.65)]">
+      <div 
+        className="relative w-full rounded-2xl overflow-hidden bg-[#0d0d0d] border border-white/[0.06] transition-transform duration-500 ease-out group-hover:scale-[1.012] shadow-[0_8px_40px_rgba(0,0,0,0.45)] group-hover:shadow-[0_16px_60px_rgba(0,0,0,0.65)]"
+        style={{ cursor: isHovered ? 'none' : 'pointer' }}
+        onMouseEnter={(e) => {
+  setCursorPosition({ x: e.clientX, y: e.clientY }); // 👈 set position BEFORE showing cursor
+  setIsHovered(true);
+}}
+      onMouseLeave={() => {
+  setIsHovered(false);
+  if (rafRef.current) cancelAnimationFrame(rafRef.current);
+}}
+onMouseMove={handleMouseMove}
+        onClick={() => onExpand(modalVideo)}
+      >
         <div className="relative w-full aspect-video">
           <video
             ref={videoRef}
@@ -118,6 +140,25 @@ function ProjectCard({ title, category, gridVideo, modalVideo, poster, index, on
           </div>
         </div>
       </div>
+
+      {/* Custom Oval Cursor */}
+      {isHovered && (
+        <div
+          className="fixed pointer-events-none z-50"
+          style={{
+            left: cursorPosition.x,
+            top: cursorPosition.y,
+            transform: 'translate(-50%, -50%)',
+            willChange: 'left, top',
+          }}
+        >
+          <div className="px-6 py-3 bg-lime-400 rounded-full shadow-lg shadow-lime-400/50">
+            <span className="text-black font-semibold text-sm tracking-wide whitespace-nowrap">
+              PLAY
+            </span>
+          </div>
+        </div>
+      )}
 
       <div className="flex items-center justify-between px-1 mt-2">
         <span className="text-xl md:text-2xl font-medium font-['DM_Sans',sans-serif] tracking-tight text-[#222] leading-none mb-0">
