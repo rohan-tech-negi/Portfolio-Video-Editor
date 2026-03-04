@@ -8,19 +8,66 @@ import { projects } from "@/lib/projects";
 function ProjectCard({ title, category, gridVideo, modalVideo, poster, index, onExpand }) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
+  const cursorRef = useRef(null);
   const [playing, setPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  const rafRef = useRef(null);
 
   const handleMouseMove = useCallback((e) => {
-  if (rafRef.current) cancelAnimationFrame(rafRef.current); // cancel previous frame
-  rafRef.current = requestAnimationFrame(() => {
-    setCursorPosition({ x: e.clientX, y: e.clientY });
+    if (cursorRef.current) {
+      cursorRef.current.style.left = e.clientX + 'px';
+      cursorRef.current.style.top = e.clientY + 'px';
+    }
+  }, []);
+
+const handleMouseEnter = useCallback((e) => {
+  if (!cardRef.current || !cursorRef.current) return;
+
+  const rect = cardRef.current.getBoundingClientRect();
+  const cursor = cursorRef.current;
+
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  const midX = rect.width / 2;
+  const midY = rect.height / 2;
+
+  const dx = x - midX;
+  const dy = y - midY;
+
+  let edgeX = e.clientX;
+  let edgeY = e.clientY;
+
+  // Detect closest edge
+  if (Math.abs(dx) > Math.abs(dy)) {
+    // Left or Right edge
+    edgeX = dx > 0 ? rect.right : rect.left;
+    edgeY = e.clientY;
+  } else {
+    // Top or Bottom edge
+    edgeX = e.clientX;
+    edgeY = dy > 0 ? rect.bottom : rect.top;
+  }
+
+  // Instantly move to edge
+  cursor.style.transition = "none";
+  cursor.style.left = edgeX + "px";
+  cursor.style.top = edgeY + "px";
+
+  // Next frame enable opacity
+  requestAnimationFrame(() => {
+    cursor.style.transition = "opacity 0.15s ease";
+    setIsHovered(true);
   });
+
+  if (videoRef.current) videoRef.current.muted = false;
+
 }, []);
 
-  // Sync playing state with actual video state
+  const handleMouseLeave = useCallback(() => {
+    if (videoRef.current) videoRef.current.muted = true;
+    setIsHovered(false);
+  }, []);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -34,7 +81,6 @@ function ProjectCard({ title, category, gridVideo, modalVideo, poster, index, on
     };
   }, []);
 
-  // Intersection observer for card reveal + lazy video play
   useEffect(() => {
     const el = cardRef.current;
     const video = videoRef.current;
@@ -43,7 +89,6 @@ function ProjectCard({ title, category, gridVideo, modalVideo, poster, index, on
     if (index === 0) {
       const t = setTimeout(() => {
         el.classList.add("card-revealed");
-        // Attempt autoplay for first card immediately
         video?.play().catch(() => {});
       }, 100);
       return () => clearTimeout(t);
@@ -53,7 +98,6 @@ function ProjectCard({ title, category, gridVideo, modalVideo, poster, index, on
       ([entry]) => {
         if (entry.isIntersecting) {
           el.classList.add("card-revealed");
-          // Only play when card enters viewport
           video?.play().catch(() => {});
           observer.disconnect();
         }
@@ -76,21 +120,32 @@ function ProjectCard({ title, category, gridVideo, modalVideo, poster, index, on
     <div
       ref={cardRef}
       className="group flex flex-col gap-4 card-hidden"
-      onMouseEnter={() => { if (videoRef.current) videoRef.current.muted = false; }}
-      onMouseLeave={() => { if (videoRef.current) videoRef.current.muted = true; }}
     >
-      <div 
+      {/* Always mounted — only opacity toggled, never remounted */}
+      <div
+        ref={cursorRef}
+        className="absolute pointer-events-none z-50"
+        style={{
+          left: 0,
+          top: 0,
+          transform: 'translate(-50%, -50%)',
+          willChange: 'left, top',
+          opacity: isHovered ? 1 : 0,
+        }}
+      >
+        <div className="px-6 py-3 bg-lime-400 rounded-full shadow-lg shadow-lime-400/50">
+          <span className="text-black font-semibold text-sm tracking-wide whitespace-nowrap">
+            PLAY
+          </span>
+        </div>
+      </div>
+
+      <div
         className="relative w-full rounded-2xl overflow-hidden bg-[#0d0d0d] border border-white/[0.06] transition-transform duration-500 ease-out group-hover:scale-[1.012] shadow-[0_8px_40px_rgba(0,0,0,0.45)] group-hover:shadow-[0_16px_60px_rgba(0,0,0,0.65)]"
         style={{ cursor: isHovered ? 'none' : 'pointer' }}
-        onMouseEnter={(e) => {
-  setCursorPosition({ x: e.clientX, y: e.clientY }); // 👈 set position BEFORE showing cursor
-  setIsHovered(true);
-}}
-      onMouseLeave={() => {
-  setIsHovered(false);
-  if (rafRef.current) cancelAnimationFrame(rafRef.current);
-}}
-onMouseMove={handleMouseMove}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onMouseMove={handleMouseMove}
         onClick={() => onExpand(modalVideo)}
       >
         <div className="relative w-full aspect-video">
@@ -102,7 +157,6 @@ onMouseMove={handleMouseMove}
             muted
             loop
             playsInline
-            // Tells browser this is low-priority until visible
             preload={index === 0 ? "auto" : "none"}
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -140,25 +194,6 @@ onMouseMove={handleMouseMove}
           </div>
         </div>
       </div>
-
-      {/* Custom Oval Cursor */}
-      {isHovered && (
-        <div
-          className="fixed pointer-events-none z-50"
-          style={{
-            left: cursorPosition.x,
-            top: cursorPosition.y,
-            transform: 'translate(-50%, -50%)',
-            willChange: 'left, top',
-          }}
-        >
-          <div className="px-6 py-3 bg-lime-400 rounded-full shadow-lg shadow-lime-400/50">
-            <span className="text-black font-semibold text-sm tracking-wide whitespace-nowrap">
-              PLAY
-            </span>
-          </div>
-        </div>
-      )}
 
       <div className="flex items-center justify-between px-1 mt-2">
         <span className="text-xl md:text-2xl font-medium font-['DM_Sans',sans-serif] tracking-tight text-[#222] leading-none mb-0">
@@ -271,12 +306,12 @@ export default function ProjectsSection() {
     let rafId;
     function raf(time) {
       lenis.raf(time);
-      rafId = requestAnimationFrame(raf); // ✅ store ID for cleanup
+      rafId = requestAnimationFrame(raf);
     }
     rafId = requestAnimationFrame(raf);
 
     return () => {
-      cancelAnimationFrame(rafId); // ✅ properly cancel on unmount
+      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);

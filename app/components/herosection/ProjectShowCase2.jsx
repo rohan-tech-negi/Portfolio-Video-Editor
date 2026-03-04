@@ -1,29 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -73,7 +48,7 @@ function ScaleReveal({ children, inView, delay = 0, className = '', style = {} }
 
 /* ══════════════════════════════════════════════ */
 export default function ProjectsSection() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [hoveredProject, setHoveredProject] = useState(null);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [isViewMoreHovered, setIsViewMoreHovered] = useState(false);
@@ -115,8 +90,17 @@ export default function ProjectsSection() {
 
   useEffect(() => {
     const all = [video1Ref, video2Ref, video3Ref, video4Ref];
-    all.forEach(r => r.current?.play().catch(() => {}));
-    setIsPlaying(true);
+    // Instead of forcing play programmatically here on mount, we can rely on `autoPlay` property
+    // But since it's already rendered, let's trigger it properly.
+    all.forEach(r => {
+      if (r.current) {
+        r.current.muted = true;
+        r.current.loop = true;
+        r.current.play().catch(() => {});
+      }
+    });
+    // Removed setIsPlaying(true) from here to avoid cascading updates, 
+    // it's true by default based on initial state setup to match autoPlay
   }, []);
 
   /* ── shared overlay logic ── */
@@ -220,7 +204,7 @@ export default function ProjectsSection() {
               onMouseLeave={() => handleMouseLeave(video1Ref)}
             >
               <div className="relative aspect-[16/10] bg-zinc-800">
-                <video ref={video1Ref} className="w-full h-full object-cover" loop muted playsInline onClick={handleVideoToggle}>
+                <video ref={video1Ref} className="w-full h-full object-cover" autoPlay loop muted playsInline onClick={handleVideoToggle}>
                   <source src="/moneytalks.mp4" type="video/mp4" />
                 </video>
                 {overlay(1)}
@@ -236,7 +220,7 @@ export default function ProjectsSection() {
               onMouseLeave={() => handleMouseLeave(video2Ref)}
             >
               <div className="relative aspect-[16/10] bg-zinc-800">
-                <video ref={video2Ref} className="w-full h-full object-cover" loop muted playsInline onClick={handleVideoToggle}>
+                <video ref={video2Ref} className="w-full h-full object-cover" autoPlay loop muted playsInline onClick={handleVideoToggle}>
                   <source src="/craft.mp4" type="video/mp4" />
                 </video>
                 {overlay(2)}
@@ -256,7 +240,7 @@ export default function ProjectsSection() {
               onMouseLeave={() => handleMouseLeave(video3Ref)}
             >
               <div className="relative aspect-[16/10] bg-zinc-800">
-                <video ref={video3Ref} className="w-full h-full object-cover" loop muted playsInline onClick={handleVideoToggle}>
+                <video ref={video3Ref} className="w-full h-full object-cover" autoPlay loop muted playsInline onClick={handleVideoToggle}>
                   <source src="/toh kya badla.mp4" type="video/mp4" />
                 </video>
                 {overlay(3)}
@@ -272,7 +256,7 @@ export default function ProjectsSection() {
               onMouseLeave={() => handleMouseLeave(video4Ref)}
             >
               <div className="relative aspect-[16/10] bg-zinc-800">
-                <video ref={video4Ref} className="w-full h-full object-cover" loop muted playsInline onClick={handleVideoToggle}>
+                <video ref={video4Ref} className="w-full h-full object-cover" autoPlay loop muted playsInline onClick={handleVideoToggle}>
                   <source src="/StarWars.mp4" type="video/mp4" />
                 </video>
                 {overlay(4)}
