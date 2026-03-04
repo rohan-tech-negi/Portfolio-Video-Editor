@@ -12,55 +12,21 @@ function ProjectCard({ title, category, gridVideo, modalVideo, poster, index, on
   const [playing, setPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleMouseMove = useCallback((e) => {
-    if (cursorRef.current) {
-      cursorRef.current.style.left = e.clientX + 'px';
-      cursorRef.current.style.top = e.clientY + 'px';
-    }
-  }, []);
-
-const handleMouseEnter = useCallback((e) => {
+ const handleMouseMove = useCallback((e) => {
   if (!cardRef.current || !cursorRef.current) return;
 
   const rect = cardRef.current.getBoundingClientRect();
-  const cursor = cursorRef.current;
 
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
-  const midX = rect.width / 2;
-  const midY = rect.height / 2;
+  cursorRef.current.style.left = x + "px";
+  cursorRef.current.style.top = y + "px";
+}, []);
 
-  const dx = x - midX;
-  const dy = y - midY;
-
-  let edgeX = e.clientX;
-  let edgeY = e.clientY;
-
-  // Detect closest edge
-  if (Math.abs(dx) > Math.abs(dy)) {
-    // Left or Right edge
-    edgeX = dx > 0 ? rect.right : rect.left;
-    edgeY = e.clientY;
-  } else {
-    // Top or Bottom edge
-    edgeX = e.clientX;
-    edgeY = dy > 0 ? rect.bottom : rect.top;
-  }
-
-  // Instantly move to edge
-  cursor.style.transition = "none";
-  cursor.style.left = edgeX + "px";
-  cursor.style.top = edgeY + "px";
-
-  // Next frame enable opacity
-  requestAnimationFrame(() => {
-    cursor.style.transition = "opacity 0.15s ease";
-    setIsHovered(true);
-  });
-
+const handleMouseEnter = useCallback(() => {
+  setIsHovered(true);
   if (videoRef.current) videoRef.current.muted = false;
-
 }, []);
 
   const handleMouseLeave = useCallback(() => {
@@ -126,12 +92,10 @@ const handleMouseEnter = useCallback((e) => {
         ref={cursorRef}
         className="absolute pointer-events-none z-50"
         style={{
-          left: 0,
-          top: 0,
-          transform: 'translate(-50%, -50%)',
-          willChange: 'left, top',
-          opacity: isHovered ? 1 : 0,
-        }}
+  transform: "translate(-50%, -50%)",
+  opacity: isHovered ? 1 : 0,
+  transition: "opacity 0.2s ease",
+}}
       >
         <div className="px-6 py-3 bg-lime-400 rounded-full shadow-lg shadow-lime-400/50">
           <span className="text-black font-semibold text-sm tracking-wide whitespace-nowrap">
