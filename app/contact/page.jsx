@@ -256,7 +256,7 @@ export default function ContactSection() {
 
                 {/* ✅ Divider — horizontal on mobile, vertical on sm+ */}
                 <div className="block sm:hidden h-px w-full bg-[#2a2a2a]" />
-                <div className="hidden sm:block w-px bg-[#2a2a2a] self-stretch flex-shrink-0" />
+                <div className="hidden sm:block w-px bg-[#2a2a2a] self-stretch shrink-0" />
 
                 {/* RIGHT side of card */}
                 <div className="flex flex-col justify-between sm:pl-7 flex-1 gap-4 sm:gap-0">

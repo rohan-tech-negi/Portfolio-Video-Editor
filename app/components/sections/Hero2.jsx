@@ -131,7 +131,7 @@ export default function Home() {
                   initial="hidden"
                   animate="visible"
                   variants={nameVariants}
-                  className="font-semibold text-[18vw] lg:text-[10vw]"
+                  className="font-semibold text-[20vw] lg:text-[12.5vw]"
                 >
                   {name}
                 </motion.h1>
@@ -179,7 +179,7 @@ export default function Home() {
               initial="hidden"
               animate="visible"
               variants={imageVariants}
-              className="relative w-52 h-52 md:w-60 md:h-60 lg:w-60 lg:h-60"
+              className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96"
             >
               <div className="absolute inset-0 bg-gray-300 rounded-full blur-2xl opacity-20" />
               <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg border border-gray-200">
@@ -197,9 +197,9 @@ export default function Home() {
               initial="hidden"
               animate="visible"
               variants={textVariants}
-              className="max-w-md lg:max-w-lg"
+              className="max-w-md lg:max-w-xl"
             >
-              <p className="text-[1.3rem] md:text-[1.5rem] lg:text-[1.7rem] leading-[1.5] 
+              <p className="text-[1.2rem] md:text-[1.2rem] lg:text-[1.5rem] leading-[1.4] 
                             text-gray-900 font-medium text-center lg:text-right">
                 Cinematic storytelling through motion and light.
                 Precision editing. Refined color. Impactful visuals.
