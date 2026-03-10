@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaInstagram, FaBehance } from 'react-icons/fa6';
 import { SiDribbble } from 'react-icons/si';
 import { TypewriterOnScroll } from '@/app/components/common/TypeWritter';
+import Lenis from 'lenis';
 
 // ── YOUR WEB3FORMS ACCESS KEY ─────────────────────────────────────────────────
 // Get it free at https://web3forms.com → Enter your Gmail → Copy key
@@ -97,6 +98,26 @@ export default function ContactSection() {
     const handleMouseMove = (e) => setCursorPos({ x: e.clientX, y: e.clientY });
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.4,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+    });
+
+    let rafId;
+    function raf(time) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
   }, []);
 
   const handleChange = (e) => {
