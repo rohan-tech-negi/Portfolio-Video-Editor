@@ -7,7 +7,7 @@ import { motion } from 'framer-motion'
 
 export default function Home() {
 
-  const [showCursor, setShowCursor] = useState(false)
+  const [cursorText, setCursorText] = useState(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
 
 
@@ -33,7 +33,7 @@ export default function Home() {
       animationFrameId = requestAnimationFrame(animate)
     }
 
-    if (showCursor) {
+    if (cursorText) {
       window.addEventListener('mousemove', move)
       animationFrameId = requestAnimationFrame(animate)
     }
@@ -42,7 +42,7 @@ export default function Home() {
       window.removeEventListener('mousemove', move)
       if (animationFrameId) cancelAnimationFrame(animationFrameId)
     }
-  }, [showCursor])
+  }, [cursorText])
 
   const nameVariants = {
     hidden: { opacity: 0, y: 100 },
@@ -103,7 +103,7 @@ export default function Home() {
       />
 
       {/* Custom Cursor */}
-      {showCursor && (
+      {cursorText && (
         <div
           className="hidden md:flex fixed pointer-events-none z-50 items-center justify-center 
                      px-6 py-2 rounded-full bg-[#7CFF4E] text-black text-sm font-semibold"
@@ -113,7 +113,7 @@ export default function Home() {
             transform: 'translate(-50%, -50%)',
           }}
         >
-          DOWNLOAD
+          {cursorText}
         </div>
       )}
 
@@ -152,8 +152,8 @@ export default function Home() {
               <a
                 href="/resume.pdf"
                 download="Rohan_Singh_Negi_Resume.pdf"
-                onMouseEnter={() => setShowCursor(true)}
-                onMouseLeave={() => setShowCursor(false)}
+                onMouseEnter={() => setCursorText('DOWNLOAD')}
+                onMouseLeave={() => setCursorText(null)}
                 className="group inline-flex items-center gap-3 bg-[#1a1a1a] text-white 
                            pl-6 pr-2 py-2 rounded-full text-sm font-medium 
                            transition-all duration-300 cursor-none"
@@ -182,7 +182,11 @@ export default function Home() {
               className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96"
             >
               <div className="absolute inset-0 bg-gray-300 rounded-full blur-2xl opacity-20" />
-              <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg border border-gray-200">
+              <div 
+                className="relative w-full h-full rounded-full overflow-hidden shadow-lg border border-gray-200 cursor-none"
+                onMouseEnter={() => setCursorText('FLIP')}
+                onMouseLeave={() => setCursorText(null)}
+              >
                 <Image
                   src="/profile.jpg"
                   alt="Rohan Singh Negi"
