@@ -179,7 +179,7 @@ export default function Home() {
               initial="hidden"
               animate="visible"
               variants={imageVariants}
-              className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96"
+              className="relative w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80"
             >
               <div className="absolute inset-0 bg-gray-300 rounded-full blur-2xl opacity-20" />
               <div 
@@ -188,7 +188,7 @@ export default function Home() {
                 onMouseLeave={() => setCursorText(null)}
               >
                 <Image
-                  src="/profile.jpg"
+                  src="/profile.jpeg"
                   alt="Rohan Singh Negi"
                   fill
                   className="object-cover"
@@ -203,7 +203,7 @@ export default function Home() {
               variants={textVariants}
               className="max-w-md lg:max-w-xl"
             >
-              <p className="text-[1.2rem] md:text-[1.2rem] lg:text-[1.5rem] leading-[1.4] 
+              <p className="text-[1.05rem] md:text-[1.1rem] lg:text-[1.6rem] leading-[1.4] 
                             text-gray-900 font-medium text-center lg:text-right">
                 Cinematic storytelling through motion and light.
                 Precision editing. Refined color. Impactful visuals.
