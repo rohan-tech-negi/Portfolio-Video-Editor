@@ -38,7 +38,7 @@ const socialLinks = [
     id: 1,
     platform: 'Instagram',
     icon: FaInstagram,
-    link: 'https://instagram.com',
+    link: 'https://www.instagram.com/risky.wipe/',
     cursorLabel: 'VISIT',
   },
   {

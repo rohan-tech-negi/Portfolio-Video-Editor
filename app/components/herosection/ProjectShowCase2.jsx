@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Play, Pause, ArrowUpRight } from 'lucide-react';
 import SplitText from '../SplitText';
 import { TypewriterOnScroll } from '../common/TypeWritter';
-import { projects } from '@/lib/projects.js';
+import { loopProjects } from '@/lib/projects2'; // ← separate data source
 
-/* ─── tiny hook: fires once when element enters viewport ─── */
 function useInView(ref, threshold = 0.15) {
   const [inView, setInView] = useState(false);
   useEffect(() => {
@@ -22,7 +21,6 @@ function useInView(ref, threshold = 0.15) {
   return inView;
 }
 
-/* ─── ScaleReveal: scale 50→100 + fade ─── */
 function ScaleReveal({ children, inView, delay = 0, className = '', style = {} }) {
   return (
     <div
@@ -41,150 +39,142 @@ function ScaleReveal({ children, inView, delay = 0, className = '', style = {} }
   );
 }
 
+/* ── Video card extracted OUTSIDE main component to avoid ref reset on re-render ── */
+function VideoCard({ project, videoRef, isPlaying, isHovered, onMouseEnter, onMouseLeave, onToggle, inView, delay, idx }) {
+  const overlayVisible = !isPlaying || isHovered;
+
+  return (
+    <ScaleReveal inView={inView} delay={delay}>
+      <div
+        className="group relative bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02]"
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        <div className="relative aspect-[16/10] bg-zinc-800">
+          <video
+            ref={videoRef}
+            className="w-full h-full object-cover"
+            loop
+            muted
+            playsInline
+            preload="auto"
+            poster={project.poster}
+            src={project.loopVideo}  // ← src directly, not <source> child
+          />
+
+          {/* Overlay */}
+          <div
+            className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 ${
+              overlayVisible ? 'opacity-100' : 'opacity-0'
+            }`}
+            onClick={onToggle}
+          >
+            <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+              {isPlaying
+                ? <Pause className="w-8 h-8 text-white" fill="white" />
+                : <Play  className="w-8 h-8 text-white ml-1" fill="white" />}
+            </div>
+          </div>
+        </div>
+      </div>
+    </ScaleReveal>
+  );
+}
+
 /* ══════════════════════════════════════════════ */
 export default function ProjectsSection() {
   const [isPlaying, setIsPlaying] = useState(true);
-  const [hoveredProject, setHoveredProject] = useState(null);
+  const [hoveredIdx, setHoveredIdx] = useState(null);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [isViewMoreHovered, setIsViewMoreHovered] = useState(false);
   const [isCtaHovered, setIsCtaHovered] = useState(false);
 
-  // 4 refs for 4 featured videos
-  const videoRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
+  // Stable refs array — defined at top level, never recreated
+  const v0 = useRef(null);
+  const v1 = useRef(null);
+  const v2 = useRef(null);
+  const v3 = useRef(null);
+  const videoRefs = [v0, v1, v2, v3];
 
   const sectionRef = useRef(null);
   const inView = useInView(sectionRef, 0.1);
 
-  // Only show first 4 projects in this section
-  const featuredProjects = projects.slice(0, 4);
+  /* ── Init: muted autoplay ── */
+  useEffect(() => {
+    videoRefs.forEach(r => {
+      const v = r.current;
+      if (!v) return;
+      v.muted = true;
+      v.volume = 1;      // ✅ volume ready, just muted
+      v.loop = true;
+      v.play().catch(() => {});
+    });
+  }, []);
 
-  /* ── video control ── */
-  const handleVideoToggle = () => {
-    if (isPlaying) {
-      videoRefs.forEach(r => r.current?.pause());
-      setIsPlaying(false);
-    } else {
-      videoRefs.forEach(r => r.current?.play().catch(() => {}));
-      setIsPlaying(true);
-    }
-  };
+  /* ── Toggle all play/pause ── */
+  const handleVideoToggle = useCallback(() => {
+    setIsPlaying(prev => {
+      const next = !prev;
+      videoRefs.forEach(r => {
+        if (!r.current) return;
+        if (next) r.current.play().catch(() => {});
+        else r.current.pause();
+      });
+      return next;
+    });
+  }, []);
 
-  const handleMouseEnter = (idx) => {
-    setHoveredProject(idx);
-    if (videoRefs[idx].current) videoRefs[idx].current.muted = false ;
-    videoRefs[idx].current.volume = 1;;
-  };
+  /* ── Hover: unmute with fresh play() to satisfy browser policy ── */
+  const handleMouseEnter = useCallback((idx) => {
+    setHoveredIdx(idx);
+    const v = videoRefs[idx].current;
+    if (!v) return;
+    v.muted = false;
+    v.volume = 1;
+    v.play().catch(() => {
+      v.muted = true; // fallback if browser blocks
+    });
+  }, []);
 
-  const handleMouseLeave = (idx) => {
-    setHoveredProject(null);
-    if (videoRefs[idx].current) videoRefs[idx].current.muted = true;
-  };
+  const handleMouseLeave = useCallback((idx) => {
+    setHoveredIdx(null);
+    const v = videoRefs[idx].current;
+    if (!v) return;
+    v.muted = true;
+  }, []);
 
   const handleViewMoreMouseMove = (e) => {
     requestAnimationFrame(() => setCursorPosition({ x: e.clientX, y: e.clientY }));
   };
 
-useEffect(() => {
-  videoRefs.forEach(r => {
-    if (!r.current) return;
-    r.current.muted = true;
-    r.current.loop = true;
-     r.current.volume = 1;
-    r.current.load();                  // ✅ force browser to fetch Cloudinary URL
-    r.current.play().catch(() => {});
-  });
-}, []);
-
-  /* ── shared overlay logic ── */
-  const overlay = (idx) => (
-    <div
-      className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 ${
-        isPlaying && hoveredProject !== idx ? 'opacity-0' : 'opacity-100'
-      }`}
-      onClick={handleVideoToggle}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && handleVideoToggle()}
-      aria-label={isPlaying ? 'Pause videos' : 'Play videos'}
-    >
-      <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-        {!isPlaying
-          ? <Play className="w-8 h-8 text-white ml-1" fill="white" aria-hidden="true" />
-          : <Pause className="w-8 h-8 text-white" fill="white" aria-hidden="true" />}
-      </div>
-    </div>
-  );
-
-  /* ── reusable video card ── */
-  const VideoCard = ({ project, idx, delay }) => (
-    <ScaleReveal inView={inView} delay={delay}>
-      <div
-        className="group relative bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02]"
-        onMouseEnter={() => handleMouseEnter(idx)}
-        onMouseLeave={() => handleMouseLeave(idx)}
-        role="article"
-        aria-label={project.title || `Project ${idx + 1}`}
-      >
-        <div className="relative aspect-[16/10] bg-zinc-800">
-          <video
-            ref={videoRefs[idx]}
-            className="w-full h-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload='auto'
-            poster={project.poster}
-            onClick={handleVideoToggle}
-            aria-label={`${project.title || 'Project'} video preview`}
-          >
-            <source src={project.loopVideo} type="video/mp4" />
-          </video>
-          {overlay(idx)}
-        </div>
-      </div>
-    </ScaleReveal>
-  );
-
   return (
     <section
       ref={sectionRef}
       className="w-full min-h-screen bg-black py-20 px-4 sm:px-6 lg:px-12"
-      aria-labelledby="projects-heading"
     >
       <div className="max-w-[1600px] mx-auto">
 
         {/* ── Header ── */}
         <div className="flex justify-between items-start mb-16">
-
-          {/* Left — tag + heading */}
           <div>
             <div
               className="flex items-center gap-3 mb-8"
               style={{
-                opacity:   inView ? 1 : 0,
+                opacity: inView ? 1 : 0,
                 transform: inView ? 'translateY(0)' : 'translateY(24px)',
-                transition: 'opacity 0.6s ease 0ms, transform 0.6s ease 0ms',
+                transition: 'opacity 0.6s ease, transform 0.6s ease',
               }}
             >
-              <div className="w-2 h-2 rounded-full bg-lime-400" aria-hidden="true" />
-              <TypewriterOnScroll
-                text="[01] — My Projects"
-                className="text-xl font-medium text-white"
-              />
+              <div className="w-2 h-2 rounded-full bg-lime-400" />
+              <TypewriterOnScroll text="[01] — My Projects" className="text-xl font-medium text-white" />
             </div>
 
             <h2
-              id="projects-heading"
               className="font-semibold text-white text-center w-fit mx-auto font-display"
-              style={{
-                fontSize: 'clamp(4rem, 6vw, 15rem)',
-                lineHeight: 1,
-                letterSpacing: '-0.02em'
-              }}
+              style={{ fontSize: 'clamp(4rem, 6vw, 15rem)', lineHeight: 1, letterSpacing: '-0.02em' }}
             >
               <SplitText
-                className='pb-4'
+                className="pb-4"
                 text="My work"
                 splitType="chars"
                 from={{ opacity: 0, y: 50 }}
@@ -196,7 +186,6 @@ useEffect(() => {
             </h2>
           </div>
 
-          {/* Right — View More */}
           <div className="hidden lg:block text-right mt-auto">
             <div
               className="relative inline-block"
@@ -205,10 +194,6 @@ useEffect(() => {
               onMouseLeave={() => setIsViewMoreHovered(false)}
               onMouseMove={handleViewMoreMouseMove}
               onClick={() => (window.location.href = '/work')}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && (window.location.href = '/work')}
-              aria-label="View more projects"
             >
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light text-white/60 leading-none tracking-tight transition-colors duration-300 hover:text-white">
                 <SplitText text="View More" inView={inView} baseDelay={300} stagger={90} />
@@ -217,18 +202,44 @@ useEffect(() => {
           </div>
         </div>
 
-        {/* ── Top Row — projects 0 & 1 ── */}
+        {/* ── Top Row ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <VideoCard key={featuredProjects[0]?.id || 0} project={featuredProjects[0]} idx={0} delay={200} />
-          <VideoCard key={featuredProjects[1]?.id || 1} project={featuredProjects[1]} idx={1} delay={320} />
+          {[0, 1].map(idx => (
+            <VideoCard
+              key={loopProjects[idx].id}
+              project={loopProjects[idx]}
+              videoRef={videoRefs[idx]}
+              isPlaying={isPlaying}
+              isHovered={hoveredIdx === idx}
+              onMouseEnter={() => handleMouseEnter(idx)}
+              onMouseLeave={() => handleMouseLeave(idx)}
+              onToggle={handleVideoToggle}
+              inView={inView}
+              delay={200 + idx * 120}
+              idx={idx}
+            />
+          ))}
         </div>
 
-        {/* ── Bottom Row — projects 2 & 3 + CTA ── */}
+        {/* ── Bottom Row ── */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <VideoCard key={featuredProjects[2]?.id || 2} project={featuredProjects[2]} idx={2} delay={440} />
-          <VideoCard key={featuredProjects[3]?.id || 3} project={featuredProjects[3]} idx={3} delay={560} />
+          {[2, 3].map(idx => (
+            <VideoCard
+              key={loopProjects[idx].id}
+              project={loopProjects[idx]}
+              videoRef={videoRefs[idx]}
+              isPlaying={isPlaying}
+              isHovered={hoveredIdx === idx}
+              onMouseEnter={() => handleMouseEnter(idx)}
+              onMouseLeave={() => handleMouseLeave(idx)}
+              onToggle={handleVideoToggle}
+              inView={inView}
+              delay={440 + (idx - 2) * 120}
+              idx={idx}
+            />
+          ))}
 
-          {/* CTA — View All */}
+          {/* CTA */}
           <ScaleReveal inView={inView} delay={680}>
             <div
               className="relative bg-gradient-to-br from-lime-400 via-lime-500 to-lime-600 rounded-3xl overflow-hidden group transition-all duration-500 hover:scale-[1.02] flex items-center justify-center aspect-[16/10]"
@@ -237,45 +248,28 @@ useEffect(() => {
               onMouseLeave={() => setIsCtaHovered(false)}
               onMouseMove={handleViewMoreMouseMove}
               onClick={() => (window.location.href = '/work')}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && (window.location.href = '/work')}
-              aria-label="View all projects"
             >
               <div className="absolute inset-0 opacity-20">
-                <div
-                  className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.8),transparent_50%)]"
-                  style={{ animation: 'pulse 3s ease-in-out infinite' }}
-                  aria-hidden="true"
-                />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.8),transparent_50%)]"
+                  style={{ animation: 'pulse 3s ease-in-out infinite' }} />
               </div>
-
               <div className="relative z-10 text-center p-8">
                 <div className="mb-5">
                   <div className="w-14 h-14 mx-auto rounded-full bg-black/10 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 group-hover:rotate-45 transition-all duration-500">
-                    <ArrowUpRight className="w-7 h-7 text-white" strokeWidth={2} aria-hidden="true" />
+                    <ArrowUpRight className="w-7 h-7 text-white" strokeWidth={2} />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2 tracking-tight">
-                  View all projects
-                </h3>
-                <p className="text-lime-50 text-sm font-medium">
-                  Explore the complete portfolio
-                </p>
+                <h3 className="text-2xl font-bold text-white mb-2 tracking-tight">View all projects</h3>
+                <p className="text-lime-50 text-sm font-medium">Explore the complete portfolio</p>
               </div>
-
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           </ScaleReveal>
         </div>
 
-        {/* Mobile View More - FIXED: Added proper <a> tag opening */}
+        {/* Mobile View More */}
         <div className="lg:hidden text-center mt-12">
-          <a
-            href="/work"
-            className="inline-block text-3xl font-light text-white/60 hover:text-white transition-colors duration-300"
-            aria-label="View more projects"
-          >
+          <a href="/work" className="inline-block text-3xl font-light text-white/60 hover:text-white transition-colors duration-300">
             View More →
           </a>
         </div>
@@ -285,18 +279,10 @@ useEffect(() => {
       {(isViewMoreHovered || isCtaHovered) && (
         <div
           className="fixed pointer-events-none z-50"
-          style={{
-            left: cursorPosition.x,
-            top: cursorPosition.y,
-            transform: 'translate(-50%, -50%)',
-            willChange: 'left, top',
-          }}
-          aria-hidden="true"
+          style={{ left: cursorPosition.x, top: cursorPosition.y, transform: 'translate(-50%, -50%)', willChange: 'left, top' }}
         >
           <div className="px-6 py-3 bg-lime-400 rounded-full shadow-lg shadow-lime-400/50">
-            <span className="text-black font-semibold text-sm tracking-wide whitespace-nowrap">
-              VIEW
-            </span>
+            <span className="text-black font-semibold text-sm tracking-wide whitespace-nowrap">VIEW</span>
           </div>
         </div>
       )}
@@ -304,7 +290,7 @@ useEffect(() => {
       <style jsx>{`
         @keyframes pulse {
           0%, 100% { opacity: 0.2; }
-          50%       { opacity: 0.4; }
+          50% { opacity: 0.4; }
         }
       `}</style>
     </section>
