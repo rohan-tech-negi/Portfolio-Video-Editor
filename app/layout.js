@@ -34,7 +34,7 @@ export const metadata = {
   title: "RiskyWipe",
   description: "Video Editor | Cinametographer",
   icons: {
-    icon: "/profile.png",
+    icon: "/profile.jpeg",
   },
 };
 

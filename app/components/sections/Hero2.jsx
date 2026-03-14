@@ -183,9 +183,7 @@ export default function Home() {
             >
               <div className="absolute inset-0 bg-gray-300 rounded-full blur-2xl opacity-20" />
               <div 
-                className="relative w-full h-full rounded-full overflow-hidden shadow-lg border border-gray-200 cursor-none"
-                onMouseEnter={() => setCursorText('FLIP')}
-                onMouseLeave={() => setCursorText(null)}
+                className="relative w-full h-full rounded-full overflow-hidden shadow-lg border border-gray-200"
               >
                 <Image
                   src="/profile.jpeg"
