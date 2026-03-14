@@ -71,7 +71,8 @@ export default function ProjectsSection() {
 
   const handleMouseEnter = (idx) => {
     setHoveredProject(idx);
-    if (videoRefs[idx].current) videoRefs[idx].current.muted = false;
+    if (videoRefs[idx].current) videoRefs[idx].current.muted = false ;
+    videoRefs[idx].current.volume = 1;;
   };
 
   const handleMouseLeave = (idx) => {
@@ -88,6 +89,7 @@ useEffect(() => {
     if (!r.current) return;
     r.current.muted = true;
     r.current.loop = true;
+     r.current.volume = 1;
     r.current.load();                  // ✅ force browser to fetch Cloudinary URL
     r.current.play().catch(() => {});
   });

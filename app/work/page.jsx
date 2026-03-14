@@ -26,11 +26,11 @@ function ProjectCard({ title, category, gridVideo, modalVideo, poster, index, on
 
 const handleMouseEnter = useCallback(() => {
   setIsHovered(true);
-  if (videoRef.current) videoRef.current.muted = false;
+  
 }, []);
 
   const handleMouseLeave = useCallback(() => {
-    if (videoRef.current) videoRef.current.muted = true;
+    
     setIsHovered(false);
   }, []);
 
