@@ -41,8 +41,6 @@ function ScaleReveal({ children, inView, delay = 0, className = '', style = {} }
 
 /* ── Video card extracted OUTSIDE main component to avoid ref reset on re-render ── */
 function VideoCard({ project, videoRef, isPlaying, isHovered, onMouseEnter, onMouseLeave, onToggle, inView, delay, idx }) {
-  const overlayVisible = !isPlaying || isHovered;
-
   return (
     <ScaleReveal inView={inView} delay={delay}>
       <div
@@ -62,19 +60,11 @@ function VideoCard({ project, videoRef, isPlaying, isHovered, onMouseEnter, onMo
             src={project.loopVideo}  // ← src directly, not <source> child
           />
 
-          {/* Overlay */}
+          {/* Invisible Overlay for click toggle */}
           <div
-            className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 ${
-              overlayVisible ? 'opacity-100' : 'opacity-0'
-            }`}
+            className="absolute inset-0"
             onClick={onToggle}
-          >
-            <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-              {isPlaying
-                ? <Pause className="w-8 h-8 text-white" fill="white" />
-                : <Play  className="w-8 h-8 text-white ml-1" fill="white" />}
-            </div>
-          </div>
+          />
         </div>
       </div>
     </ScaleReveal>
