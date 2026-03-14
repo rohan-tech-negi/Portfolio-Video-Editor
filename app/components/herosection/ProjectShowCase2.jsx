@@ -83,14 +83,12 @@ export default function ProjectsSection() {
     requestAnimationFrame(() => setCursorPosition({ x: e.clientX, y: e.clientY }));
   };
 
-  useEffect(() => {
+useEffect(() => {
   videoRefs.forEach(r => {
     if (!r.current) return;
     r.current.muted = true;
     r.current.loop = true;
-
-    // ✅ Load first, then play — fixes Cloudinary lazy-load issue
-    r.current.load();
+    r.current.load();                  // ✅ force browser to fetch Cloudinary URL
     r.current.play().catch(() => {});
   });
 }, []);
@@ -133,11 +131,12 @@ export default function ProjectsSection() {
             loop
             muted
             playsInline
+            preload='auto'
             poster={project.poster}
             onClick={handleVideoToggle}
             aria-label={`${project.title || 'Project'} video preview`}
           >
-            <source src={project.gridVideo} type="video/mp4" />
+            <source src={project.loopVideo} type="video/mp4" />
           </video>
           {overlay(idx)}
         </div>
