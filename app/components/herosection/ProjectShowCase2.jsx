@@ -7,6 +7,7 @@ import { Play, Pause, ArrowUpRight } from 'lucide-react';
 import SplitText from '../SplitText';
 import { TypewriterOnScroll } from '../common/TypeWritter';
 import Link from "next/link";
+import { projects } from "@/lib/projects";
 
 /* ─── tiny hook: fires once when element enters viewport ─── */
 function useInView(ref, threshold = 0.15) {
@@ -205,7 +206,7 @@ export default function ProjectsSection() {
             >
               <div className="relative aspect-[16/10] bg-zinc-800">
                 <video ref={video1Ref} className="w-full h-full object-cover" autoPlay loop muted playsInline onClick={handleVideoToggle}>
-                  <source src="/moneytalks.mp4" type="video/mp4" />
+                  <source src={projects[3]?.gridVideo || projects[3]?.modalVideo || "/moneytalks.mp4"} type="video/mp4" />
                 </video>
                 {overlay(1)}
               </div>
@@ -221,7 +222,7 @@ export default function ProjectsSection() {
             >
               <div className="relative aspect-[16/10] bg-zinc-800">
                 <video ref={video2Ref} className="w-full h-full object-cover" autoPlay loop muted playsInline onClick={handleVideoToggle}>
-                  <source src="/craft.mp4" type="video/mp4" />
+                  <source src={projects[0]?.gridVideo || projects[0]?.modalVideo || "/craft.mp4"} type="video/mp4" />
                 </video>
                 {overlay(2)}
               </div>
@@ -241,7 +242,7 @@ export default function ProjectsSection() {
             >
               <div className="relative aspect-[16/10] bg-zinc-800">
                 <video ref={video3Ref} className="w-full h-full object-cover" autoPlay loop muted playsInline onClick={handleVideoToggle}>
-                  <source src="/toh kya badla.mp4" type="video/mp4" />
+                  <source src={projects[2]?.gridVideo || projects[2]?.modalVideo || "/toh kya badla.mp4"} type="video/mp4" />
                 </video>
                 {overlay(3)}
               </div>
@@ -257,7 +258,7 @@ export default function ProjectsSection() {
             >
               <div className="relative aspect-[16/10] bg-zinc-800">
                 <video ref={video4Ref} className="w-full h-full object-cover" autoPlay loop muted playsInline onClick={handleVideoToggle}>
-                  <source src="/StarWars.mp4" type="video/mp4" />
+                  <source src={projects[1]?.gridVideo || projects[1]?.modalVideo || "/StarWars.mp4"} type="video/mp4" />
                 </video>
                 {overlay(4)}
               </div>

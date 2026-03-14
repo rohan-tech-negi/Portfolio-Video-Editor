@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Play, Pause } from 'lucide-react';
+import { projects } from "@/lib/projects";
 
 export default function ProjectsSectionnew() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -111,7 +112,7 @@ export default function ProjectsSectionnew() {
                   playsInline
                   onClick={handleVideoToggle}
                 >
-                  <source src="/v1.mp4" type="video/mp4" />
+                  <source src={projects[3]?.gridVideo || projects[3]?.modalVideo || "/v1.mp4"} type="video/mp4" />
                 </video>
                 
                 <div 
@@ -146,7 +147,7 @@ export default function ProjectsSectionnew() {
                   playsInline
                   onClick={handleVideoToggle}
                 >
-                  <source src="/toh kya badla.mp4" type="video/mp4" />
+                  <source src={projects[2]?.gridVideo || projects[2]?.modalVideo || "/toh kya badla.mp4"} type="video/mp4" />
                 </video>
                 
                 <div 
@@ -184,7 +185,7 @@ export default function ProjectsSectionnew() {
                   playsInline
                   onClick={handleVideoToggle}
                 >
-                  <source src="/craft.mp4" type="video/mp4" />
+                  <source src={projects[0]?.gridVideo || projects[0]?.modalVideo || "/craft.mp4"} type="video/mp4" />
                 </video>
                 
                 <div 
@@ -219,7 +220,7 @@ export default function ProjectsSectionnew() {
                   playsInline
                   onClick={handleVideoToggle}
                 >
-                  <source src="/StarWars.mp4" type="video/mp4" />
+                  <source src={projects[1]?.gridVideo || projects[1]?.modalVideo || "/StarWars.mp4"} type="video/mp4" />
                 </video>
                 
                 <div 
