@@ -9,7 +9,6 @@ import Home from '../sections/Hero2'
 
 import ScrollProgressBar from '../transition/ScollBar'
 // import Contact from '../sections/Contact'
-// import Projects from '../sections/Projects'
 // import LandingSection from '../landingsection/page'
 
 const HomePage = () => {
