@@ -45,14 +45,14 @@ const socialLinks = [
     id: 2,
     platform: 'Behance',
     icon: FaBehance,
-    link: 'https://behance.net',
+    link: '/404',
     cursorLabel: 'VISIT',
   },
   {
     id: 3,
     platform: 'Pinterest',
     icon: SiPinterest,
-    link: 'https://pinterest.com',
+    link: '/404',
     cursorLabel: 'VISIT',
   },
   {
@@ -193,7 +193,7 @@ export default function ContactSection() {
               <a
                 key={social.id}
                 href={social.link}
-                target="_blank"
+                target={social.link.startsWith('/') ? "_self" : "_blank"}
                 rel="noopener noreferrer"
                 className="group bg-white rounded-3xl p-8 hover:shadow-md transition-all duration-300"
                 {...sharedMouseProps}
