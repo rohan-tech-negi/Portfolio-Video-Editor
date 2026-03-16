@@ -2,9 +2,17 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { transitionOut } from "@/utils/animations";
 
 export default function Footer() {
   const [time, setTime] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleTransition = (href) => {
+    transitionOut(href, router, pathname);
+  };
 
   useEffect(() => {
     const updateTime = () => {
@@ -56,9 +64,9 @@ export default function Footer() {
             </div>
             <div className="flex flex-col gap-3">
               <h4 className="text-gray-500 text-xs font-bold tracking-widest uppercase mb-2">Internal</h4>
-              <Link href="/" className="text-sm font-medium hover:text-gray-300 transition-colors">Home</Link>
-              <Link href="/about" className="text-sm font-medium hover:text-gray-300 transition-colors">About</Link>
-              <Link href="/work" className="text-sm font-medium hover:text-gray-300 transition-colors">Work</Link>
+              <button onClick={() => handleTransition("/")} className="text-sm font-medium hover:text-gray-300 transition-colors text-left">Home</button>
+              <button onClick={() => handleTransition("/about")} className="text-sm font-medium hover:text-gray-300 transition-colors text-left">About</button>
+              <button onClick={() => handleTransition("/work")} className="text-sm font-medium hover:text-gray-300 transition-colors text-left">Work</button>
             </div>
           </div>
 

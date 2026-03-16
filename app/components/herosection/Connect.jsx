@@ -7,6 +7,8 @@ import { SiPinterest } from 'react-icons/si';
 import { MdOutlineEmail } from 'react-icons/md';
 import { TypewriterOnScroll } from '../common/TypeWritter';
 import SplitText from '../SplitText';
+import { useRouter, usePathname } from "next/navigation";
+import { transitionOut } from "@/utils/animations";
 
 function getDirectionStyle(index, hasRevealed) {
   const col = index % 3;
@@ -78,6 +80,14 @@ export default function ContactSection() {
   const [hoveredCard, setHoveredCard] = useState(null); // stores full card object
   const [hasRevealed, setHasRevealed] = useState(false);
   const gridRef = useRef(null);
+  
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleTransition = (e, href) => {
+    e.preventDefault();
+    transitionOut(href, router, pathname);
+  };
 
   // ✅ Fix: removed hasRevealed from deps — observer only needs to run once
   useEffect(() => {
@@ -146,10 +156,10 @@ export default function ContactSection() {
             // ── CTA Card ──
             if (social.isCta) {
               return (
-                <a
+                <button
                   key={social.id}
-                  href={social.link}
-                  className="group bg-lime-400 rounded-3xl p-8 hover:bg-lime-500 hover:shadow-md transition-colors duration-300"
+                  onClick={(e) => handleTransition(e, social.link)}
+                  className="group bg-lime-400 rounded-3xl p-8 hover:bg-lime-500 hover:shadow-md transition-colors duration-300 w-full text-left"
                   {...sharedMouseProps}
                 >
                   <div className="flex flex-col justify-between h-48">
@@ -158,7 +168,7 @@ export default function ContactSection() {
                       <IconComponent className="w-7 h-7 text-gray-900 group-hover:translate-x-1 transition-transform duration-300" />
                     </div>
                   </div>
-                </a>
+                </button>
               );
             }
 

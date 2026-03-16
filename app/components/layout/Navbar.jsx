@@ -4,9 +4,18 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import { useRouter, usePathname } from "next/navigation"
+import { transitionOut } from "@/utils/animations"
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const handleTransition = (href) => {
+    setMenuOpen(false)
+    transitionOut(href, router, pathname)
+  }
 
   const logoVariants = {
     hidden: { opacity: 0, y: -50 },
@@ -30,7 +39,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-14 md:px-12 py-6 bg-[#f5f5f5] border-b">
 
       {/* Logo */}
-      <Link href="/" onClick={() => setMenuOpen(false)}>
+      <div onClick={() => handleTransition("/")}>
         <motion.h1
           initial="hidden"
           animate="visible"
@@ -39,7 +48,7 @@ export default function Navbar() {
         >
           ROHAN
         </motion.h1>
-      </Link>
+      </div>
 
       {/* Right side: button always anchored to the right */}
       <div className="flex items-center gap-6 ">
@@ -67,13 +76,12 @@ export default function Navbar() {
                   duration: 0.3,
                 }}
               >
-                <Link
-                  href={href}
+                <button
+                  onClick={() => handleTransition(href)}
                   className="text-black text-sm md:text-base font-medium hover:opacity-70 transition whitespace-nowrap"
-                  onClick={() => setMenuOpen(false)}
                 >
                   {item}
-                </Link>
+                </button>
               </motion.div>
             )
           })}
