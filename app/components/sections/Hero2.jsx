@@ -186,7 +186,7 @@ export default function Home() {
                 className="relative w-full h-full rounded-full overflow-hidden shadow-lg border border-gray-200"
               >
                 <Image
-                  src="/profile.jpeg"
+                  src="/profile.PNG"
                   alt="Rohan Singh Negi"
                   fill
                   className="object-cover"
