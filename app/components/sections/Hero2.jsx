@@ -150,7 +150,7 @@ export default function Home() {
               className="mt-10 origin-left"
             >
               <a
-                href="/RohanResume.pdf"
+                href="/ResumeFInal.pdf"
                 download="Rohan_Singh_Negi_Resume.pdf"
                 onMouseEnter={() => setCursorText('DOWNLOAD')}
                 onMouseLeave={() => setCursorText(null)}
