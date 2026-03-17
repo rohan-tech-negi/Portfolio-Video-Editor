@@ -2,8 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { FaInstagram, FaBehance } from 'react-icons/fa6';
-import { SiPinterest } from 'react-icons/si';
+import { FaInstagram, FaBehance, FaThreads } from 'react-icons/fa6';
 import { MdOutlineEmail } from 'react-icons/md';
 import { TypewriterOnScroll } from '../common/TypeWritter';
 import SplitText from '../SplitText';
@@ -52,9 +51,9 @@ const socialLinks = [
   },
   {
     id: 3,
-    platform: 'Pinterest',
-    icon: SiPinterest,
-    link: '/404',
+    platform: 'Threads',
+    icon: FaThreads,
+    link: 'https://www.threads.com/@risky.wipe',
     cursorLabel: 'VISIT',
   },
   {
