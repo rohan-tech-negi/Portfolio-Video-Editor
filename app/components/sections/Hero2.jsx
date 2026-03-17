@@ -9,6 +9,34 @@ export default function Home() {
 
   const [cursorText, setCursorText] = useState(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [hasLoaded, setHasLoaded] = useState(false)
+
+  // Listen for the initial load completion event from template.js
+  useEffect(() => {
+    // If it's a fast navigation, the event might have already fired, or we might not need it
+    // But usually for the first load this works. To be safe, we can just set a timeout if it fails,
+    // or rely on the fact that if we aren't on initial load, the event won't fire.
+    // Wait, let's just use the event. If the event never fires (because it already fired before this component mounted),
+    // we might get stuck. A better approach is to check a global or sessionStorage, but let's stick to the event
+    // and a fallback timeout or just setting it true immediately if the page is already loaded.
+    // Actually, Next.js hydration happens before the template finishes animating.
+    
+    const handleLoad = () => setHasLoaded(true);
+    window.addEventListener('initialLoadComplete', handleLoad);
+    
+    // In case this is a normal client-side navigation and not the initial load, 
+    // the event won't fire. We can check if the animation has already played this session.
+    if (sessionStorage.getItem('siteLoaded')) {
+      setTimeout(() => setHasLoaded(true), 0);
+    } else {
+      // First time setting it up
+      window.addEventListener('initialLoadComplete', () => {
+        setHasLoaded(true);
+      });
+    }
+
+    return () => window.removeEventListener('initialLoadComplete', handleLoad);
+  }, []);
 
 
   useEffect(() => {
@@ -47,11 +75,11 @@ export default function Home() {
   const nameVariants = {
     hidden: { opacity: 0, y: 100 },
     visible: (i) => ({
-      opacity: 1,
-      y: 0,
+      opacity: hasLoaded ? 1 : 0,
+      y: hasLoaded ? 0 : 100,
       transition: {
         duration: 0.8,
-        delay: i * 0.15,
+        delay: hasLoaded ? i * 0.15 : 0,
         ease: [0.6, 0.05, 0.01, 0.9]
       }
     })
@@ -60,11 +88,11 @@ export default function Home() {
   const textVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
-      opacity: 1,
-      y: 0,
+      opacity: hasLoaded ? 1 : 0,
+      y: hasLoaded ? 0 : 50,
       transition: {
         duration: 0.8,
-        delay: 0.6,
+        delay: hasLoaded ? 0.6 : 0,
         ease: [0.6, 0.05, 0.01, 0.9]
       }
     }
@@ -73,11 +101,11 @@ export default function Home() {
   const imageVariants = {
     hidden: { scale: 0, opacity: 0 },
     visible: {
-      scale: 1,
-      opacity: 1,
+      scale: hasLoaded ? 1 : 0,
+      opacity: hasLoaded ? 1 : 0,
       transition: {
         duration: 1,
-        delay: 0.4,
+        delay: hasLoaded ? 0.4 : 0,
         ease: [0.6, 0.05, 0.01, 0.9]
       }
     }
@@ -141,10 +169,13 @@ export default function Home() {
             {/* Resume Button */}
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              animate={{ 
+                scale: hasLoaded ? 1 : 0, 
+                opacity: hasLoaded ? 1 : 0 
+              }}
               transition={{
                 duration: 0.6,
-                delay: 0.6,
+                delay: hasLoaded ? 0.6 : 0,
                 ease: [0.6, 0.05, 0.01, 0.9],
               }}
               className="mt-10 origin-left"
