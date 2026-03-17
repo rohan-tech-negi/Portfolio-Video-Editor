@@ -46,7 +46,7 @@ const socialLinks = [
     id: 2,
     platform: 'Behance',
     icon: FaBehance,
-    link: '/404',
+    link: '/working',
     cursorLabel: 'VISIT',
   },
   {
