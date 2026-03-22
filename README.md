@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Rohan's Creative Portfolio 🚀
 
-## Getting Started
+Welcome to my personal portfolio! As a developer, I don't just write code—I also have a deep passion for the creative side of technology and design. This website serves as a living canvas to showcase that intersection of logic and art.
 
-First, run the development server:
+## 🌟 About This Project
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This portfolio is a highly interactive, visually stunning web experience built to break the mold of traditional developer portfolios. It incorporates 2D illustration elements, smooth scroll animations, and dynamic page transitions to highlight my projects, creative works, and video editing capabilities.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack & Tools
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+This site is built with modern web technologies focusing on performance and creative expression:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **[Next.js 14](https://nextjs.org/)** - The React framework for production
+- **[React Three Fiber](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction) & Three.js** - Powering the immersive 3D elements
+- **[GSAP](https://gsap.com/) & [Framer Motion](https://www.framer.com/motion/)** - For buttery-smooth, complex scroll animations and page transitions
+- **[Lenis](https://lenis.studiofreight.com/)** - Providing a fluid smooth-scrolling experience
+- **[Tailwind CSS](https://tailwindcss.com/)** - For rapid, utility-first styling
 
-## Learn More
+## 🎨 Why This Portfolio?
 
-To learn more about Next.js, take a look at the following resources:
+Being a developer is often seen as a purely logical role, but I believe in the powerful intersection of code and creativity. Whether it's through crafting dynamic web experiences, UI/UX design, or video editing, this platform allows me to push boundaries and share my creative vision with the world.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Getting Started Locally
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To run this project on your local machine:
 
-## Deploy on Vercel
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/rohan-tech-negi/Portfolio-Video-Editor.git
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
+   *(or `yarn`, `pnpm`, `bun` install)*
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 📬 Connect With Me
+
+I'm always open to discussing new projects, creative ideas, or opportunities!
+
+- **Instagram**: [@risky.wipe](https://www.instagram.com/risky.wipe/)
+- **Threads**: [@risky.wipe](https://www.threads.com/@risky.wipe)
+
+---
+*Designed & Developed by Rohan*
