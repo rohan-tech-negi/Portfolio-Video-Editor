@@ -156,7 +156,7 @@ export default function ProjectsSection() {
               }}
             >
               <div className="w-2 h-2 rounded-full bg-lime-400" />
-              <TypewriterOnScroll text="[01] — My Projects" className="text-xl font-medium text-white" />
+              <TypewriterOnScroll text="[02] — My Projects" className="text-xl font-medium text-white" />
             </div>
 
             <h2

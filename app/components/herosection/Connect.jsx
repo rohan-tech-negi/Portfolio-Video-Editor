@@ -118,7 +118,7 @@ export default function ContactSection() {
           <div className="flex items-center gap-2 mb-6">
             <div className="w-2 h-2 rounded-full bg-lime-400" />
             <TypewriterOnScroll
-              text="[03] — Connect me"
+              text="[04] — Connect me"
               className="text-xl font-medium text-white"
             />
           </div>

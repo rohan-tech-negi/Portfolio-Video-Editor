@@ -75,7 +75,7 @@ export default function ToolBox() {
         <div className="flex items-center gap-2 mb-8">
           <div className="w-2 h-2 rounded-full bg-lime-400" />
           <TypewriterOnScroll
-            text="[02] — Tools & Skills"
+            text="[03] — Tools & Skills"
             className="text-xl font-medium text-black"
           />
         </div>

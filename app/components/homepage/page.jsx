@@ -6,6 +6,7 @@ import ContactSection from '../herosection/Connect'
 
 import ProjectsSection1 from '../herosection/ProjectShowCase2'
 import Home from '../sections/Hero2'
+import ClientWork from '../sections/ClientWork'
 
 import ScrollProgressBar from '../transition/ScollBar'
 // import Contact from '../sections/Contact'
@@ -19,6 +20,7 @@ const HomePage = () => {
         {/* <Hero></Hero> */}
         <ScrollProgressBar></ScrollProgressBar>
         <Home></Home>
+        <ClientWork></ClientWork>
         {/* <ProjectsSection></ProjectsSection> */}
         <ProjectsSection1></ProjectsSection1>
         <ToolBox></ToolBox>
