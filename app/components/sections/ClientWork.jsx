@@ -312,9 +312,9 @@ export default function ClientWork() {
             </div>
           </div>
 
-          {/* Grid Layout (3 Stacked Rows, centered) */}
+          {/* Grid Layout (3-Column Grid, centered) */}
           <div
-            className="flex flex-col gap-24 sm:gap-32 items-center w-full"
+            className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6 lg:gap-10 justify-items-center w-full"
             style={{
               opacity: inView ? 1 : 0,
               transform: inView ? 'translateY(0)' : 'translateY(40px)',
