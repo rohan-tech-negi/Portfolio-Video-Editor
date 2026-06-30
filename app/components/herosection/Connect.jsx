@@ -108,10 +108,25 @@ export default function ContactSection() {
       setCursorPosition({ x: e.clientX, y: e.clientY });
     });
   };
-
   return (
-    <section className="relative z-10 w-full min-h-screen bg-black py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section 
+      className="relative z-10 w-full min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-[#f5f5f5]"
+      style={{
+        backgroundImage: `
+          linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
+        `,
+        backgroundSize: '24px 24px',
+      }}
+    >
+      {/* Radial fade overlay - edges fade to white */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(245, 245, 245, 0.5) 85%, rgba(245, 245, 245, 0.9) 100%)`
+        }}
+      />
+      <div className="max-w-7xl mx-auto relative z-10">
 
         {/* Header */}
         <div className="mb-16">
@@ -119,12 +134,12 @@ export default function ContactSection() {
             <div className="w-2 h-2 rounded-full bg-lime-400" />
             <TypewriterOnScroll
               text="[04] — Connect me"
-              className="text-xl font-medium text-white"
+              className="text-xl font-medium text-black font-mono"
             />
           </div>
           <SplitText
             text="My Social Profiles"
-            className="text-7xl font-semibold text-center text-white pb-4"
+            className="text-7xl font-semibold text-center text-black pb-4"
             delay={50}
             duration={1.25}
             ease="power3.out"
@@ -179,7 +194,7 @@ export default function ContactSection() {
                   href={social.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group bg-white rounded-3xl p-8 hover:shadow-md transition-all duration-300"
+                  className="group bg-white rounded-3xl p-8 hover:shadow-md transition-all duration-300 border border-black/5"
                   {...sharedMouseProps}
                 >
                   <div className="flex flex-col justify-between h-48">
@@ -204,7 +219,7 @@ export default function ContactSection() {
                 href={social.link}
                 target={social.link.startsWith('/') ? "_self" : "_blank"}
                 rel="noopener noreferrer"
-                className="group bg-white rounded-3xl p-8 hover:shadow-md transition-all duration-300"
+                className="group bg-white rounded-3xl p-8 hover:shadow-md transition-all duration-300 border border-black/5"
                 {...sharedMouseProps}
               >
                 <div className="flex flex-col justify-between h-48">

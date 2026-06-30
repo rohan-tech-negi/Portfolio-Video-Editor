@@ -110,14 +110,14 @@ function VideoCard({ project, onExpand }) {
       {/* Info Details Below Card */}
       <div className="w-full max-w-[380px] sm:max-w-[420px] text-left mt-5 px-1">
         <div className="flex items-baseline justify-between gap-4">
-          <h3 className="text-xl md:text-2xl font-bold tracking-tight text-[#0d0d0d] font-sans">
+          <h3 className="text-xl md:text-2xl font-bold tracking-tight text-white font-sans">
             {project.client}
           </h3>
           <span className="text-[10px] tracking-widest font-mono uppercase text-gray-400">
             [01.0{project.id}]
           </span>
         </div>
-        <p className="text-xs sm:text-sm font-medium font-sans text-gray-500 mt-1.5 leading-relaxed">
+        <p className="text-xs sm:text-sm font-medium font-sans text-zinc-400 mt-1.5 leading-relaxed">
           {project.role}
         </p>
         {project.instagramUrl && (
@@ -125,7 +125,7 @@ function VideoCard({ project, onExpand }) {
             href={project.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-black mt-2.5 transition-colors duration-300 group/link"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 hover:text-white mt-2.5 transition-colors duration-300 group/link"
           >
             <Instagram className="w-3.5 h-3.5 transition-transform duration-300 group-hover/link:scale-110" />
             <span>View on Instagram</span>
@@ -286,10 +286,10 @@ export default function ClientWork() {
         ref={sectionRef}
         className="w-full min-h-screen relative py-24 px-6 md:px-12 lg:px-16 overflow-hidden flex flex-col justify-center"
         style={{
-          backgroundColor: '#f5f5f5',
+          backgroundColor: '#0a0a0a',
           backgroundImage: `
-            linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
+            linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px)
           `,
           backgroundSize: '24px 24px',
         }}
@@ -298,7 +298,7 @@ export default function ClientWork() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(245, 245, 245, 0.5) 85%, rgba(245, 245, 245, 0.9) 100%)`,
+            background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(10, 10, 10, 0.5) 85%, rgba(10, 10, 10, 0.9) 100%)`,
           }}
         />
 
@@ -316,7 +316,7 @@ export default function ClientWork() {
               <div className="w-2 h-2 rounded-full bg-[#BFFF00] shadow-[0_0_10px_rgba(191,255,0,0.8)]" />
               <TypewriterOnScroll
                 text="[01] — Client Work"
-                className="text-lg font-semibold tracking-wider text-black font-mono"
+                className="text-lg font-semibold tracking-wider text-white font-mono"
               />
             </div>
 
@@ -327,10 +327,10 @@ export default function ClientWork() {
                 transition: 'opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s',
               }}
             >
-              <h2 className="font-['Inter',sans-serif] text-[clamp(2.5rem,7vw,5.5rem)] font-black leading-[0.9] tracking-tighter text-[#0d0d0d] pb-4">
+              <h2 className="font-['Inter',sans-serif] text-[clamp(2.5rem,7vw,5.5rem)] font-black leading-[0.9] tracking-tighter text-white pb-4">
                 Selected Client Projects
               </h2>
-              <p className="text-base md:text-lg lg:text-xl font-medium font-sans text-gray-500 max-w-2xl mt-4 leading-relaxed">
+              <p className="text-base md:text-lg lg:text-xl font-medium font-sans text-zinc-400 max-w-2xl mt-4 leading-relaxed">
                 Helping brands grow through cinematic storytelling and precise editing.
               </p>
             </div>

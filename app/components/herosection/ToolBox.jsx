@@ -53,20 +53,21 @@ export default function ToolBox() {
   return (
     <section 
       ref={sectionRef} 
-      className="toolbox-wrapper bg-white relative"
+      className="toolbox-wrapper relative"
       style={{
+        backgroundColor: '#0a0a0a',
         backgroundImage: `
-          linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
+          linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px)
         `,
         backgroundSize: '24px 24px',
       }}
     >
-      {/* Radial fade overlay - edges fade to white */}
+      {/* Radial fade overlay - edges fade to dark */}
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(255, 255, 255, 0.4) 85%, rgba(255, 255, 255, 0.8) 100%)`
+          background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(10, 10, 10, 0.4) 85%, rgba(10, 10, 10, 0.8) 100%)`
         }}
       />
       
@@ -76,10 +77,10 @@ export default function ToolBox() {
           <div className="w-2 h-2 rounded-full bg-lime-400" />
           <TypewriterOnScroll
             text="[03] — Tools & Skills"
-            className="text-xl font-medium text-black"
+            className="text-xl font-medium text-white"
           />
         </div>
-        <h1 className=" font-bold toolbox-title text-black">My Creative Toolbox</h1>
+        <h1 className=" font-bold toolbox-title text-white">My Creative Toolbox</h1>
       </div>
 
       {/* RIGHT CARDS */}

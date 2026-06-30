@@ -140,9 +140,23 @@ export default function ProjectsSection() {
   return (
     <section
       ref={sectionRef}
-      className="w-full min-h-screen bg-black py-20 px-4 sm:px-6 lg:px-12"
+      className="w-full min-h-screen relative py-20 px-4 sm:px-6 lg:px-12 overflow-hidden flex flex-col justify-center bg-[#f5f5f5]"
+      style={{
+        backgroundImage: `
+          linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)
+        `,
+        backgroundSize: '24px 24px',
+      }}
     >
-      <div className="max-w-[1600px] mx-auto">
+      {/* Radial Overlay to feather edges */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(245, 245, 245, 0.5) 85%, rgba(245, 245, 245, 0.9) 100%)`,
+        }}
+      />
+      <div className="max-w-[1600px] mx-auto relative z-10 w-full">
 
         {/* ── Header ── */}
         <div className="flex justify-between items-start mb-16">
@@ -156,11 +170,11 @@ export default function ProjectsSection() {
               }}
             >
               <div className="w-2 h-2 rounded-full bg-lime-400" />
-              <TypewriterOnScroll text="[02] — My Projects" className="text-xl font-medium text-white" />
+              <TypewriterOnScroll text="[02] — My Projects" className="text-xl font-medium text-black" />
             </div>
 
             <h2
-              className="font-semibold text-white text-center w-fit mx-auto font-display"
+              className="font-semibold text-black text-center w-fit mx-auto font-display"
               style={{ fontSize: 'clamp(4rem, 6vw, 15rem)', lineHeight: 1, letterSpacing: '-0.02em' }}
             >
               <SplitText
@@ -185,7 +199,7 @@ export default function ProjectsSection() {
               onMouseMove={handleViewMoreMouseMove}
               onClick={() => (window.location.href = '/work')}
             >
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light text-white/60 leading-none tracking-tight transition-colors duration-300 hover:text-white">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light text-black/60 leading-none tracking-tight transition-colors duration-300 hover:text-black">
                 <SplitText text="View More" inView={inView} baseDelay={300} stagger={90} />
               </h2>
             </div>
@@ -259,7 +273,7 @@ export default function ProjectsSection() {
 
         {/* Mobile View More */}
         <div className="lg:hidden text-center mt-12">
-          <a href="/work" className="inline-block text-3xl font-light text-white/60 hover:text-white transition-colors duration-300">
+          <a href="/work" className="inline-block text-3xl font-light text-black/60 hover:text-black transition-colors duration-300">
             View More →
           </a>
         </div>
