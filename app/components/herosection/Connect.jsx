@@ -42,13 +42,13 @@ const socialLinks = [
     link: 'https://www.instagram.com/risky.wipe/',
     cursorLabel: 'VISIT',
   },
-  {
-    id: 2,
-    platform: 'Behance',
-    icon: FaBehance,
-    link: '/working',
-    cursorLabel: 'VISIT',
-  },
+  // {
+  //   id: 2,
+  //   platform: 'Behance',
+  //   icon: FaBehance,
+  //   link: '/working',
+  //   cursorLabel: 'VISIT',
+  // },
   {
     id: 3,
     platform: 'Threads',
