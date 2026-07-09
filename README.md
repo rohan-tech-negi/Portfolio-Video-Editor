@@ -6,6 +6,14 @@ Welcome to my personal portfolio! As a developer, I don't just write code—I al
 
 This portfolio is a highly interactive, visually stunning web experience built to break the mold of traditional developer portfolios. It incorporates 2D illustration elements, smooth scroll animations, and dynamic page transitions to highlight my projects, creative works, and video editing capabilities.
 
+## 🎬 Video Editing Portfolio Demo
+
+Here is a screen recording showcasing the video editing portfolio:
+
+<video src="public/video%20editing%20portfolio%20screen%20record.mp4" controls width="100%"></video>
+
+*If the video does not play automatically, you can watch or download it [here](public/video%20editing%20portfolio%20screen%20record.mp4).*
+
 ## 🛠️ Tech Stack & Tools
 
 This site is built with modern web technologies focusing on performance and creative expression:
