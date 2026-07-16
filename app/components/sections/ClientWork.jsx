@@ -278,16 +278,28 @@ function VideoModal({ project, onClose }) {
 export default function ClientWork() {
   const sectionRef = useRef(null);
   const scrollRef = useRef(null);
+  const trackRef = useRef(null);
   const inView = useInView(sectionRef, 0.05);
   const [selectedProject, setSelectedProject] = useState(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const isDragging = useRef(false);
 
   const checkScroll = useCallback(() => {
     if (scrollRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
       setCanScrollLeft(scrollLeft > 5);
       setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
+
+      if (!isDragging.current) {
+        const totalScrollable = scrollWidth - clientWidth;
+        if (totalScrollable > 0) {
+          setProgress(scrollLeft / totalScrollable);
+        } else {
+          setProgress(0);
+        }
+      }
     }
   }, []);
 
@@ -315,6 +327,64 @@ export default function ClientWork() {
       scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
+
+  const handleDrag = useCallback((clientX) => {
+    if (trackRef.current && scrollRef.current) {
+      const rect = trackRef.current.getBoundingClientRect();
+      const newProgress = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+      setProgress(newProgress);
+
+      const { scrollWidth, clientWidth } = scrollRef.current;
+      const totalScrollable = scrollWidth - clientWidth;
+      if (totalScrollable > 0) {
+        scrollRef.current.scrollLeft = newProgress * totalScrollable;
+      }
+    }
+  }, []);
+
+  const handleThumbMouseDown = useCallback((e) => {
+    e.preventDefault();
+    isDragging.current = true;
+
+    const handleMouseMove = (moveEvent) => {
+      handleDrag(moveEvent.clientX);
+    };
+
+    const handleMouseUp = () => {
+      isDragging.current = false;
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  }, [handleDrag]);
+
+  const handleTouchStart = useCallback((e) => {
+    isDragging.current = true;
+
+    const handleTouchMove = (moveEvent) => {
+      if (moveEvent.touches && moveEvent.touches[0]) {
+        handleDrag(moveEvent.touches[0].clientX);
+      }
+    };
+
+    const handleTouchEnd = () => {
+      isDragging.current = false;
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+
+    window.addEventListener('touchmove', handleTouchMove);
+    window.addEventListener('touchend', handleTouchEnd);
+  }, [handleDrag]);
+
+  const handleTrackMouseDown = useCallback((e) => {
+    if (e.target === e.currentTarget || e.target.parentNode === e.currentTarget) {
+      handleDrag(e.clientX);
+      handleThumbMouseDown(e);
+    }
+  }, [handleDrag, handleThumbMouseDown]);
 
   return (
     <>
@@ -424,6 +494,39 @@ export default function ClientWork() {
                 />
               </div>
             ))}
+          </div>
+
+          {/* Custom Drag-to-Scroll Progress Bar */}
+          <div
+            className="flex justify-center mt-12"
+            style={{
+              opacity: inView ? 1 : 0,
+              transform: inView ? 'translateY(0)' : 'translateY(30px)',
+              transition: 'opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s',
+            }}
+          >
+            <div
+              ref={trackRef}
+              className="relative w-64 h-1.5 bg-zinc-800 rounded-full cursor-pointer flex items-center group/track select-none"
+              onMouseDown={handleTrackMouseDown}
+              onTouchStart={handleTouchStart}
+            >
+              {/* Active track bar progress */}
+              <div
+                className="absolute top-0 left-0 h-full bg-[#BFFF00] rounded-full"
+                style={{ width: `${progress * 100}%` }}
+              />
+              {/* Drag handle/thumb */}
+              <div
+                className="absolute w-4 h-4 rounded-full bg-[#BFFF00] cursor-grab active:cursor-grabbing shadow-[0_0_12px_rgba(191,255,0,0.8)] select-none transition-transform duration-200 group-hover/track:scale-125"
+                style={{
+                  left: `${progress * 100}%`,
+                  transform: 'translateX(-50%)',
+                }}
+                onMouseDown={handleThumbMouseDown}
+                onTouchStart={handleTouchStart}
+              />
+            </div>
           </div>
         </div>
       </section>
