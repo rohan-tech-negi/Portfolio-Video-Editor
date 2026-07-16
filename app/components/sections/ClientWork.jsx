@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Play, Pause, X, Volume2, VolumeX, Instagram } from 'lucide-react';
+import { Play, Pause, X, Volume2, VolumeX, Instagram, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SplitText from '../SplitText';
 import { TypewriterOnScroll } from '../common/TypeWritter';
@@ -277,8 +277,44 @@ function VideoModal({ project, onClose }) {
 
 export default function ClientWork() {
   const sectionRef = useRef(null);
+  const scrollRef = useRef(null);
   const inView = useInView(sectionRef, 0.05);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = useCallback(() => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 5);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    checkScroll();
+    el.addEventListener('scroll', checkScroll);
+    window.addEventListener('resize', checkScroll);
+
+    const timeout = setTimeout(checkScroll, 500);
+
+    return () => {
+      el.removeEventListener('scroll', checkScroll);
+      window.removeEventListener('resize', checkScroll);
+      clearTimeout(timeout);
+    };
+  }, [checkScroll]);
+
+  const handleScroll = (direction) => {
+    if (scrollRef.current) {
+      const { clientWidth } = scrollRef.current;
+      const scrollAmount = direction === 'left' ? -clientWidth * 0.8 : clientWidth * 0.8;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
@@ -304,53 +340,89 @@ export default function ClientWork() {
 
         <div className="max-w-[1600px] w-full mx-auto relative z-10">
           {/* Header Area */}
-          <div className="mb-20 text-left">
-            <div
-              className="flex items-center gap-3 mb-6"
-              style={{
-                opacity: inView ? 1 : 0,
-                transform: inView ? 'translateY(0)' : 'translateY(24px)',
-                transition: 'opacity 0.6s ease, transform 0.6s ease',
-              }}
-            >
-              <div className="w-2 h-2 rounded-full bg-[#BFFF00] shadow-[0_0_10px_rgba(191,255,0,0.8)]" />
-              <TypewriterOnScroll
-                text="[01] — Client Work"
-                className="text-lg font-semibold tracking-wider text-white font-mono"
-              />
+          <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8 text-left">
+            <div className="flex-1">
+              <div
+                className="flex items-center gap-3 mb-6"
+                style={{
+                  opacity: inView ? 1 : 0,
+                  transform: inView ? 'translateY(0)' : 'translateY(24px)',
+                  transition: 'opacity 0.6s ease, transform 0.6s ease',
+                }}
+              >
+                <div className="w-2 h-2 rounded-full bg-[#BFFF00] shadow-[0_0_10px_rgba(191,255,0,0.8)]" />
+                <TypewriterOnScroll
+                  text="[01] — Client Work"
+                  className="text-lg font-semibold tracking-wider text-white font-mono"
+                />
+              </div>
+
+              <div
+                style={{
+                  opacity: inView ? 1 : 0,
+                  transform: inView ? 'translateY(0)' : 'translateY(30px)',
+                  transition: 'opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s',
+                }}
+              >
+                <h2 className="font-['Inter',sans-serif] text-[clamp(2.5rem,7vw,5.5rem)] font-black leading-[0.9] tracking-tighter text-white pb-4">
+                  Selected Client Projects
+                </h2>
+                <p className="text-base md:text-lg lg:text-xl font-medium font-sans text-zinc-400 max-w-2xl mt-4 leading-relaxed">
+                  Helping brands grow through cinematic storytelling and precise editing.
+                </p>
+              </div>
             </div>
 
+            {/* Slider Controls */}
             <div
+              className="flex items-center gap-4 self-start md:self-end"
               style={{
                 opacity: inView ? 1 : 0,
                 transform: inView ? 'translateY(0)' : 'translateY(30px)',
-                transition: 'opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s',
+                transition: 'opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s',
               }}
             >
-              <h2 className="font-['Inter',sans-serif] text-[clamp(2.5rem,7vw,5.5rem)] font-black leading-[0.9] tracking-tighter text-white pb-4">
-                Selected Client Projects
-              </h2>
-              <p className="text-base md:text-lg lg:text-xl font-medium font-sans text-zinc-400 max-w-2xl mt-4 leading-relaxed">
-                Helping brands grow through cinematic storytelling and precise editing.
-              </p>
+              <button
+                onClick={() => handleScroll('left')}
+                disabled={!canScrollLeft}
+                className="w-12 h-12 rounded-full border border-white/10 bg-white/5 text-white flex items-center justify-center transition-all duration-300 enabled:hover:border-[#BFFF00]/50 enabled:hover:bg-[#BFFF00] enabled:hover:text-black disabled:opacity-30 disabled:cursor-not-allowed enabled:cursor-pointer"
+                aria-label="Previous Project"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => handleScroll('right')}
+                disabled={!canScrollRight}
+                className="w-12 h-12 rounded-full border border-white/10 bg-white/5 text-white flex items-center justify-center transition-all duration-300 enabled:hover:border-[#BFFF00]/50 enabled:hover:bg-[#BFFF00] enabled:hover:text-black disabled:opacity-30 disabled:cursor-not-allowed enabled:cursor-pointer"
+                aria-label="Next Project"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
             </div>
           </div>
 
-          {/* Grid Layout (3-Column Grid, centered) */}
+          {/* Slider Container */}
           <div
-            className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6 lg:gap-10 justify-items-center w-full"
+            ref={scrollRef}
+            className="flex gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-8 px-4 -mx-4 scrollbar-none"
             style={{
               opacity: inView ? 1 : 0,
               transform: inView ? 'translateY(0)' : 'translateY(40px)',
               transition: 'opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
             }}
           >
             {clientProjects.map((project) => (
-              <VideoCard
+              <div
                 key={project.id}
-                project={project}
-                onExpand={setSelectedProject}
-              />
+                className="w-[85vw] sm:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] shrink-0 snap-center sm:snap-start flex justify-center"
+              >
+                <VideoCard
+                  project={project}
+                  onExpand={setSelectedProject}
+                />
+              </div>
             ))}
           </div>
         </div>
